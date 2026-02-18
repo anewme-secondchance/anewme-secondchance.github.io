@@ -1,28 +1,192 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Housing</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Housing – A New Me</title>
+<link rel="manifest" href="manifest.json">
+
 <style>
-body { font-family: Arial; background:#f4f6f8; padding:20px; }
-.card { background:white; padding:20px; margin-bottom:20px; border-radius:10px; }
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  background: #eef2f7;
+}
+
+.header {
+  background: #1f3c88;
+  color: white;
+  padding: 18px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  padding-bottom: 90px;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  margin-bottom: 15px;
+}
+
+button {
+  background: #ff914d;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  width: 100%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.result {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: #1f3c88;
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
 
-<h1>Housing Assistance</h1>
+<div class="header">🏠 Housing Planner</div>
+
+<div class="container">
 
 <div class="card">
-<h2>Finding Housing with a Record</h2>
-<p>Be honest. Be brief. Provide references.</p>
+<h3>Housing Goal</h3>
+<input id="housingGoal" placeholder="Example: Secure 1-bedroom by June">
+<button onclick="saveHousingGoal()">Save Goal</button>
+<div class="result" id="housingGoalDisplay"></div>
 </div>
 
 <div class="card">
-<h2>Second-Chance Housing Programs</h2>
-<p>Use verified reentry programs and transitional housing.</p>
+<h3>Rent Affordability Calculator</h3>
+<input type="number" id="monthlyIncome" placeholder="Monthly Income">
+<button onclick="calculateRent()">Calculate Safe Rent (30%)</button>
+<div class="result" id="rentResult"></div>
 </div>
 
-<a href="index.html">⬅ Back Home</a>
+<div class="card">
+<h3>Landlord Application Checklist</h3>
+<label><input type="checkbox" id="proofIncome"> Proof of Income</label><br>
+<label><input type="checkbox" id="references"> References</label><br>
+<label><input type="checkbox" id="backgroundPlan"> Explanation Letter Ready</label><br>
+<label><input type="checkbox" id="depositReady"> Deposit Saved</label><br>
+<button onclick="saveHousingChecklist()">Save Checklist</button>
+</div>
+
+<div class="card">
+<h3>Apartment Search Notes</h3>
+<textarea id="housingNotes" placeholder="Write landlord contacts, addresses, follow-up dates..."></textarea>
+<button onclick="saveHousingNotes()">Save Notes</button>
+<div class="result" id="housingNotesDisplay"></div>
+</div>
+
+<div class="card">
+<h3>Reentry Housing Tips</h3>
+<ul>
+<li>Be honest but brief about background</li>
+<li>Bring references or mentor letters</li>
+<li>Offer larger deposit if possible</li>
+<li>Look for second-chance landlords</li>
+<li>Consider transitional housing short-term</li>
+</ul>
+</div>
+
+</div>
+
+<div class="bottom-nav">
+<a href="index.html">🏠</a>
+<a href="resources.html">📚</a>
+<a href="goals.html">🎯</a>
+<a href="mindset.html">🧠</a>
+<a href="printable.html">🖨</a>
+</div>
+
+<script>
+
+function saveHousingGoal() {
+  localStorage.setItem("housingGoal", housingGoal.value);
+  housingGoalDisplay.innerHTML = housingGoal.value;
+}
+
+function calculateRent() {
+  let income = Number(monthlyIncome.value);
+  let safeRent = income * 0.3;
+  rentResult.innerHTML = "Safe Maximum Rent: $" + safeRent.toFixed(2);
+}
+
+function saveHousingChecklist() {
+  const checklist = {
+    proofIncome: proofIncome.checked,
+    references: references.checked,
+    backgroundPlan: backgroundPlan.checked,
+    depositReady: depositReady.checked
+  };
+  localStorage.setItem("housingChecklist", JSON.stringify(checklist));
+}
+
+function loadHousingChecklist() {
+  const checklist = JSON.parse(localStorage.getItem("housingChecklist"));
+  if (!checklist) return;
+  proofIncome.checked = checklist.proofIncome;
+  references.checked = checklist.references;
+  backgroundPlan.checked = checklist.backgroundPlan;
+  depositReady.checked = checklist.depositReady;
+}
+
+function saveHousingNotes() {
+  localStorage.setItem("housingNotes", housingNotes.value);
+  housingNotesDisplay.innerHTML = housingNotes.value;
+}
+
+function loadHousingData() {
+  housingGoalDisplay.innerHTML = localStorage.getItem("housingGoal") || "";
+  housingNotesDisplay.innerHTML = localStorage.getItem("housingNotes") || "";
+}
+
+loadHousingChecklist();
+loadHousingData();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+
+</script>
 
 </body>
 </html>
