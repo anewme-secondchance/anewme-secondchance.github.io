@@ -3,6 +3,7 @@
 <head>
   <title>A New Me</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,14 +14,20 @@
 
     h1 {
       color: #1f3c88;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #555;
+      margin-bottom: 25px;
     }
 
     .card {
       background: white;
       padding: 20px;
       border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.08);
     }
 
     .button-grid {
@@ -30,7 +37,7 @@
     }
 
     .button {
-      padding: 15px;
+      padding: 18px;
       background-color: #1f3c88;
       color: white;
       text-align: center;
@@ -38,29 +45,49 @@
       cursor: pointer;
       text-decoration: none;
       display: block;
+      font-size: 16px;
     }
 
     .button:hover {
       background-color: #16306b;
     }
+
+    .section-title {
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: #16306b;
+    }
+
   </style>
 </head>
 
 <body>
 
   <h1>A New Me</h1>
-  <p>Let’s take this one step at a time.</p>
+  <div class="subtitle">A step-by-step reentry guide for stability, growth, and success.</div>
 
   <div class="card">
-    <h2>Today’s Focus</h2>
-    <p>No tasks scheduled yet.</p>
+    <div class="section-title">📆 Today’s Focus</div>
+    <p>One step at a time. Small progress counts.</p>
   </div>
 
-  <div class="button-grid">
-    <a href="#" class="button">My Plan</a>
-    <a href="#" class="button">Work</a>
-    <a href="#" class="button">Housing</a>
-    <a href="#" class="button">Goals</a>
+  <div class="card">
+    <div class="section-title">🔎 Main Sections</div>
+    <div class="button-grid">
+      <a href="resources.html" class="button">📚 Resources Hub</a>
+      <a href="#" class="button">📋 My Stability Plan</a>
+      <a href="#" class="button">💼 Employment & Resume</a>
+      <a href="#" class="button">🏠 Housing Help</a>
+      <a href="#" class="button">💰 Money & Budget</a>
+      <a href="#" class="button">🧠 Daily Reset</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">💬 Daily Reset</div>
+    <p><strong>What went well today?</strong></p>
+    <p><strong>What is one step forward you took?</strong></p>
+    <p><strong>What can you improve tomorrow?</strong></p>
   </div>
 
 </body>
