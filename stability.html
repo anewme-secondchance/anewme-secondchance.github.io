@@ -1,38 +1,197 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Stability Plan</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stability – A New Me</title>
+<link rel="manifest" href="manifest.json">
+
 <style>
-body { font-family: Arial; background:#f4f6f8; padding:20px; }
-.card { background:white; padding:20px; margin-bottom:20px; border-radius:10px; }
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  background: #eef2f7;
+}
+
+.header {
+  background: #1f3c88;
+  color: white;
+  padding: 18px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  padding-bottom: 90px;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  margin-bottom: 15px;
+}
+
+button {
+  background: #ff914d;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  width: 100%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.entry {
+  font-size: 14px;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: #1f3c88;
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
 
-<h1>My Stability Plan</h1>
+<div class="header">📋 Stability Tracker</div>
+
+<div class="container">
 
 <div class="card">
-<h2>PO Check-Ins</h2>
-<p>Track dates, time, location, and communication logs.</p>
+<h3>PO Check-In</h3>
+<input type="date" id="poDate">
+<textarea id="poNotes" placeholder="Notes about check-in..."></textarea>
+<button onclick="savePO()">Save Check-In</button>
+<div id="poList"></div>
 </div>
 
 <div class="card">
-<h2>Court Dates</h2>
-<p>Record all scheduled appearances and outcomes.</p>
+<h3>Court Dates</h3>
+<input type="date" id="courtDate">
+<textarea id="courtNotes" placeholder="Court details..."></textarea>
+<button onclick="saveCourt()">Save Court Date</button>
+<div id="courtList"></div>
 </div>
 
 <div class="card">
-<h2>Medication Reminders</h2>
-<p>Set daily reminders and refill alerts.</p>
+<h3>Medication Reminder</h3>
+<input type="text" id="medName" placeholder="Medication name">
+<input type="time" id="medTime">
+<button onclick="saveMed()">Save Medication</button>
+<div id="medList"></div>
 </div>
 
 <div class="card">
-<h2>Transportation Plan</h2>
-<p>Plan your route. Leave 15 minutes early.</p>
+<h3>Transportation Plan</h3>
+<textarea id="transportPlan" placeholder="Bus routes, ride info, backup plans..."></textarea>
+<button onclick="saveTransport()">Save Plan</button>
+<div id="transportDisplay"></div>
 </div>
 
-<a href="index.html">⬅ Back Home</a>
+</div>
+
+<div class="bottom-nav">
+<a href="index.html">🏠</a>
+<a href="resources.html">📚</a>
+<a href="goals.html">🎯</a>
+<a href="mindset.html">🧠</a>
+<a href="printable.html">🖨</a>
+</div>
+
+<script>
+
+function savePO() {
+  let list = JSON.parse(localStorage.getItem("po")) || [];
+  list.push({date: poDate.value, notes: poNotes.value});
+  localStorage.setItem("po", JSON.stringify(list));
+  displayPO();
+}
+
+function displayPO() {
+  let list = JSON.parse(localStorage.getItem("po")) || [];
+  poList.innerHTML = list.map(e => 
+    `<div class="entry"><strong>${e.date}</strong><br>${e.notes}</div>`
+  ).join("");
+}
+
+function saveCourt() {
+  let list = JSON.parse(localStorage.getItem("court")) || [];
+  list.push({date: courtDate.value, notes: courtNotes.value});
+  localStorage.setItem("court", JSON.stringify(list));
+  displayCourt();
+}
+
+function displayCourt() {
+  let list = JSON.parse(localStorage.getItem("court")) || [];
+  courtList.innerHTML = list.map(e => 
+    `<div class="entry"><strong>${e.date}</strong><br>${e.notes}</div>`
+  ).join("");
+}
+
+function saveMed() {
+  let list = JSON.parse(localStorage.getItem("meds")) || [];
+  list.push({name: medName.value, time: medTime.value});
+  localStorage.setItem("meds", JSON.stringify(list));
+  displayMed();
+}
+
+function displayMed() {
+  let list = JSON.parse(localStorage.getItem("meds")) || [];
+  medList.innerHTML = list.map(e => 
+    `<div class="entry">${e.name} at ${e.time}</div>`
+  ).join("");
+}
+
+function saveTransport() {
+  localStorage.setItem("transport", transportPlan.value);
+  displayTransport();
+}
+
+function displayTransport() {
+  transportDisplay.innerHTML = localStorage.getItem("transport") || "";
+}
+
+displayPO();
+displayCourt();
+displayMed();
+displayTransport();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+
+</script>
 
 </body>
 </html>
