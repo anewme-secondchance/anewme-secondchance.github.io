@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A New Me</title>
-<link rel="manifest" href="manifest.json">
 
 <style>
 * { box-sizing: border-box; }
@@ -18,111 +17,104 @@ body {
 .header {
   background: #1f3c88;
   color: white;
-  padding: 18px;
+  padding: 50px 20px;
   text-align: center;
-  font-size: 18px;
-  font-weight: bold;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 34px;
+}
+
+.header p {
+  margin-top: 10px;
+  font-size: 16px;
+  opacity: 0.9;
 }
 
 .container {
-  padding: 20px;
-  padding-bottom: 90px;
+  padding: 25px;
+  max-width: 900px;
+  margin: auto;
 }
 
 .card {
   background: white;
-  border-radius: 18px;
-  padding: 20px;
+  padding: 25px;
+  border-radius: 16px;
   margin-bottom: 20px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
+  margin-top: 20px;
 }
 
 .button {
+  display: block;
+  text-align: center;
+  padding: 15px;
   background: #1f3c88;
   color: white;
-  padding: 15px;
-  text-align: center;
-  border-radius: 14px;
+  border-radius: 12px;
   text-decoration: none;
   font-weight: 500;
+  transition: 0.2s;
 }
 
-.button:active {
-  transform: scale(0.97);
+.button:hover {
+  background: #ff914d;
 }
 
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: white;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
-}
-
-.bottom-nav a {
-  text-decoration: none;
-  color: #1f3c88;
-  font-size: 13px;
+.footer {
   text-align: center;
-}
-
-@media (max-width: 600px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+  padding: 30px;
+  color: #777;
+  font-size: 14px;
 }
 </style>
 </head>
+
 <body>
 
-<div class="header">A New Me</div>
+<div class="header">
+<h1>A New Me</h1>
+<p>Structured Reentry. Real Progress.</p>
+</div>
 
 <div class="container">
 
 <div class="card">
-<h3>📆 Today’s Focus</h3>
-<p>Small progress still counts. One step at a time.</p>
+<h2>Welcome</h2>
+<p>
+A New Me is a structured reentry support platform designed for individuals returning after long-term incarceration. 
+This site provides tools for employment, housing, finances, legal guidance, family rebuilding, and personal growth.
+</p>
 </div>
 
 <div class="card">
-<h3>🔎 Main Sections</h3>
+<h2>Start Here</h2>
 <div class="grid">
 <a href="resources.html" class="button">📚 Resources</a>
-<a href="stability.html" class="button">📋 Stability</a>
+<a href="stability.html" class="button">📋 Stability Plan</a>
 <a href="employment.html" class="button">💼 Employment</a>
 <a href="housing.html" class="button">🏠 Housing</a>
-<a href="money.html" class="button">💰 Money</a>
-<a href="legal.html" class="button">⚖ Legal</a>
+<a href="money.html" class="button">💰 Budget & Money</a>
+<a href="legal.html" class="button">⚖ Legal Help</a>
 <a href="family.html" class="button">👨‍👩‍👧 Family</a>
-<a href="mindset.html" class="button">🧠 Reset</a>
-<a href="goals.html" class="button">🎯 Goals</a>
+<a href="mindset.html" class="button">🧠 Mindset</a>
+<a href="goals.html" class="button">🎯 Goals Tracker</a>
 </div>
 </div>
 
 </div>
 
-<div class="bottom-nav">
-<a href="index.html">🏠</a>
-<a href="resources.html">📚</a>
-<a href="goals.html">🎯</a>
-<a href="mindset.html">🧠</a>
-<a href="printable.html">🖨</a>
+<div class="footer">
+© 2026 A New Me | Reentry Support Platform
 </div>
-
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
-}
-</script>
 
 </body>
 </html>
