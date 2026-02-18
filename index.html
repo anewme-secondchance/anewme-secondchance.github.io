@@ -3,92 +3,71 @@
 <head>
   <title>A New Me</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f6f8;
+      background: #f4f6f8;
       margin: 0;
       padding: 20px;
     }
 
     h1 {
       color: #1f3c88;
-      margin-bottom: 5px;
-    }
-
-    .subtitle {
-      color: #555;
-      margin-bottom: 25px;
     }
 
     .card {
       background: white;
       padding: 20px;
       border-radius: 10px;
-      margin-bottom: 25px;
-      box-shadow: 0px 2px 6px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
-    .button-grid {
+    .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
     }
 
-    .button {
-      padding: 18px;
-      background-color: #1f3c88;
+    .btn {
+      padding: 15px;
+      background: #1f3c88;
       color: white;
       text-align: center;
       border-radius: 8px;
-      cursor: pointer;
       text-decoration: none;
       display: block;
-      font-size: 16px;
     }
 
-    .button:hover {
-      background-color: #16306b;
+    .btn:hover {
+      background: #16306b;
     }
-
-    .section-title {
-      margin-bottom: 15px;
-      font-weight: bold;
-      color: #16306b;
-    }
-
   </style>
 </head>
-
 <body>
 
-  <h1>A New Me</h1>
-  <div class="subtitle">A step-by-step reentry guide for stability, growth, and success.</div>
+<h1>A New Me</h1>
+<p>Structured reentry support for long-term returning citizens.</p>
 
-  <div class="card">
-    <div class="section-title">📆 Today’s Focus</div>
-    <p>One step at a time. Small progress counts.</p>
-  </div>
+<div class="card">
+  <h2>📆 Today’s Focus</h2>
+  <p>Small progress still counts.</p>
+</div>
 
-  <div class="card">
-    <div class="section-title">🔎 Main Sections</div>
-    <div class="button-grid">
-      <a href="resources.html" class="button">📚 Resources Hub</a>
-      <a href="#" class="button">📋 My Stability Plan</a>
-      <a href="#" class="button">💼 Employment & Resume</a>
-      <a href="#" class="button">🏠 Housing Help</a>
-      <a href="#" class="button">💰 Money & Budget</a>
-      <a href="#" class="button">🧠 Daily Reset</a>
-    </div>
+<div class="card">
+  <h2>🔎 Main Sections</h2>
+  <div class="grid">
+    <a href="resources.html" class="btn">📚 Resources</a>
+    <a href="stability.html" class="btn">📋 Stability Plan</a>
+    <a href="employment.html" class="btn">💼 Employment</a>
+    <a href="housing.html" class="btn">🏠 Housing</a>
+    <a href="money.html" class="btn">💰 Money</a>
+    <a href="legal.html" class="btn">⚖ Legal & ID</a>
+    <a href="family.html" class="btn">👨‍👩‍👧 Family</a>
+    <a href="mindset.html" class="btn">🧠 Daily Reset</a>
+    <a href="goals.html" class="btn">🎯 Goals</a>
   </div>
-
-  <div class="card">
-    <div class="section-title">💬 Daily Reset</div>
-    <p><strong>What went well today?</strong></p>
-    <p><strong>What is one step forward you took?</strong></p>
-    <p><strong>What can you improve tomorrow?</strong></p>
-  </div>
+</div>
 
 </body>
 </html>
