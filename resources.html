@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resources | A New Me</title>
+<title>Resources Directory | A New Me</title>
 
 <style>
 body {
@@ -35,44 +35,33 @@ body {
   margin-bottom: 15px;
 }
 
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+.search-box {
+  margin-bottom: 15px;
 }
 
-.tab-btn {
-  padding: 10px 15px;
-  background: #ddd;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.tab-btn.active {
-  background: #1f3c88;
-  color: white;
+input, select {
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
 .card {
   background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
 }
 
 a.link {
   color: #1f3c88;
-  text-decoration: none;
   font-weight: bold;
+  text-decoration: none;
 }
 
 a.link:hover {
   text-decoration: underline;
-}
-
-.hidden {
-  display: none;
 }
 </style>
 </head>
@@ -80,84 +69,68 @@ a.link:hover {
 <body>
 
 <div class="header">
-<h1>Texas Reentry Resources</h1>
+<h1>Texas Reentry Resource Directory</h1>
 </div>
 
 <div class="container">
 
 <a href="index.html" class="button">← Back to Home</a>
 
-<div class="tabs">
-<div class="tab-btn active" onclick="showTab('housing')">🏠 Housing</div>
-<div class="tab-btn" onclick="showTab('employment')">💼 Employment</div>
-<div class="tab-btn" onclick="showTab('health')">🧠 Health</div>
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Search by name..." onkeyup="filterResources()">
+
+<select id="cityFilter" onchange="filterResources()">
+<option value="">All Cities</option>
+<option value="Tyler">Tyler</option>
+<option value="Dallas">Dallas</option>
+<option value="Fort Worth">Fort Worth</option>
+<option value="Houston">Houston</option>
+<option value="San Antonio">San Antonio</option>
+<option value="Austin">Austin</option>
+</select>
+
+<select id="categoryFilter" onchange="filterResources()">
+<option value="">All Categories</option>
+<option value="Housing">Housing</option>
+<option value="Employment">Employment</option>
+<option value="Health">Health</option>
+</select>
 </div>
 
-<!-- HOUSING -->
-<div id="housing" class="tab-content">
+<div id="resourceList">
 
-<div class="card">
-<h3>Tyler</h3>
-<p><strong>PATH</strong><br>
+<div class="card" data-name="PATH" data-city="Tyler" data-category="Housing">
+<strong>PATH (People Attempting to Help)</strong><br>
+Tyler – Housing<br>
 📞 <a href="tel:9035977284" class="link">(903) 597-7284</a><br>
-🌐 <a href="https://pathhelps.org/" target="_blank" class="link">Website</a></p>
+🌐 <a href="https://pathhelps.org/" target="_blank" class="link">Website</a>
 </div>
 
-<div class="card">
-<h3>Dallas / Fort Worth</h3>
-<p><strong>Volunteers of America Texas</strong><br>
+<div class="card" data-name="VOA Texas" data-city="Dallas" data-category="Housing">
+<strong>Volunteers of America Texas</strong><br>
+Dallas – Housing<br>
 📞 <a href="tel:8175297300" class="link">(817) 529-7300</a><br>
-🌐 <a href="https://www.voatx.org/" target="_blank" class="link">Website</a></p>
+🌐 <a href="https://www.voatx.org/" target="_blank" class="link">Website</a>
 </div>
 
-<div class="card">
-<h3>Houston</h3>
-<p><strong>ACCESS Harris County</strong><br>
-🌐 <a href="https://publichealth.harriscountytx.gov/" target="_blank" class="link">Website</a></p>
-</div>
-
-<div class="card">
-<h3>San Antonio</h3>
-<p><strong>Bexar County Reentry Center</strong><br>
-📞 <a href="tel:2103356640" class="link">(210) 335-6640</a><br>
-🌐 <a href="https://www.bexar.org/3509/Reentry-Center" target="_blank" class="link">Website</a></p>
-</div>
-
-</div>
-
-<!-- EMPLOYMENT -->
-<div id="employment" class="tab-content hidden">
-
-<div class="card">
-<h3>Project RIO (Texas Workforce)</h3>
+<div class="card" data-name="Project RIO" data-city="Houston" data-category="Employment">
+<strong>Project RIO</strong><br>
+Houston – Employment<br>
 🌐 <a href="https://www.texasworkforce.org/project-rio" target="_blank" class="link">Website</a>
 </div>
 
-<div class="card">
-<h3>Miles of Freedom (Dallas)</h3>
-🌐 <a href="https://milesoffreedom.org/" target="_blank" class="link">Website</a>
-</div>
-
-<div class="card">
-<h3>VOA Fresh Start (Houston)</h3>
-🌐 <a href="https://www.voatx.org/locations/fresh-start-program/" target="_blank" class="link">Website</a>
-</div>
-
-</div>
-
-<!-- HEALTH -->
-<div id="health" class="tab-content hidden">
-
-<div class="card">
-<h3>The Harris Center (Houston)</h3>
+<div class="card" data-name="The Harris Center" data-city="Houston" data-category="Health">
+<strong>The Harris Center</strong><br>
+Houston – Health<br>
 📞 <a href="tel:7139707000" class="link">(713) 970-7000</a><br>
 🌐 <a href="https://www.theharriscenter.org/" target="_blank" class="link">Website</a>
 </div>
 
-<div class="card">
-<h3>Bee Busy Wellness Center</h3>
-📞 <a href="tel:7137712292" class="link">(713) 771-2292</a><br>
-🌐 <a href="https://beebusy.org/" target="_blank" class="link">Website</a>
+<div class="card" data-name="Bexar County Reentry Center" data-city="San Antonio" data-category="Housing">
+<strong>Bexar County Reentry Center</strong><br>
+San Antonio – Housing<br>
+📞 <a href="tel:2103356640" class="link">(210) 335-6640</a><br>
+🌐 <a href="https://www.bexar.org/3509/Reentry-Center" target="_blank" class="link">Website</a>
 </div>
 
 </div>
@@ -165,17 +138,28 @@ a.link:hover {
 </div>
 
 <script>
-function showTab(tabId) {
-  document.querySelectorAll('.tab-content').forEach(tab => {
-    tab.classList.add('hidden');
-  });
+function filterResources() {
+  const searchValue = document.getElementById("searchInput").value.toLowerCase();
+  const cityValue = document.getElementById("cityFilter").value;
+  const categoryValue = document.getElementById("categoryFilter").value;
 
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
+  const cards = document.querySelectorAll("#resourceList .card");
 
-  document.getElementById(tabId).classList.remove('hidden');
-  event.target.classList.add('active');
+  cards.forEach(card => {
+    const name = card.getAttribute("data-name").toLowerCase();
+    const city = card.getAttribute("data-city");
+    const category = card.getAttribute("data-category");
+
+    const matchesSearch = name.includes(searchValue);
+    const matchesCity = cityValue === "" || city === cityValue;
+    const matchesCategory = categoryValue === "" || category === categoryValue;
+
+    if (matchesSearch && matchesCity && matchesCategory) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
 }
 </script>
 
