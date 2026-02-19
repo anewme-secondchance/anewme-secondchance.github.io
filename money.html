@@ -58,8 +58,29 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-ul {
-  padding-left: 20px;
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.budget-input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.remaining-box {
+  background: #1f3c88;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 18px;
+  text-align: center;
 }
 </style>
 </head>
@@ -74,35 +95,30 @@ ul {
 <div class="container">
 
 <div class="card">
-<h3>Weekly Budget Basics</h3>
-<ul>
-<li>Divide monthly rent by 4.</li>
-<li>Set aside money for transportation first.</li>
-<li>Plan for food ($50–$70 per week if possible).</li>
-<li>Save even $5–$10 weekly.</li>
-<li>Track all spending honestly.</li>
-</ul>
+<h3>Weekly Budget Planner</h3>
+
+<label>Weekly Income</label>
+<input class="budget-input" type="number" placeholder="Enter weekly income">
+
+<label>Rent</label>
+<input class="budget-input" type="number" placeholder="Rent amount">
+
+<label>Food</label>
+<input class="budget-input" type="number" placeholder="Food budget">
+
+<label>Transportation</label>
+<input class="budget-input" type="number" placeholder="Transportation">
+
+<label>Phone</label>
+<input class="budget-input" type="number" placeholder="Phone bill">
+
+<label>Savings</label>
+<input class="budget-input" type="number" placeholder="Savings">
+
+<div class="remaining-box">
+Total Remaining: $<span id="remaining">0</span>
 </div>
 
-<div class="card">
-<h3>How to Set Up a Bank Account</h3>
-<ul>
-<li>Bring State ID and Social Security Card.</li>
-<li>Choose a bank that offers second-chance accounts.</li>
-<li>Ask about monthly fees.</li>
-<li>Set up direct deposit if possible.</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Rebuilding Credit</h3>
-<ul>
-<li>Pay all bills on time.</li>
-<li>Consider a secured credit card.</li>
-<li>Keep balances low.</li>
-<li>Avoid payday loans.</li>
-<li>Check your credit report yearly.</li>
-</ul>
 </div>
 
 </div>
@@ -115,6 +131,33 @@ function goBack() {
     window.location.href = "index.html";
   }
 }
+
+/* Budget Save + Auto Calculate */
+const inputs = document.querySelectorAll(".budget-input");
+
+function calculateRemaining() {
+  let values = [];
+  inputs.forEach((input, index) => {
+    const saved = localStorage.getItem("budget_" + index);
+    if (saved !== null) input.value = saved;
+    values.push(Number(input.value) || 0);
+  });
+
+  const income = values[0] || 0;
+  const expenses = values.slice(1).reduce((a, b) => a + b, 0);
+  const remaining = income - expenses;
+
+  document.getElementById("remaining").textContent = remaining;
+}
+
+inputs.forEach((input, index) => {
+  input.addEventListener("input", () => {
+    localStorage.setItem("budget_" + index, input.value);
+    calculateRemaining();
+  });
+});
+
+calculateRemaining();
 </script>
 
 </body>
