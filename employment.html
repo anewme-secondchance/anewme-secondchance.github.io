@@ -8,7 +8,7 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #eef2f7;
 }
 
@@ -29,6 +29,7 @@ body {
   border-radius: 20px;
   cursor: pointer;
   margin-right: 15px;
+  font-weight: bold;
 }
 
 .page-title {
@@ -36,7 +37,7 @@ body {
   font-weight: bold;
 }
 
-/* Content */
+/* Layout */
 .container {
   padding: 20px;
   max-width: 900px;
@@ -51,11 +52,19 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
+h3 {
+  margin-top: 0;
+}
+
+ul {
+  padding-left: 20px;
+}
+
 textarea {
   width: 100%;
-  min-height: 80px;
-  padding: 8px;
-  border-radius: 6px;
+  min-height: 90px;
+  padding: 10px;
+  border-radius: 8px;
   border: 1px solid #ccc;
   margin-top: 8px;
 }
@@ -76,10 +85,11 @@ textarea {
 
 <div class="container">
 
+<!-- WHAT TO WEAR -->
 <div class="card">
 <h3>👔 What Men Should Wear</h3>
 <ul>
-<li>Clean button-up or polo</li>
+<li>Clean button-up or polo shirt</li>
 <li>Dark jeans or slacks (no rips)</li>
 <li>Closed-toe shoes or boots</li>
 <li>Trimmed facial hair</li>
@@ -100,6 +110,7 @@ textarea {
 <p><strong>Avoid:</strong> Ripped jeans, low-cut tops, heavy perfume, excessive jewelry.</p>
 </div>
 
+<!-- INTERVIEW PREP -->
 <div class="card">
 <h3>🎤 Interview Preparation</h3>
 
@@ -114,10 +125,11 @@ textarea {
 
 </div>
 
+<!-- RESUME BUILDING -->
 <div class="card">
 <h3>📄 Resume Building Examples</h3>
 
-<p><strong>Kitchen Worker – State Facility</strong></p>
+<p><strong>Kitchen Worker – State Correctional Facility</strong></p>
 <ul>
 <li>Prepared meals for 2,000+ individuals daily</li>
 <li>Maintained sanitation standards</li>
@@ -139,8 +151,20 @@ textarea {
 <li>Basic Computer Skills</li>
 <li>Safety Awareness</li>
 </ul>
+
 </div>
 
+<!-- HELPFUL PROGRAMS -->
+<div class="card">
+<h3>📌 Helpful Programs</h3>
+<ul>
+<li><strong>Project RIO – Texas Workforce Commission</strong></li>
+<li><strong>VOA Texas Fresh Start</strong></li>
+<li><strong>Miles of Freedom</strong></li>
+</ul>
+</div>
+
+<!-- PRACTICE SECTION -->
 <div class="card">
 <h3>📝 Practice Your Answers</h3>
 
@@ -166,407 +190,7 @@ textarea {
 
 <script>
 function goBack() {
-  if (document.referrer !== "") {
-    window.history.back();
-  } else {
-    window.location.href = "index.html";
-  }
-}
-
-/* Auto Save Practice */
-function setupPractice(id, msgId, key) {
-  const field = document.getElementById(id);
-  const msg = document.getElementById(msgId);
-
-  const saved = localStorage.getItem(key);
-  if (saved) field.value = saved;
-
-  field.addEventListener("input", () => {
-    localStorage.setItem(key, field.value);
-    msg.textContent = "Saved ✓";
-    setTimeout(() => msg.textContent = "", 1500);
-  });
-}
-
-setupPractice("practice1", "msg1", "emp_practice_1");
-setupPractice("practice2", "msg2", "emp_practice_2");
-setupPractice("practice3", "msg3", "emp_practice_3");
-setupPractice("practice4", "msg4", "emp_practice_4");
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employment | A New Me</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #eef2f7;
-}
-
-/* Header */
-.app-header {
-  display: flex;
-  align-items: center;
-  background: #1f3c88;
-  color: white;
-  padding: 15px;
-}
-
-.back-btn {
-  background: white;
-  color: #1f3c88;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  margin-right: 15px;
-}
-
-.page-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-/* Content */
-.container {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-textarea {
-  width: 100%;
-  min-height: 80px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-top: 8px;
-}
-
-.save-msg {
-  color: green;
-  font-size: 14px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
-  <div class="page-title">Employment</div>
-</div>
-
-<div class="container">
-
-<div class="card">
-<h3>👔 What Men Should Wear</h3>
-<ul>
-<li>Clean button-up or polo</li>
-<li>Dark jeans or slacks (no rips)</li>
-<li>Closed-toe shoes or boots</li>
-<li>Trimmed facial hair</li>
-<li>Light deodorant (no strong cologne)</li>
-</ul>
-<p><strong>Avoid:</strong> Sagging pants, graphic tees, sandals, flashy jewelry.</p>
-</div>
-
-<div class="card">
-<h3>👗 What Women Should Wear</h3>
-<ul>
-<li>Blouse or modest top</li>
-<li>Dress pants or knee-length skirt</li>
-<li>Closed-toe flats or low heels</li>
-<li>Neat hairstyle</li>
-<li>Light makeup (optional)</li>
-</ul>
-<p><strong>Avoid:</strong> Ripped jeans, low-cut tops, heavy perfume, excessive jewelry.</p>
-</div>
-
-<div class="card">
-<h3>🎤 Interview Preparation</h3>
-
-<p><strong>Tell Me About Yourself:</strong></p>
-<p><em>Example:</em> “I’m dependable, hardworking, and focused on building long-term stability. I bring discipline, teamwork, and a strong work ethic.”</p>
-
-<p><strong>Why Should We Hire You?</strong></p>
-<p><em>Example:</em> “I show up on time, follow instructions, and take pride in doing the job right.”</p>
-
-<p><strong>If Asked About Your Record:</strong></p>
-<p><em>Example:</em> “I made mistakes in the past, but I’ve taken responsibility and completed programs. I’m committed to growth and stability.”</p>
-
-</div>
-
-<div class="card">
-<h3>📄 Resume Building Examples</h3>
-
-<p><strong>Kitchen Worker – State Facility</strong></p>
-<ul>
-<li>Prepared meals for 2,000+ individuals daily</li>
-<li>Maintained sanitation standards</li>
-<li>Worked in fast-paced team environment</li>
-</ul>
-
-<p><strong>Maintenance Assistant</strong></p>
-<ul>
-<li>Performed plumbing and repair tasks</li>
-<li>Followed safety procedures</li>
-<li>Completed task logs daily</li>
-</ul>
-
-<p><strong>Strong Skills:</strong></p>
-<ul>
-<li>Time Management</li>
-<li>Teamwork</li>
-<li>Dependability</li>
-<li>Basic Computer Skills</li>
-<li>Safety Awareness</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>📝 Practice Your Answers</h3>
-
-<label>30-Second Introduction</label>
-<textarea id="practice1"></textarea>
-<div class="save-msg" id="msg1"></div>
-
-<label>Why Should We Hire You?</label>
-<textarea id="practice2"></textarea>
-<div class="save-msg" id="msg2"></div>
-
-<label>How Have You Grown?</label>
-<textarea id="practice3"></textarea>
-<div class="save-msg" id="msg3"></div>
-
-<label>If Asked About Your Record</label>
-<textarea id="practice4"></textarea>
-<div class="save-msg" id="msg4"></div>
-
-</div>
-
-</div>
-
-<script>
-function goBack() {
-  if (document.referrer !== "") {
-    window.history.back();
-  } else {
-    window.location.href = "index.html";
-  }
-}
-
-/* Auto Save Practice */
-function setupPractice(id, msgId, key) {
-  const field = document.getElementById(id);
-  const msg = document.getElementById(msgId);
-
-  const saved = localStorage.getItem(key);
-  if (saved) field.value = saved;
-
-  field.addEventListener("input", () => {
-    localStorage.setItem(key, field.value);
-    msg.textContent = "Saved ✓";
-    setTimeout(() => msg.textContent = "", 1500);
-  });
-}
-
-setupPractice("practice1", "msg1", "emp_practice_1");
-setupPractice("practice2", "msg2", "emp_practice_2");
-setupPractice("practice3", "msg3", "emp_practice_3");
-setupPractice("practice4", "msg4", "emp_practice_4");
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employment | A New Me</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #eef2f7;
-}
-
-/* Header */
-.app-header {
-  display: flex;
-  align-items: center;
-  background: #1f3c88;
-  color: white;
-  padding: 15px;
-}
-
-.back-btn {
-  background: white;
-  color: #1f3c88;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  margin-right: 15px;
-}
-
-.page-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-/* Content */
-.container {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-textarea {
-  width: 100%;
-  min-height: 80px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-top: 8px;
-}
-
-.save-msg {
-  color: green;
-  font-size: 14px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
-  <div class="page-title">Employment</div>
-</div>
-
-<div class="container">
-
-<div class="card">
-<h3>👔 What Men Should Wear</h3>
-<ul>
-<li>Clean button-up or polo</li>
-<li>Dark jeans or slacks (no rips)</li>
-<li>Closed-toe shoes or boots</li>
-<li>Trimmed facial hair</li>
-<li>Light deodorant (no strong cologne)</li>
-</ul>
-<p><strong>Avoid:</strong> Sagging pants, graphic tees, sandals, flashy jewelry.</p>
-</div>
-
-<div class="card">
-<h3>👗 What Women Should Wear</h3>
-<ul>
-<li>Blouse or modest top</li>
-<li>Dress pants or knee-length skirt</li>
-<li>Closed-toe flats or low heels</li>
-<li>Neat hairstyle</li>
-<li>Light makeup (optional)</li>
-</ul>
-<p><strong>Avoid:</strong> Ripped jeans, low-cut tops, heavy perfume, excessive jewelry.</p>
-</div>
-
-<div class="card">
-<h3>🎤 Interview Preparation</h3>
-
-<p><strong>Tell Me About Yourself:</strong></p>
-<p><em>Example:</em> “I’m dependable, hardworking, and focused on building long-term stability. I bring discipline, teamwork, and a strong work ethic.”</p>
-
-<p><strong>Why Should We Hire You?</strong></p>
-<p><em>Example:</em> “I show up on time, follow instructions, and take pride in doing the job right.”</p>
-
-<p><strong>If Asked About Your Record:</strong></p>
-<p><em>Example:</em> “I made mistakes in the past, but I’ve taken responsibility and completed programs. I’m committed to growth and stability.”</p>
-
-</div>
-
-<div class="card">
-<h3>📄 Resume Building Examples</h3>
-
-<p><strong>Kitchen Worker – State Facility</strong></p>
-<ul>
-<li>Prepared meals for 2,000+ individuals daily</li>
-<li>Maintained sanitation standards</li>
-<li>Worked in fast-paced team environment</li>
-</ul>
-
-<p><strong>Maintenance Assistant</strong></p>
-<ul>
-<li>Performed plumbing and repair tasks</li>
-<li>Followed safety procedures</li>
-<li>Completed task logs daily</li>
-</ul>
-
-<p><strong>Strong Skills:</strong></p>
-<ul>
-<li>Time Management</li>
-<li>Teamwork</li>
-<li>Dependability</li>
-<li>Basic Computer Skills</li>
-<li>Safety Awareness</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>📝 Practice Your Answers</h3>
-
-<label>30-Second Introduction</label>
-<textarea id="practice1"></textarea>
-<div class="save-msg" id="msg1"></div>
-
-<label>Why Should We Hire You?</label>
-<textarea id="practice2"></textarea>
-<div class="save-msg" id="msg2"></div>
-
-<label>How Have You Grown?</label>
-<textarea id="practice3"></textarea>
-<div class="save-msg" id="msg3"></div>
-
-<label>If Asked About Your Record</label>
-<textarea id="practice4"></textarea>
-<div class="save-msg" id="msg4"></div>
-
-</div>
-
-</div>
-
-<script>
-function goBack() {
-  if (document.referrer !== "") {
-    window.history.back();
-  } else {
-    window.location.href = "index.html";
-  }
+  window.location.href = "index.html";
 }
 
 /* Auto Save Practice */
