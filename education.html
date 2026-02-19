@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Education | A New Me</title>
+<title>Education Plan | A New Me</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   background: #eef2f7;
 }
 
+/* HEADER */
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -21,22 +22,35 @@ body {
   padding: 15px;
 }
 
-button {
+.left-header {
+  display: flex;
+  align-items: center;
+}
+
+.back-btn {
   background: white;
   color: #1f3c88;
   border: none;
   padding: 6px 14px;
   border-radius: 20px;
   cursor: pointer;
+  margin-right: 15px;
   font-weight: bold;
-  margin-top: 10px;
+}
+
+.logout-btn {
+  background: #c0392b;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
 .container {
   padding: 20px;
   max-width: 900px;
   margin: auto;
-  padding-bottom: 80px;
 }
 
 .card {
@@ -47,168 +61,182 @@ button {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-textarea {
+textarea, input, select {
   width: 100%;
-  min-height: 70px;
   padding: 10px;
+  margin-top: 8px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  margin-top: 8px;
+}
+
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.success {
+  margin-top: 10px;
+  color: green;
+  font-weight: bold;
 }
 
 a {
   color: #1f3c88;
-  font-weight: bold;
   text-decoration: none;
+  font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="app-header">
-  <div>Education</div>
-  <button onclick="logout()">Logout</button>
+  <div class="left-header">
+    <button onclick="goBack()" class="back-btn">← Back</button>
+    <div>Education & Growth</div>
+  </div>
+  <button onclick="logout()" class="logout-btn">Log Out</button>
 </div>
 
 <div class="container">
 
+<!-- CURRENT EDUCATION -->
 <div class="card">
-<h3>📘 GED Information</h3>
-<p>You can earn your GED online or at local testing centers.</p>
-<a href="https://ged.com" target="_blank">Official GED Website</a><br><br>
-<a href="https://tea.texas.gov/academics/college-career-and-military-prep/adult-education-and-literacy" target="_blank">
-Texas Adult Education Programs
-</a>
+<h3>🎓 Current Education Level</h3>
+
+<select id="educationLevel">
+<option value="">Select One</option>
+<option>Less than High School</option>
+<option>High School Diploma / GED</option>
+<option>Some College</option>
+<option>Associate Degree</option>
+<option>Bachelor's Degree</option>
+<option>Trade / Certification</option>
+</select>
 </div>
 
+<!-- FUTURE GOALS -->
 <div class="card">
-<h3>🎓 College Application Steps</h3>
+<h3>📚 Education Goal</h3>
+
+<label>What certification, degree, or skill do I want?</label>
+<textarea id="educationGoal"></textarea>
+
+<label>Why is this important to me?</label>
+<textarea id="educationWhy"></textarea>
+
+<label>Target completion date:</label>
+<input type="date" id="educationDate">
+</div>
+
+<!-- ACTION STEPS -->
+<div class="card">
+<h3>🛠 Action Steps</h3>
+
+<label>Step 1:</label>
+<input type="text" id="step1">
+
+<label>Step 2:</label>
+<input type="text" id="step2">
+
+<label>Step 3:</label>
+<input type="text" id="step3">
+</div>
+
+<!-- SCHOLARSHIPS -->
+<div class="card">
+<h3>💰 Scholarship Resources</h3>
+
+<p><a href="https://studentaid.gov/" target="_blank">FAFSA – Federal Student Aid</a></p>
+<p><a href="https://www.fastweb.com/" target="_blank">Fastweb Scholarship Search</a></p>
+<p><a href="https://www.scholarships.com/" target="_blank">Scholarships.com</a></p>
+<p><a href="https://www.goingmerry.com/" target="_blank">Going Merry Scholarship Platform</a></p>
+</div>
+
+<!-- TRADE SCHOOLS -->
+<div class="card">
+<h3>🔧 Trade School Options</h3>
+
 <ul>
-<li>Choose Community College, Trade School, or University</li>
-<li>Complete FAFSA</li>
-<li>Submit online application</li>
+<li>Welding</li>
+<li>HVAC Technician</li>
+<li>Commercial Truck Driving (CDL)</li>
+<li>Electrician</li>
+<li>Plumbing</li>
+<li>Automotive Technician</li>
+<li>Medical Assistant</li>
+<li>IT Support Specialist</li>
 </ul>
 
-<a href="https://studentaid.gov" target="_blank">FAFSA</a><br><br>
-<a href="https://www.applytexas.org" target="_blank">Texas Common Application</a>
+<p>Search local trade programs at:  
+<a href="https://www.careeronestop.org/" target="_blank">CareerOneStop.org</a></p>
 </div>
 
+<!-- ONLINE CERTIFICATIONS -->
 <div class="card">
-<h3>🏗️ Trade Schools & Certifications</h3>
-<ul>
-<li><a href="https://www.apprenticeship.gov" target="_blank">National Apprenticeships</a></li>
-<li><a href="https://www.tdlr.texas.gov" target="_blank">Texas Licensing</a></li>
-<li><a href="https://www.careeronestop.org" target="_blank">CareerOneStop</a></li>
-<li><a href="https://www.osha.gov/training" target="_blank">OSHA Training</a></li>
-<li><a href="https://www.redcross.org/take-a-class" target="_blank">CPR Certification</a></li>
-</ul>
+<h3>💻 Online Certification Platforms</h3>
+
+<p><a href="https://www.coursera.org/" target="_blank">Coursera</a> – IT, Business, Data, Healthcare</p>
+<p><a href="https://www.udemy.com/" target="_blank">Udemy</a> – Skills & Technical Training</p>
+<p><a href="https://www.edx.org/" target="_blank">edX</a> – College-Level Courses</p>
+<p><a href="https://grow.google/certificates/" target="_blank">Google Career Certificates</a></p>
+<p><a href="https://www.microsoft.com/en-us/learning" target="_blank">Microsoft Certifications</a></p>
 </div>
 
+<!-- SAVE -->
 <div class="card">
-<h3>📝 My Education Plan (Saved)</h3>
-
-<label>Why do I want my GED or degree?</label>
-<textarea id="why"></textarea>
-
-<label>Program or major I want:</label>
-<textarea id="program"></textarea>
-
-<label>Career goal:</label>
-<textarea id="career"></textarea>
-
-<label>Target start date:</label>
-<textarea id="date"></textarea>
-
-<button onclick="saveEducation()">Save Plan</button>
-
-</div>
-
-<div class="card">
-<h3>💡 Encouragement</h3>
-<p>
-Education is not about age.  
-It is about opportunity.  
-Your past does not block your education.  
-Financial aid is available.
-</p>
+<button onclick="saveEducation()">Save Education Plan</button>
+<div id="savedMessage" class="success"></div>
 </div>
 
 </div>
 
-<script type="module">
+<script>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { 
-  getAuth,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+function goBack() {
+  window.location.href = "index.html";
+}
 
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+function logout() {
+  localStorage.clear();
+  window.location.href = "index.html";
+}
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
-  authDomain: "a-new-me-1a17a.firebaseapp.com",
-  projectId: "a-new-me-1a17a",
-  storageBucket: "a-new-me-1a17a.firebasestorage.app",
-  messagingSenderId: "362235516132",
-  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let currentUser;
-
-onAuthStateChanged(auth, async user => {
-  if (!user) {
-    window.location.href = "auth.html";
-  } else {
-    currentUser = user;
-    loadEducation();
-  }
-});
-
-window.logout = function() {
-  signOut(auth).then(() => {
-    window.location.href = "auth.html";
-  });
-};
-
-window.saveEducation = async function() {
-  const data = {
-    why: document.getElementById("why").value,
-    program: document.getElementById("program").value,
-    career: document.getElementById("career").value,
-    date: document.getElementById("date").value
+function saveEducation() {
+  const plan = {
+    level: document.getElementById("educationLevel").value,
+    goal: document.getElementById("educationGoal").value,
+    why: document.getElementById("educationWhy").value,
+    date: document.getElementById("educationDate").value,
+    step1: document.getElementById("step1").value,
+    step2: document.getElementById("step2").value,
+    step3: document.getElementById("step3").value
   };
 
-  await setDoc(doc(db, "users", currentUser.uid), {
-    educationPlan: data
-  }, { merge: true });
+  localStorage.setItem("educationPlan", JSON.stringify(plan));
+  document.getElementById("savedMessage").innerText = "✅ Education plan saved.";
+}
 
-  alert("Saved ✓");
-};
-
-async function loadEducation() {
-  const docSnap = await getDoc(doc(db, "users", currentUser.uid));
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    if (data.educationPlan) {
-      document.getElementById("why").value = data.educationPlan.why || "";
-      document.getElementById("program").value = data.educationPlan.program || "";
-      document.getElementById("career").value = data.educationPlan.career || "";
-      document.getElementById("date").value = data.educationPlan.date || "";
-    }
+function loadEducation() {
+  const saved = JSON.parse(localStorage.getItem("educationPlan"));
+  if (saved) {
+    document.getElementById("educationLevel").value = saved.level || "";
+    document.getElementById("educationGoal").value = saved.goal || "";
+    document.getElementById("educationWhy").value = saved.why || "";
+    document.getElementById("educationDate").value = saved.date || "";
+    document.getElementById("step1").value = saved.step1 || "";
+    document.getElementById("step2").value = saved.step2 || "";
+    document.getElementById("step3").value = saved.step3 || "";
   }
 }
+
+loadEducation();
 
 </script>
 
