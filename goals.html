@@ -14,29 +14,27 @@ body {
 
 .app-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background: #1f3c88;
   color: white;
   padding: 15px;
 }
 
-button {
+.back-btn {
   background: white;
   color: #1f3c88;
   border: none;
   padding: 6px 14px;
   border-radius: 20px;
   cursor: pointer;
+  margin-right: 15px;
   font-weight: bold;
-  margin-top: 10px;
 }
 
 .container {
   padding: 20px;
   max-width: 900px;
   margin: auto;
-  padding-bottom: 80px;
 }
 
 .card {
@@ -55,10 +53,20 @@ input {
   margin-top: 8px;
 }
 
+button.action-btn {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
 .goal-item {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   background: #f4f6fb;
   padding: 10px;
   border-radius: 8px;
@@ -69,23 +77,23 @@ input {
   text-decoration: line-through;
   opacity: 0.6;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="app-header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
   <div>🎯 Goals Tracker</div>
-  <button onclick="logout()">Logout</button>
 </div>
 
 <div class="container">
 
+<!-- CUSTOM GOALS -->
 <div class="card">
-<h3>Add New Goal</h3>
-<input type="text" id="goalInput" placeholder="Enter your goal">
-<button onclick="addGoal()">Add Goal</button>
+<h3>Add Personal Goal</h3>
+<input type="text" id="goalInput" placeholder="Example: Apply for 5 jobs this week">
+<button class="action-btn" onclick="addGoal()">Add Goal</button>
 </div>
 
 <div class="card">
@@ -93,108 +101,119 @@ input {
 <div id="goalsList"></div>
 </div>
 
+<!-- REENTRY STRUCTURE GOALS -->
+<div class="card">
+<h3>🔒 Reentry Stability Goals</h3>
+<p>Track important first steps after release:</p>
+
+<div id="reentryGoals"></div>
 </div>
 
-<script type="module">
+</div>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { 
-  getAuth,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+<script>
 
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  updateDoc,
-  deleteDoc,
-  doc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
-  authDomain: "a-new-me-1a17a.firebaseapp.com",
-  projectId: "a-new-me-1a17a",
-  storageBucket: "a-new-me-1a17a.firebasestorage.app",
-  messagingSenderId: "362235516132",
-  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let currentUser;
-
-onAuthStateChanged(auth, user => {
-  if (!user) {
-    window.location.href = "auth.html";
-  } else {
-    currentUser = user;
-    loadGoals();
-  }
-});
-
-window.logout = function() {
-  signOut(auth).then(() => {
-    window.location.href = "auth.html";
-  });
-};
-
-async function addGoal() {
-  const text = document.getElementById("goalInput").value;
-  if (!text) return;
-
-  await addDoc(collection(db, "users", currentUser.uid, "goals"), {
-    text: text,
-    completed: false
-  });
-
-  document.getElementById("goalInput").value = "";
-  loadGoals();
+/* Back Button */
+function goBack() {
+  window.location.href = "index.html";
 }
 
-async function loadGoals() {
-  const goalsList = document.getElementById("goalsList");
-  goalsList.innerHTML = "";
+/* Load Stored Data */
+let goals = JSON.parse(localStorage.getItem("goals")) || [];
+let reentry = JSON.parse(localStorage.getItem("reentryGoals")) || {
+  id: false,
+  housing: false,
+  employment: false,
+  probation: false,
+  savings: false
+};
 
-  const snapshot = await getDocs(collection(db, "users", currentUser.uid, "goals"));
+/* Render Personal Goals */
+function renderGoals() {
+  const list = document.getElementById("goalsList");
+  list.innerHTML = "";
 
-  snapshot.forEach(docSnap => {
-    const goal = docSnap.data();
-    const goalId = docSnap.id;
-
+  goals.forEach((goal, index) => {
     const div = document.createElement("div");
     div.className = "goal-item" + (goal.completed ? " completed" : "");
 
     div.innerHTML = `
       <span>${goal.text}</span>
       <div>
-        <button onclick="toggleGoal('${goalId}', ${goal.completed})">
+        <button onclick="toggleGoal(${index})">
           ${goal.completed ? "Undo" : "Done"}
         </button>
-        <button onclick="deleteGoal('${goalId}')">X</button>
+        <button onclick="deleteGoal(${index})">X</button>
       </div>
     `;
 
-    goalsList.appendChild(div);
+    list.appendChild(div);
   });
+
+  localStorage.setItem("goals", JSON.stringify(goals));
 }
 
-window.toggleGoal = async function(id, currentStatus) {
-  await updateDoc(doc(db, "users", currentUser.uid, "goals", id), {
-    completed: !currentStatus
-  });
-  loadGoals();
-};
+/* Add Goal */
+function addGoal() {
+  const text = document.getElementById("goalInput").value;
+  if (!text) return;
 
-window.deleteGoal = async function(id) {
-  await deleteDoc(doc(db, "users", currentUser.uid, "goals", id));
-  loadGoals();
-};
+  goals.push({ text: text, completed: false });
+  document.getElementById("goalInput").value = "";
+  renderGoals();
+}
+
+/* Toggle Goal */
+function toggleGoal(index) {
+  goals[index].completed = !goals[index].completed;
+  renderGoals();
+}
+
+/* Delete Goal */
+function deleteGoal(index) {
+  goals.splice(index, 1);
+  renderGoals();
+}
+
+/* Render Reentry Checklist */
+function renderReentry() {
+  const container = document.getElementById("reentryGoals");
+  container.innerHTML = "";
+
+  const checklist = [
+    { key: "id", label: "Obtain State ID / Driver License" },
+    { key: "housing", label: "Secure Stable Housing" },
+    { key: "employment", label: "Apply for Employment or Training" },
+    { key: "probation", label: "Meet All Probation Requirements" },
+    { key: "savings", label: "Start $500 Emergency Fund" }
+  ];
+
+  checklist.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "goal-item" + (reentry[item.key] ? " completed" : "");
+
+    div.innerHTML = `
+      <span>${item.label}</span>
+      <button onclick="toggleReentry('${item.key}')">
+        ${reentry[item.key] ? "Completed" : "Mark Done"}
+      </button>
+    `;
+
+    container.appendChild(div);
+  });
+
+  localStorage.setItem("reentryGoals", JSON.stringify(reentry));
+}
+
+/* Toggle Reentry Goal */
+function toggleReentry(key) {
+  reentry[key] = !reentry[key];
+  renderReentry();
+}
+
+/* Initial Load */
+renderGoals();
+renderReentry();
 
 </script>
 
