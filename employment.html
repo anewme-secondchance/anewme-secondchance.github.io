@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employment | A New Me</title>
+<title>Employment Tracker | A New Me</title>
 
 <style>
 body {
@@ -14,20 +14,20 @@ body {
 
 .app-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background: #1f3c88;
   color: white;
   padding: 15px;
 }
 
-.back-btn {
+.back-btn, .logout-btn {
   background: white;
   color: #1f3c88;
   border: none;
   padding: 6px 14px;
   border-radius: 20px;
   cursor: pointer;
-  margin-right: 15px;
   font-weight: bold;
 }
 
@@ -45,39 +45,27 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-h3 {
-  margin-top: 0;
-}
-
-ul {
-  padding-left: 20px;
-}
-
-textarea {
+input, select, textarea {
   width: 100%;
-  min-height: 90px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-top: 8px;
 }
 
-a {
-  color: #1f3c88;
-  font-weight: bold;
-  text-decoration: none;
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
-.notice {
-  background: #ffe6e6;
+.job-item {
   padding: 12px;
-  border-left: 5px solid red;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
 }
 </style>
 </head>
@@ -86,132 +74,142 @@ a:hover {
 
 <div class="app-header">
   <button onclick="goBack()" class="back-btn">← Back</button>
-  <div><strong>Employment</strong></div>
+  <div>Employment Tracker</div>
+  <button onclick="logout()" class="logout-btn">Logout</button>
 </div>
 
 <div class="container">
 
-<div class="notice">
-⚠️ <strong>Important:</strong> Not all employers hire individuals with felony convictions.  
-Hiring depends on the type of charge, how long ago it occurred, and company policy.  
-Always apply honestly and focus on growth and stability.
-</div>
-
-<!-- NATIONAL COMPANIES -->
 <div class="card">
-<h3>🏢 Companies That MAY Hire (Varies by Location)</h3>
-<ul>
-<li><a href="https://www.walmartcareers.com/" target="_blank">Walmart</a></li>
-<li><a href="https://careers.target.com/" target="_blank">Target</a></li>
-<li><a href="https://www.amazon.jobs/" target="_blank">Amazon</a></li>
-<li><a href="https://jobs.mcdonalds.com/" target="_blank">McDonald's</a></li>
-<li><a href="https://careers.homedepot.com/" target="_blank">Home Depot</a></li>
-<li><a href="https://www.lowes.com/careers" target="_blank">Lowe's</a></li>
-<li><a href="https://careers.dollartree.com/" target="_blank">Dollar Tree</a></li>
-<li><a href="https://careers.fedex.com/" target="_blank">FedEx</a></li>
-<li><a href="https://www.upsjobs.com/" target="_blank">UPS</a></li>
-<li><a href="https://careers.pepsico.com/" target="_blank">PepsiCo</a></li>
-</ul>
-<p><strong>Note:</strong> Approval depends on background review and charge type.</p>
+<h3>💼 Add Job Application</h3>
+
+<input type="text" id="company" placeholder="Company Name">
+<input type="text" id="position" placeholder="Position">
+<input type="date" id="dateApplied">
+<select id="status">
+  <option value="Applied">Applied</option>
+  <option value="Interview">Interview</option>
+  <option value="Hired">Hired</option>
+  <option value="Rejected">Rejected</option>
+</select>
+<textarea id="notes" placeholder="Notes..."></textarea>
+
+<button onclick="addJob()">Save Application</button>
+
 </div>
 
-<!-- SKILLED TRADES -->
 <div class="card">
-<h3>🔧 Skilled Trades (High Opportunity Field)</h3>
-
-<ul>
-<li><strong>Electrical Apprenticeship</strong>  
-<a href="https://www.electricaltrainingalliance.org/" target="_blank">
-Electrical Training Alliance
-</a></li>
-
-<li><strong>Plumbing Apprenticeship</strong>  
-<a href="https://ua.org/" target="_blank">
-United Association (Plumbers & Pipefitters)
-</a></li>
-
-<li><strong>HVAC Certification</strong>  
-<a href="https://www.acca.org/" target="_blank">
-Air Conditioning Contractors of America
-</a></li>
-
-<li><strong>CDL Truck Driving</strong>  
-<a href="https://www.trucking.org/" target="_blank">
-American Trucking Association
-</a></li>
-
-<li><strong>Welding Programs</strong>  
-<a href="https://www.aws.org/education" target="_blank">
-American Welding Society
-</a></li>
-
-<li><strong>Construction Apprenticeships</strong>  
-<a href="https://www.apprenticeship.gov/" target="_blank">
-Apprenticeship.gov
-</a></li>
-</ul>
-
-<p>Trades often focus more on skill and reliability than past mistakes.</p>
-</div>
-
-<!-- REENTRY EMPLOYMENT PROGRAMS -->
-<div class="card">
-<h3>📌 Reentry Employment Programs</h3>
-<ul>
-<li><a href="https://www.texasworkforce.org/project-rio" target="_blank">
-Project RIO – Texas Workforce Commission
-</a></li>
-
-<li><a href="https://www.voatx.org/" target="_blank">
-VOA Texas Fresh Start
-</a></li>
-
-<li><a href="https://milesoffreedom.org/" target="_blank">
-Miles of Freedom (Dallas)
-</a></li>
-
-<li><a href="https://www.doleta.gov/business/incentives/opptax/" target="_blank">
-Work Opportunity Tax Credit (WOTC)
-</a></li>
-
-<li><a href="https://bonds4jobs.com/" target="_blank">
-Federal Bonding Program
-</a></li>
-</ul>
-</div>
-
-<!-- PRACTICE SECTION -->
-<div class="card">
-<h3>📝 Practice Interview Answers</h3>
-
-<label>30-Second Introduction</label>
-<textarea id="practice1"></textarea>
-
-<label>Why Should We Hire You?</label>
-<textarea id="practice2"></textarea>
-
-<label>How Have You Grown?</label>
-<textarea id="practice3"></textarea>
-
-<label>If Asked About Your Record</label>
-<textarea id="practice4"></textarea>
-
+<h3>📋 My Applications</h3>
+<div id="jobList"></div>
 </div>
 
 </div>
 
-<script>
-function goBack() {
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
+  authDomain: "a-new-me-1a17a.firebaseapp.com",
+  projectId: "a-new-me-1a17a",
+  storageBucket: "a-new-me-1a17a.firebasestorage.app",
+  messagingSenderId: "362235516132",
+  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser;
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "auth.html";
+  } else {
+    currentUser = user;
+    loadJobs();
+  }
+});
+
+window.logout = function() {
+  signOut(auth).then(() => {
+    window.location.href = "auth.html";
+  });
+};
+
+window.goBack = function() {
   window.location.href = "index.html";
+};
+
+window.addJob = async function() {
+  const job = {
+    company: company.value,
+    position: position.value,
+    dateApplied: dateApplied.value,
+    status: status.value,
+    notes: notes.value,
+    createdAt: new Date()
+  };
+
+  if (!job.company || !job.position) return;
+
+  await addDoc(collection(db, "users", currentUser.uid, "applications"), job);
+
+  company.value = "";
+  position.value = "";
+  dateApplied.value = "";
+  notes.value = "";
+
+  loadJobs();
+};
+
+async function loadJobs() {
+  const list = document.getElementById("jobList");
+  list.innerHTML = "";
+
+  const querySnapshot = await getDocs(
+    collection(db, "users", currentUser.uid, "applications")
+  );
+
+  querySnapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+    const div = document.createElement("div");
+    div.className = "job-item";
+
+    div.innerHTML = `
+      <strong>${data.company}</strong> - ${data.position}<br>
+      Applied: ${data.dateApplied || "N/A"}<br>
+      Status: ${data.status}<br>
+      Notes: ${data.notes || "None"}<br>
+      <button onclick="deleteJob('${docSnap.id}')">Delete</button>
+    `;
+
+    list.appendChild(div);
+  });
 }
 
-/* Save Practice Answers */
-["practice1","practice2","practice3","practice4"].forEach(id=>{
-  const el = document.getElementById(id);
-  const saved = localStorage.getItem(id);
-  if(saved) el.value = saved;
-  el.addEventListener("input", ()=>localStorage.setItem(id, el.value));
-});
+window.deleteJob = async function(id) {
+  await deleteDoc(doc(db, "users", currentUser.uid, "applications", id));
+  loadJobs();
+};
+
 </script>
 
 </body>
