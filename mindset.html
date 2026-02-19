@@ -12,7 +12,7 @@ body {
   background: #eef2f7;
 }
 
-/* App Header */
+/* Header */
 .app-header {
   display: flex;
   align-items: center;
@@ -58,8 +58,20 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-ul {
-  padding-left: 20px;
+textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.save-msg {
+  color: green;
+  font-size: 14px;
+  margin-top: 5px;
 }
 </style>
 </head>
@@ -74,28 +86,21 @@ ul {
 <div class="container">
 
 <div class="card">
-<h3>Daily Reflection Prompts</h3>
-<ul>
-<li>What went well today?</li>
-<li>What is one step forward I took?</li>
-<li>What can I improve tomorrow?</li>
-</ul>
+<h3>What went well today?</h3>
+<textarea id="reflection1" placeholder="Write your answer..."></textarea>
+<div class="save-msg" id="msg1"></div>
 </div>
 
 <div class="card">
-<h3>Building Confidence</h3>
-<ul>
-<li>Celebrate small wins.</li>
-<li>Focus on progress, not perfection.</li>
-<li>Replace negative thoughts with action steps.</li>
-<li>Stay consistent even when motivation is low.</li>
-</ul>
+<h3>What is one step forward I took?</h3>
+<textarea id="reflection2" placeholder="Write your answer..."></textarea>
+<div class="save-msg" id="msg2"></div>
 </div>
 
 <div class="card">
-<h3>Encouragement</h3>
-<p>Your past does not define your future. Your effort today does.</p>
-<p>Every positive step counts.</p>
+<h3>What can I improve tomorrow?</h3>
+<textarea id="reflection3" placeholder="Write your answer..."></textarea>
+<div class="save-msg" id="msg3"></div>
 </div>
 
 </div>
@@ -108,6 +113,29 @@ function goBack() {
     window.location.href = "index.html";
   }
 }
+
+/* Reflection Saving */
+function setupReflection(id, msgId, storageKey) {
+  const textarea = document.getElementById(id);
+  const message = document.getElementById(msgId);
+
+  const saved = localStorage.getItem(storageKey);
+  if (saved) {
+    textarea.value = saved;
+  }
+
+  textarea.addEventListener("input", () => {
+    localStorage.setItem(storageKey, textarea.value);
+    message.textContent = "Saved ✓";
+    setTimeout(() => {
+      message.textContent = "";
+    }, 1500);
+  });
+}
+
+setupReflection("reflection1", "msg1", "daily_reflection_1");
+setupReflection("reflection2", "msg2", "daily_reflection_2");
+setupReflection("reflection3", "msg3", "daily_reflection_3");
 </script>
 
 </body>
