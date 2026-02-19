@@ -8,7 +8,7 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #eef2f7;
 }
 
@@ -29,6 +29,7 @@ body {
   border-radius: 20px;
   cursor: pointer;
   margin-right: 15px;
+  font-weight: bold;
 }
 
 .page-title {
@@ -36,6 +37,7 @@ body {
   font-weight: bold;
 }
 
+/* Layout */
 .container {
   padding: 20px;
   max-width: 900px;
@@ -50,28 +52,13 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-select, button {
+textarea {
   width: 100%;
+  min-height: 80px;
   padding: 10px;
-  margin-top: 10px;
-  border-radius: 6px;
-}
-
-.result {
-  margin-top: 15px;
-  padding: 15px;
   border-radius: 8px;
-  font-weight: bold;
-}
-
-.eligible {
-  background: #d4edda;
-  color: #155724;
-}
-
-.not-eligible {
-  background: #f8d7da;
-  color: #721c24;
+  border: 1px solid #ccc;
+  margin-top: 8px;
 }
 </style>
 </head>
@@ -86,73 +73,80 @@ select, button {
 <div class="container">
 
 <div class="card">
-<h3>⚖ Expungement & Record-Sealing Checker</h3>
+<h3>🏠 Housing Stability</h3>
+<p>Where am I staying for the next 30 days?</p>
+<textarea></textarea>
 
-<label>What was the outcome?</label>
-<select id="outcome">
-  <option value="">Select</option>
-  <option value="dismissed">Dismissed</option>
-  <option value="notguilty">Not Guilty</option>
-  <option value="deferred">Deferred Adjudication</option>
-  <option value="convicted">Convicted</option>
-</select>
+<p>Backup plan if housing falls through:</p>
+<textarea></textarea>
+</div>
 
-<label>Any new convictions since?</label>
-<select id="newCharges">
-  <option value="">Select</option>
-  <option value="no">No</option>
-  <option value="yes">Yes</option>
-</select>
+<div class="card">
+<h3>💼 Income Plan</h3>
+<p>Current income source:</p>
+<textarea></textarea>
 
-<button onclick="checkEligibility()">Check Eligibility</button>
+<p>Next income goal (job, training, side work):</p>
+<textarea></textarea>
+</div>
 
-<div id="resultBox"></div>
+<div class="card">
+<h3>⚖ Legal Compliance</h3>
+<ul>
+<li>Know your probation/parole conditions</li>
+<li>Keep check-in dates written down</li>
+<li>Stay current on court obligations</li>
+<li>Avoid people and places that risk violation</li>
+</ul>
 
+<p>My next check-in date:</p>
+<textarea></textarea>
+</div>
+
+<div class="card">
+<h3>🧠 Mental & Physical Health</h3>
+<p>Medication plan (if any):</p>
+<textarea></textarea>
+
+<p>Stress management plan:</p>
+<textarea></textarea>
+
+<p>Healthy daily habits I am building:</p>
+<textarea></textarea>
+</div>
+
+<div class="card">
+<h3>🤝 Support System</h3>
+<p>3 people I can call if I feel overwhelmed:</p>
+<textarea></textarea>
+
+<p>Positive activities I will focus on:</p>
+<textarea></textarea>
+</div>
+
+<div class="card">
+<h3>🚨 Emergency Plan</h3>
+<p>If I feel triggered or tempted to go backwards, I will:</p>
+<textarea></textarea>
+
+<p>Safe place I can go:</p>
+<textarea></textarea>
+</div>
+
+<div class="card">
+<h3>🔥 Commitment Statement</h3>
+<p>
+I am committed to rebuilding my life step by step.
+Stability is built through daily discipline.
+I will protect my progress.
+</p>
 </div>
 
 </div>
 
 <script>
 function goBack() {
-  if (document.referrer !== "") {
-    window.history.back();
-  } else {
-    window.location.href = "index.html";
-  }
-}
-
-function checkEligibility() {
-  const outcome = document.getElementById("outcome").value;
-  const newCharges = document.getElementById("newCharges").value;
-  const resultBox = document.getElementById("resultBox");
-
-  resultBox.className = "result";
-
-  if (outcome === "" || newCharges === "") {
-    resultBox.innerHTML = "Please answer all questions.";
-    resultBox.classList.add("not-eligible");
-    return;
-  }
-
-  if ((outcome === "dismissed" || outcome === "notguilty") && newCharges === "no") {
-    resultBox.innerHTML = "✔ You MAY be eligible for Expungement. <br><br><strong>Why:</strong> Case was dismissed or you were found not guilty, and you have no new convictions.";
-    resultBox.classList.add("eligible");
-  }
-
-  else if (outcome === "deferred" && newCharges === "no") {
-    resultBox.innerHTML = "✔ You MAY qualify for Record Sealing (Nondisclosure). <br><br><strong>Why:</strong> Deferred adjudication completed with no new convictions.";
-    resultBox.classList.add("eligible");
-  }
-
-  else if (newCharges === "yes") {
-    resultBox.innerHTML = "⛔ You may NOT be eligible right now. <br><br><strong>Why Not:</strong> New convictions often restart waiting periods or disqualify eligibility.";
-    resultBox.classList.add("not-eligible");
-  }
-
-  else {
-    resultBox.innerHTML = "⛔ You may not qualify for expungement. <br><br><strong>Why Not:</strong> Convictions typically do not qualify unless specific court programs apply.";
-    resultBox.classList.add("not-eligible");
-  }
+  window.location.href = "index.html";
 }
 </script>
 
