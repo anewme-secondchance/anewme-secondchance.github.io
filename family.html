@@ -14,14 +14,13 @@ body {
 
 .app-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background: #1f3c88;
   color: white;
   padding: 15px;
 }
 
-button {
+.back-btn {
   background: white;
   color: #1f3c88;
   border: none;
@@ -29,7 +28,7 @@ button {
   border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
-  margin-top: 10px;
+  margin-right: 15px;
 }
 
 .container {
@@ -47,12 +46,22 @@ button {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-textarea {
+textarea, input {
   width: 100%;
   min-height: 90px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  margin-top: 10px;
+}
+
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
   margin-top: 10px;
 }
 
@@ -75,15 +84,14 @@ textarea {
   text-decoration: line-through;
   opacity: 0.6;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="app-header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
   <div>👨‍👩‍👧 Family Rebuilding</div>
-  <button onclick="logout()">Logout</button>
 </div>
 
 <div class="container">
@@ -109,134 +117,105 @@ textarea {
 
 </div>
 
-<script type="module">
+<script>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { 
-  getAuth,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+/* BACK BUTTON */
+function goBack() {
+  window.location.href = "index.html";
+}
 
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  collection,
-  addDoc,
-  getDocs,
-  updateDoc,
-  deleteDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+/* LOAD DATA */
+function loadFamilyData() {
+  const saved = JSON.parse(localStorage.getItem("familyData")) || {
+    reunification: "",
+    trust: "",
+    tasks: []
+  };
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
-  authDomain: "a-new-me-1a17a.firebaseapp.com",
-  projectId: "a-new-me-1a17a",
-  storageBucket: "a-new-me-1a17a.firebasestorage.app",
-  messagingSenderId: "362235516132",
-  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
-};
+  document.getElementById("reunificationPlan").value = saved.reunification;
+  document.getElementById("trustPlan").value = saved.trust;
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+  renderTasks(saved.tasks);
+}
 
-let currentUser;
+function saveFamilyData(data) {
+  localStorage.setItem("familyData", JSON.stringify(data));
+}
 
-onAuthStateChanged(auth, user => {
-  if (!user) {
-    window.location.href = "auth.html";
-  } else {
-    currentUser = user;
-    loadPlans();
-    loadTasks();
-  }
+/* AUTO SAVE PLANS */
+document.getElementById("reunificationPlan").addEventListener("input", function() {
+  let data = getCurrentData();
+  data.reunification = this.value;
+  saveFamilyData(data);
+  document.getElementById("planMsg").textContent = "Saved ✓";
 });
 
-window.logout = function() {
-  signOut(auth).then(() => {
-    window.location.href = "auth.html";
-  });
-};
-
-/* SAVE REUNIFICATION PLAN */
-const reunificationField = document.getElementById("reunificationPlan");
-const trustField = document.getElementById("trustPlan");
-
-reunificationField.addEventListener("input", savePlans);
-trustField.addEventListener("input", savePlans);
-
-async function savePlans() {
-  await setDoc(doc(db, "users", currentUser.uid, "family", "plans"), {
-    reunification: reunificationField.value,
-    trust: trustField.value
-  });
-  document.getElementById("planMsg").textContent = "Saved ✓";
+document.getElementById("trustPlan").addEventListener("input", function() {
+  let data = getCurrentData();
+  data.trust = this.value;
+  saveFamilyData(data);
   document.getElementById("trustMsg").textContent = "Saved ✓";
+});
+
+/* TASKS */
+function getCurrentData() {
+  return JSON.parse(localStorage.getItem("familyData")) || {
+    reunification: "",
+    trust: "",
+    tasks: []
+  };
 }
 
-async function loadPlans() {
-  const docSnap = await getDoc(doc(db, "users", currentUser.uid, "family", "plans"));
-  if (docSnap.exists()) {
-    reunificationField.value = docSnap.data().reunification || "";
-    trustField.value = docSnap.data().trust || "";
-  }
-}
-
-/* TASK TRACKER */
-async function addTask() {
-  const text = document.getElementById("taskInput").value;
+function addTask() {
+  const input = document.getElementById("taskInput");
+  const text = input.value.trim();
   if (!text) return;
 
-  await addDoc(collection(db, "users", currentUser.uid, "familyTasks"), {
-    text: text,
-    completed: false
-  });
+  let data = getCurrentData();
+  data.tasks.push({ text: text, completed: false });
 
-  document.getElementById("taskInput").value = "";
-  loadTasks();
+  saveFamilyData(data);
+  input.value = "";
+  renderTasks(data.tasks);
 }
 
-async function loadTasks() {
-  const taskList = document.getElementById("taskList");
-  taskList.innerHTML = "";
+function renderTasks(tasks) {
+  const list = document.getElementById("taskList");
+  list.innerHTML = "";
 
-  const snapshot = await getDocs(collection(db, "users", currentUser.uid, "familyTasks"));
-
-  snapshot.forEach(docSnap => {
-    const task = docSnap.data();
-    const id = docSnap.id;
-
+  tasks.forEach((task, index) => {
     const div = document.createElement("div");
     div.className = "task-item" + (task.completed ? " completed" : "");
 
     div.innerHTML = `
       <span>${task.text}</span>
       <div>
-        <button onclick="toggleTask('${id}', ${task.completed})">
+        <button onclick="toggleTask(${index})">
           ${task.completed ? "Undo" : "Done"}
         </button>
-        <button onclick="deleteTask('${id}')">X</button>
+        <button onclick="deleteTask(${index})">X</button>
       </div>
     `;
 
-    taskList.appendChild(div);
+    list.appendChild(div);
   });
 }
 
-window.toggleTask = async function(id, status) {
-  await updateDoc(doc(db, "users", currentUser.uid, "familyTasks", id), {
-    completed: !status
-  });
-  loadTasks();
-};
+function toggleTask(index) {
+  let data = getCurrentData();
+  data.tasks[index].completed = !data.tasks[index].completed;
+  saveFamilyData(data);
+  renderTasks(data.tasks);
+}
 
-window.deleteTask = async function(id) {
-  await deleteDoc(doc(db, "users", currentUser.uid, "familyTasks", id));
-  loadTasks();
-};
+function deleteTask(index) {
+  let data = getCurrentData();
+  data.tasks.splice(index, 1);
+  saveFamilyData(data);
+  renderTasks(data.tasks);
+}
+
+loadFamilyData();
 
 </script>
 
