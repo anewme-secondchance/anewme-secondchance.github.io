@@ -12,15 +12,40 @@ body {
   background: #eef2f7;
 }
 
-.header {
+/* App Header */
+.app-header {
+  display: flex;
+  align-items: center;
   background: #1f3c88;
   color: white;
-  padding: 25px;
-  text-align: center;
+  padding: 15px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.back-btn:hover {
+  background: #ff914d;
+  color: white;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Content */
 .container {
-  padding: 25px;
+  padding: 20px;
   max-width: 900px;
   margin: auto;
 }
@@ -32,32 +57,17 @@ body {
   margin-bottom: 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
-
-.button {
-  display: inline-block;
-  padding: 10px 15px;
-  background: #1f3c88;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.button:hover {
-  background: #ff914d;
-}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-<h1>Employment Support</h1>
+<div class="app-header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <div class="page-title">Employment</div>
 </div>
 
 <div class="container">
-
-<a href="index.html" class="button">← Back to Home</a>
 
 <div class="card">
 <h3>Interview Preparation</h3>
@@ -88,6 +98,16 @@ body {
 </div>
 
 </div>
+
+<script>
+function goBack() {
+  if (document.referrer !== "") {
+    window.history.back();
+  } else {
+    window.location.href = "index.html";
+  }
+}
+</script>
 
 </body>
 </html>
