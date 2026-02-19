@@ -1,6 +1,216 @@
 <!DOCTYPE html>
 <html>
-<body style="background:yellow;">
-<h1>TEST PAGE</h1>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Help | A New Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  background: #1f3c88;
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.warning {
+  background: #ffe5e5;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+textarea, input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+}
+
+a {
+  color: #1f3c88;
+  font-weight: bold;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <div>⚖ Legal Help</div>
+</div>
+
+<div class="container">
+
+<div class="card warning">
+⚠ Eligibility depends on offense type, case outcome, and time passed.
+</div>
+
+<div class="card">
+<h3>Expungement May Apply If:</h3>
+<ul>
+<li>Case dismissed</li>
+<li>Found Not Guilty</li>
+<li>No-billed by grand jury</li>
+<li>Arrested but never charged</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Non-Disclosure May Apply If:</h3>
+<ul>
+<li>Completed deferred adjudication</li>
+<li>Completed probation (certain offenses)</li>
+<li>No new convictions during waiting period</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>⚠ Usually NOT Eligible If:</h3>
+<ul>
+<li>Family violence conviction</li>
+<li>Sex offense conviction</li>
+<li>Aggravated violent felony</li>
+<li>Multiple repeat convictions</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Free Texas Legal Resources</h3>
+
+<p>
+Texas Legal Services Center<br>
+<a href="https://www.tlsc.org" target="_blank">www.tlsc.org</a>
+</p>
+
+<p>
+Lone Star Legal Aid<br>
+<a href="https://www.lonestarlegal.org" target="_blank">www.lonestarlegal.org</a>
+</p>
+
+<p>
+Texas RioGrande Legal Aid<br>
+<a href="https://www.trla.org" target="_blank">www.trla.org</a>
+</p>
+
+<p>
+Texas Judicial Branch Self Help<br>
+<a href="https://www.txcourts.gov/forms" target="_blank">www.txcourts.gov/forms</a>
+</p>
+
+<p>
+Texas Workforce Commission Reentry<br>
+<a href="https://www.twc.texas.gov" target="_blank">www.twc.texas.gov</a>
+</p>
+
+</div>
+
+<div class="card">
+<h3>My Legal Plan</h3>
+
+<label>County Charged</label>
+<input type="text" id="county">
+
+<label>Charge Type</label>
+<input type="text" id="charge">
+
+<label>Case Outcome</label>
+<select id="outcome">
+<option value="">Select</option>
+<option>Dismissed</option>
+<option>Deferred Adjudication</option>
+<option>Convicted</option>
+<option>No-Billed</option>
+<option>Not Guilty</option>
+</select>
+
+<label>Notes / Questions</label>
+<textarea id="notes"></textarea>
+
+<button onclick="saveLegal()">Save Legal Info</button>
+
+<p id="saveMessage" class="success"></p>
+</div>
+
+</div>
+
+<script>
+function goBack() {
+  window.location.href = "index.html";
+}
+
+function saveLegal() {
+  const data = {
+    county: document.getElementById("county").value,
+    charge: document.getElementById("charge").value,
+    outcome: document.getElementById("outcome").value,
+    notes: document.getElementById("notes").value
+  };
+
+  localStorage.setItem("legalPlan", JSON.stringify(data));
+  document.getElementById("saveMessage").innerText = "Saved ✓";
+}
+
+window.onload = function() {
+  const saved = JSON.parse(localStorage.getItem("legalPlan"));
+  if(saved){
+    document.getElementById("county").value = saved.county || "";
+    document.getElementById("charge").value = saved.charge || "";
+    document.getElementById("outcome").value = saved.outcome || "";
+    document.getElementById("notes").value = saved.notes || "";
+  }
+};
+</script>
+
 </body>
 </html>
