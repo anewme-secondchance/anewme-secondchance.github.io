@@ -49,10 +49,18 @@ button {
 
 textarea {
   width: 100%;
+  min-height: 80px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-top: 8px;
+}
+
+.notice {
+  background: #fff4cc;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
 }
 
 a {
@@ -75,16 +83,27 @@ a {
 <div class="card">
 <h3>🏠 Housing Assistance Types</h3>
 <ul>
-<li>Transitional Housing Programs</li>
-<li>Emergency Shelters</li>
-<li>Halfway Houses</li>
-<li>Permanent Supportive Housing</li>
-<li>Reentry Housing Referrals</li>
+<li>Transitional housing programs</li>
+<li>Emergency shelters</li>
+<li>Halfway houses</li>
+<li>Permanent supportive housing</li>
+<li>Reentry housing referrals</li>
 </ul>
 </div>
 
 <div class="card">
-<h3>📋 Important Documents Needed</h3>
+<h3>📍 Texas Reentry Housing Resources</h3>
+
+<p><strong>Dallas:</strong> <a href="https://milesoffreedom.org" target="_blank">Miles of Freedom</a></p>
+<p><strong>Houston:</strong> <a href="https://www.theharriscenter.org" target="_blank">The Harris Center</a></p>
+<p><strong>San Antonio:</strong> <a href="https://www.chcsbc.org" target="_blank">Center for Health Care Services</a></p>
+<p><strong>Austin:</strong> <a href="https://integralcare.org" target="_blank">Integral Care</a></p>
+<p><strong>Statewide:</strong> <a href="https://www.tdcj.texas.gov/divisions/rrd/reentry_program.html" target="_blank">TDCJ Reentry</a></p>
+
+</div>
+
+<div class="card">
+<h3>📄 Important Documents Needed</h3>
 <ul>
 <li>State ID or Driver’s License</li>
 <li>Social Security Card</li>
@@ -97,50 +116,31 @@ a {
 <div class="card">
 <h3>💡 Tips for Renting with a Record</h3>
 <ul>
-<li>Be honest but brief about your past.</li>
-<li>Provide references (mentor, employer, case manager).</li>
-<li>Show proof of stable income.</li>
-<li>Offer larger deposit if possible.</li>
-<li>Stay professional and confident.</li>
+<li>Be honest but brief</li>
+<li>Provide references</li>
+<li>Show proof of stable income</li>
+<li>Offer larger deposit if needed</li>
+<li>Stay professional and confident</li>
 </ul>
+
+<div class="notice">
+Remember: Some landlords consider time since offense, rehabilitation, and income stability.
+</div>
 </div>
 
 <div class="card">
-<h3>📝 My Housing Plan</h3>
+<h3>📝 My Housing Plan (Saved to Account)</h3>
 
-<label>My Target Move-In Date</label>
-<textarea id="moveDate"></textarea>
+<label>Where do I want to live?</label>
+<textarea id="goalLocation"></textarea>
 
-<label>My Monthly Budget for Rent</label>
-<textarea id="rentBudget"></textarea>
+<label>Monthly budget for rent:</label>
+<textarea id="goalBudget"></textarea>
 
-<label>My Housing Action Steps</label>
-<textarea id="housingSteps"></textarea>
+<label>Backup housing option:</label>
+<textarea id="goalBackup"></textarea>
 
 <button onclick="saveHousing()">Save Plan</button>
-</div>
-
-<div class="card">
-<h3>🔗 Helpful Texas Resources</h3>
-
-<p><strong>Texas Housing Assistance</strong></p>
-<a href="https://www.tdhca.state.tx.us/" target="_blank">
-Texas Department of Housing & Community Affairs
-</a>
-
-<br><br>
-
-<p><strong>HUD Affordable Housing Search</strong></p>
-<a href="https://www.hud.gov/states/texas/renting" target="_blank">
-HUD Texas Rental Help
-</a>
-
-<br><br>
-
-<p><strong>Find Transitional Housing</strong></p>
-<a href="https://www.findhelp.org/housing" target="_blank">
-FindHelp Housing Search
-</a>
 
 </div>
 
@@ -194,26 +194,26 @@ window.logout = function() {
 
 window.saveHousing = async function() {
   const data = {
-    moveDate: document.getElementById("moveDate").value,
-    rentBudget: document.getElementById("rentBudget").value,
-    housingSteps: document.getElementById("housingSteps").value
+    location: document.getElementById("goalLocation").value,
+    budget: document.getElementById("goalBudget").value,
+    backup: document.getElementById("goalBackup").value
   };
 
   await setDoc(doc(db, "users", currentUser.uid), {
-    housing: data
+    housingPlan: data
   }, { merge: true });
 
-  alert("Housing Plan Saved ✓");
+  alert("Saved ✓");
 };
 
 async function loadHousing() {
   const docSnap = await getDoc(doc(db, "users", currentUser.uid));
   if (docSnap.exists()) {
     const data = docSnap.data();
-    if (data.housing) {
-      document.getElementById("moveDate").value = data.housing.moveDate || "";
-      document.getElementById("rentBudget").value = data.housing.rentBudget || "";
-      document.getElementById("housingSteps").value = data.housing.housingSteps || "";
+    if (data.housingPlan) {
+      document.getElementById("goalLocation").value = data.housingPlan.location || "";
+      document.getElementById("goalBudget").value = data.housingPlan.budget || "";
+      document.getElementById("goalBackup").value = data.housingPlan.backup || "";
     }
   }
 }
