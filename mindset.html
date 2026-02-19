@@ -49,7 +49,7 @@ body {
   cursor: pointer;
 }
 
-/* Header */
+/* HEADER */
 .app-header {
   display: flex;
   align-items: center;
@@ -89,12 +89,37 @@ textarea {
   border-radius: 8px;
   border: 1px solid #ccc;
 }
+
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.save-msg {
+  color: green;
+  font-size: 14px;
+}
+
+a {
+  color: #1f3c88;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
 </style>
 </head>
 
 <body>
 
-<!-- LOCK SCREEN -->
+<!-- PIN LOCK -->
 <div class="lock-screen" id="lockScreen">
   <h2 id="lockTitle">Enter PIN</h2>
   <input type="password" maxlength="4" id="pinInput">
@@ -112,19 +137,106 @@ textarea {
 
 <div class="container">
 
+<!-- DAILY QUOTE -->
+<div class="card">
+<h3>🌟 Daily Encouragement</h3>
+<p id="dailyQuote"></p>
+<button onclick="newQuote()">New Quote</button>
+</div>
+
+<!-- REFLECTIONS -->
 <div class="card">
 <h3>What went well today?</h3>
 <textarea id="reflection1"></textarea>
+<div class="save-msg" id="msg1"></div>
 </div>
 
 <div class="card">
 <h3>What is one step forward I took?</h3>
 <textarea id="reflection2"></textarea>
+<div class="save-msg" id="msg2"></div>
 </div>
 
 <div class="card">
 <h3>What can I improve tomorrow?</h3>
 <textarea id="reflection3"></textarea>
+<div class="save-msg" id="msg3"></div>
+</div>
+
+<!-- STREAK -->
+<div class="card">
+<h3>🔥 Consistency Streak</h3>
+<p>Days checked in: <strong id="streakCount">0</strong></p>
+<button onclick="updateStreak()">Mark Today Complete</button>
+</div>
+
+<!-- SOBRIETY -->
+<div class="card">
+<h3>💪 Sobriety Tracker</h3>
+<label>
+<input type="checkbox" id="soberCheck"> I stayed sober today
+</label>
+<p>Days sober: <strong id="soberCount">0</strong></p>
+</div>
+
+<!-- COUNSELING & SUPPORT -->
+<div class="card">
+<h3>🧠 Counseling & Mental Health Support</h3>
+
+<p><strong>988 Crisis Lifeline (Nationwide)</strong></p>
+<p>Call or Text: 988</p>
+<a href="https://988lifeline.org/" target="_blank">988lifeline.org</a>
+
+<br><br>
+
+<p><strong>Find Local Counseling by ZIP Code</strong></p>
+<a href="https://www.findhelp.org/" target="_blank">FindHelp.org</a>
+
+<br><br>
+
+<p><strong>SAMHSA Treatment Locator</strong></p>
+<a href="https://www.samhsa.gov/find-treatment" target="_blank">
+SAMHSA Treatment Finder
+</a>
+
+<br><br>
+
+<p><strong>Open Path Affordable Therapy</strong></p>
+<a href="https://openpathcollective.org/" target="_blank">
+OpenPathCollective.org
+</a>
+
+</div>
+
+<div class="card">
+<h3>🤝 Support Groups</h3>
+
+<p><strong>Alcoholics Anonymous (AA)</strong></p>
+<a href="https://www.aa.org/find-aa" target="_blank">
+Find AA Meetings
+</a>
+
+<br><br>
+
+<p><strong>Narcotics Anonymous (NA)</strong></p>
+<a href="https://www.na.org/meetingsearch/" target="_blank">
+Find NA Meetings
+</a>
+
+<br><br>
+
+<p><strong>Celebrate Recovery</strong></p>
+<a href="https://www.celebraterecovery.com/crgroups" target="_blank">
+Find Celebrate Recovery Groups
+</a>
+
+<br><br>
+
+<p><strong>Peer Reentry Support Programs</strong></p>
+<a href="https://www.findhelp.org/" target="_blank">
+Search Reentry Peer Support
+</a>
+
 </div>
 
 </div>
@@ -135,7 +247,7 @@ function goBack() {
   window.location.href = "index.html";
 }
 
-/* PIN SYSTEM */
+/* PIN */
 function handlePin() {
   const input = document.getElementById("pinInput").value;
   const storedPin = localStorage.getItem("mindset_pin");
@@ -172,22 +284,62 @@ window.onload = function() {
   if (!storedPin) {
     document.getElementById("lockTitle").textContent = "Create a 4-Digit PIN";
   }
+  newQuote();
 };
 
-/* SAVE REFLECTIONS */
-function setupSave(id, key) {
+/* QUOTES */
+const quotes = [
+"You are not your past. You are your next decision.",
+"Small steps every day build a new life.",
+"Consistency creates stability.",
+"Progress, not perfection.",
+"You survived. Now rebuild."
+];
+
+function newQuote() {
+  const random = quotes[Math.floor(Math.random() * quotes.length)];
+  document.getElementById("dailyQuote").textContent = random;
+}
+
+/* REFLECTION SAVE */
+function setupReflection(id, msgId, key) {
   const field = document.getElementById(id);
   const saved = localStorage.getItem(key);
   if (saved) field.value = saved;
   field.addEventListener("input", () => {
     localStorage.setItem(key, field.value);
+    document.getElementById(msgId).textContent = "Saved ✓";
   });
 }
 
-setupSave("reflection1","daily1");
-setupSave("reflection2","daily2");
-setupSave("reflection3","daily3");
+setupReflection("reflection1","msg1","daily1");
+setupReflection("reflection2","msg2","daily2");
+setupReflection("reflection3","msg3","daily3");
 
+/* STREAK */
+function updateStreak() {
+  let streak = localStorage.getItem("streak");
+  streak = streak ? parseInt(streak) + 1 : 1;
+  localStorage.setItem("streak", streak);
+  document.getElementById("streakCount").textContent = streak;
+}
+
+const savedStreak = localStorage.getItem("streak");
+if (savedStreak) document.getElementById("streakCount").textContent = savedStreak;
+
+/* SOBRIETY */
+const soberCheck = document.getElementById("soberCheck");
+let soberCount = localStorage.getItem("soberCount");
+
+if (soberCount) document.getElementById("soberCount").textContent = soberCount;
+
+soberCheck.addEventListener("change", function() {
+  if (this.checked) {
+    soberCount = soberCount ? parseInt(soberCount) + 1 : 1;
+    localStorage.setItem("soberCount", soberCount);
+    document.getElementById("soberCount").textContent = soberCount;
+  }
+});
 </script>
 
 </body>
