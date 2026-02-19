@@ -3,195 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Money – A New Me</title>
-<link rel="manifest" href="manifest.json">
+<title>Budget & Money | A New Me</title>
 
 <style>
-* { box-sizing: border-box; }
-
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  font-family: Arial;
   background: #eef2f7;
 }
 
-.header {
+/* App Header */
+.app-header {
+  display: flex;
+  align-items: center;
   background: #1f3c88;
   color: white;
-  padding: 18px;
-  text-align: center;
+  padding: 15px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.back-btn:hover {
+  background: #ff914d;
+  color: white;
+}
+
+.page-title {
   font-size: 18px;
   font-weight: bold;
 }
 
+/* Content */
 .container {
   padding: 20px;
-  padding-bottom: 90px;
+  max-width: 900px;
+  margin: auto;
 }
 
 .card {
   background: white;
-  border-radius: 18px;
   padding: 20px;
+  border-radius: 12px;
   margin-bottom: 20px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  margin-top: 8px;
-  margin-bottom: 15px;
-}
-
-button {
-  background: #ff914d;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 10px;
-  width: 100%;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.total {
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: white;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
-}
-
-.bottom-nav a {
-  text-decoration: none;
-  color: #1f3c88;
-  font-size: 13px;
+ul {
+  padding-left: 20px;
 }
 </style>
 </head>
+
 <body>
 
-<div class="header">💰 Money Planner</div>
+<div class="app-header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <div class="page-title">Budget & Money</div>
+</div>
 
 <div class="container">
 
 <div class="card">
-<h3>Weekly Budget</h3>
-
-<input id="income" placeholder="Weekly Income" type="number">
-<input id="rent" placeholder="Rent" type="number">
-<input id="food" placeholder="Food" type="number">
-<input id="transport" placeholder="Transportation" type="number">
-<input id="phone" placeholder="Phone" type="number">
-<input id="other" placeholder="Other Expenses" type="number">
-
-<button onclick="calculateBudget()">Calculate</button>
-
-<div class="total" id="budgetResult"></div>
-</div>
-
-<div class="card">
-<h3>Savings Tracker</h3>
-<input id="savingsAmount" placeholder="Add to savings" type="number">
-<button onclick="addSavings()">Add Savings</button>
-<div class="total" id="savingsTotal"></div>
-</div>
-
-<div class="card">
-<h3>Emergency Fund</h3>
-<input id="emergencyAmount" placeholder="Add to emergency fund" type="number">
-<button onclick="addEmergency()">Add</button>
-<div class="total" id="emergencyTotal"></div>
-</div>
-
-<div class="card">
-<h3>Credit Rebuilding Tips</h3>
+<h3>Weekly Budget Basics</h3>
 <ul>
-<li>Open a secured credit card</li>
-<li>Keep balance under 30%</li>
-<li>Pay on time every month</li>
-<li>Avoid payday loans</li>
-<li>Check credit report annually</li>
+<li>Divide monthly rent by 4.</li>
+<li>Set aside money for transportation first.</li>
+<li>Plan for food ($50–$70 per week if possible).</li>
+<li>Save even $5–$10 weekly.</li>
+<li>Track all spending honestly.</li>
 </ul>
 </div>
 
 <div class="card">
-<h3>Avoid Payday Loans</h3>
-<p>Payday loans trap you in high-interest cycles. Use credit unions, payment plans, or community assistance instead.</p>
+<h3>How to Set Up a Bank Account</h3>
+<ul>
+<li>Bring State ID and Social Security Card.</li>
+<li>Choose a bank that offers second-chance accounts.</li>
+<li>Ask about monthly fees.</li>
+<li>Set up direct deposit if possible.</li>
+</ul>
 </div>
 
+<div class="card">
+<h3>Rebuilding Credit</h3>
+<ul>
+<li>Pay all bills on time.</li>
+<li>Consider a secured credit card.</li>
+<li>Keep balances low.</li>
+<li>Avoid payday loans.</li>
+<li>Check your credit report yearly.</li>
+</ul>
 </div>
 
-<div class="bottom-nav">
-<a href="index.html">🏠</a>
-<a href="resources.html">📚</a>
-<a href="goals.html">🎯</a>
-<a href="mindset.html">🧠</a>
-<a href="printable.html">🖨</a>
 </div>
 
 <script>
-
-function calculateBudget() {
-  let incomeVal = Number(income.value);
-  let totalExpenses =
-    Number(rent.value) +
-    Number(food.value) +
-    Number(transport.value) +
-    Number(phone.value) +
-    Number(other.value);
-
-  let remaining = incomeVal - totalExpenses;
-
-  budgetResult.innerHTML =
-    "Total Expenses: $" + totalExpenses +
-    "<br>Remaining: $" + remaining;
-
-  localStorage.setItem("budget", JSON.stringify({
-    income: incomeVal,
-    totalExpenses,
-    remaining
-  }));
+function goBack() {
+  if (document.referrer !== "") {
+    window.history.back();
+  } else {
+    window.location.href = "index.html";
+  }
 }
-
-function addSavings() {
-  let current = Number(localStorage.getItem("savings")) || 0;
-  current += Number(savingsAmount.value);
-  localStorage.setItem("savings", current);
-  savingsTotal.innerHTML = "Total Savings: $" + current;
-}
-
-function addEmergency() {
-  let current = Number(localStorage.getItem("emergency")) || 0;
-  current += Number(emergencyAmount.value);
-  localStorage.setItem("emergency", current);
-  emergencyTotal.innerHTML = "Emergency Fund: $" + current;
-}
-
-function loadMoney() {
-  let savings = localStorage.getItem("savings") || 0;
-  let emergency = localStorage.getItem("emergency") || 0;
-  savingsTotal.innerHTML = "Total Savings: $" + savings;
-  emergencyTotal.innerHTML = "Emergency Fund: $" + emergency;
-}
-
-loadMoney();
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
-}
-
 </script>
 
 </body>
