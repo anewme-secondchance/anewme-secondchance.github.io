@@ -3,194 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stability – A New Me</title>
-<link rel="manifest" href="manifest.json">
+<title>Stability Plan | A New Me</title>
 
 <style>
-* { box-sizing: border-box; }
-
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  font-family: Arial;
   background: #eef2f7;
 }
 
-.header {
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
   background: #1f3c88;
   color: white;
-  padding: 18px;
-  text-align: center;
+  padding: 15px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.back-btn:hover {
+  background: #ff914d;
+  color: white;
+}
+
+.page-title {
   font-size: 18px;
   font-weight: bold;
 }
 
 .container {
   padding: 20px;
-  padding-bottom: 90px;
+  max-width: 900px;
+  margin: auto;
 }
 
 .card {
   background: white;
-  border-radius: 18px;
   padding: 20px;
+  border-radius: 12px;
   margin-bottom: 20px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  margin-top: 8px;
-  margin-bottom: 15px;
+h3 {
+  margin-top: 0;
 }
 
-button {
-  background: #ff914d;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 10px;
-  width: 100%;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.entry {
-  font-size: 14px;
-  border-top: 1px solid #eee;
-  padding-top: 8px;
-  margin-top: 8px;
-}
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: white;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
-}
-
-.bottom-nav a {
-  text-decoration: none;
-  color: #1f3c88;
-  font-size: 13px;
+ul {
+  padding-left: 20px;
 }
 </style>
 </head>
+
 <body>
 
-<div class="header">📋 Stability Tracker</div>
+<div class="app-header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <div class="page-title">Stability Plan</div>
+</div>
 
 <div class="container">
 
 <div class="card">
-<h3>PO Check-In</h3>
-<input type="date" id="poDate">
-<textarea id="poNotes" placeholder="Notes about check-in..."></textarea>
-<button onclick="savePO()">Save Check-In</button>
-<div id="poList"></div>
+<h3>⚖ Expungement & Record Sealing</h3>
+
+<p><strong>May Qualify If:</strong></p>
+<ul>
+<li>✔ Case was dismissed</li>
+<li>✔ Found not guilty</li>
+<li>✔ Deferred adjudication completed</li>
+<li>✔ Waiting period completed</li>
+<li>✔ No new convictions</li>
+</ul>
+
+<p><strong>Important Waiting Periods:</strong></p>
+<ul>
+<li>Class C – 180 days</li>
+<li>Class A/B – 1 year</li>
+<li>Felony (no indictment) – 3 years</li>
+</ul>
+
+<p><strong>🚫 DON’TS:</strong></p>
+<ul>
+<li>⛔ Don’t apply before waiting period ends</li>
+<li>⛔ Don’t hide new charges from attorney</li>
+<li>⛔ Don’t assume all charges qualify</li>
+<li>⛔ Don’t skip legal advice — rules vary by case</li>
+<li>⛔ Don’t file paperwork incorrectly (can delay approval)</li>
+</ul>
+
 </div>
 
 <div class="card">
-<h3>Court Dates</h3>
-<input type="date" id="courtDate">
-<textarea id="courtNotes" placeholder="Court details..."></textarea>
-<button onclick="saveCourt()">Save Court Date</button>
-<div id="courtList"></div>
+<h3>💼 Interview Preparation</h3>
+
+<ul>
+<li>Wear clean, simple clothing</li>
+<li>Arrive 10–15 minutes early</li>
+<li>Practice answering questions</li>
+<li>Be honest but focus on growth</li>
+</ul>
+
+<p><strong>Practice Example:</strong></p>
+
+<p><strong>Question:</strong> “Tell me about yourself.”</p>
+<p><em>Example Answer:</em><br>
+“I’m a dependable worker who takes pride in showing up on time and learning quickly. I’ve spent the last few years building discipline and job skills, and I’m ready to bring that work ethic to your company.”
+</p>
+
+<p><strong>Question:</strong> “Why should we hire you?”</p>
+<p><em>Example Answer:</em><br>
+“I’m reliable, consistent, and ready to grow. I value teamwork and I take responsibility for my work.”
+</p>
+
 </div>
 
 <div class="card">
-<h3>Medication Reminder</h3>
-<input type="text" id="medName" placeholder="Medication name">
-<input type="time" id="medTime">
-<button onclick="saveMed()">Save Medication</button>
-<div id="medList"></div>
+<h3>📄 Resume Building</h3>
+
+<ul>
+<li>Include prison work professionally</li>
+<li>List certifications & training</li>
+<li>Highlight reliability & discipline</li>
+</ul>
+
+<p><strong>Example Resume Entry:</strong></p>
+
+<p><strong>Maintenance Assistant – Texas Correctional Facility</strong><br>
+2015–2023</p>
+
+<ul>
+<li>Performed plumbing and minor repair tasks</li>
+<li>Followed safety procedures daily</li>
+<li>Maintained equipment and completed task logs</li>
+</ul>
+
+<p><strong>Skills Example:</strong></p>
+<ul>
+<li>Teamwork</li>
+<li>Time Management</li>
+<li>Fast Learner</li>
+<li>Safety Awareness</li>
+<li>Basic Computer Skills</li>
+</ul>
+
 </div>
 
-<div class="card">
-<h3>Transportation Plan</h3>
-<textarea id="transportPlan" placeholder="Bus routes, ride info, backup plans..."></textarea>
-<button onclick="saveTransport()">Save Plan</button>
-<div id="transportDisplay"></div>
-</div>
-
-</div>
-
-<div class="bottom-nav">
-<a href="index.html">🏠</a>
-<a href="resources.html">📚</a>
-<a href="goals.html">🎯</a>
-<a href="mindset.html">🧠</a>
-<a href="printable.html">🖨</a>
 </div>
 
 <script>
-
-function savePO() {
-  let list = JSON.parse(localStorage.getItem("po")) || [];
-  list.push({date: poDate.value, notes: poNotes.value});
-  localStorage.setItem("po", JSON.stringify(list));
-  displayPO();
+function goBack() {
+  if (document.referrer !== "") {
+    window.history.back();
+  } else {
+    window.location.href = "index.html";
+  }
 }
-
-function displayPO() {
-  let list = JSON.parse(localStorage.getItem("po")) || [];
-  poList.innerHTML = list.map(e => 
-    `<div class="entry"><strong>${e.date}</strong><br>${e.notes}</div>`
-  ).join("");
-}
-
-function saveCourt() {
-  let list = JSON.parse(localStorage.getItem("court")) || [];
-  list.push({date: courtDate.value, notes: courtNotes.value});
-  localStorage.setItem("court", JSON.stringify(list));
-  displayCourt();
-}
-
-function displayCourt() {
-  let list = JSON.parse(localStorage.getItem("court")) || [];
-  courtList.innerHTML = list.map(e => 
-    `<div class="entry"><strong>${e.date}</strong><br>${e.notes}</div>`
-  ).join("");
-}
-
-function saveMed() {
-  let list = JSON.parse(localStorage.getItem("meds")) || [];
-  list.push({name: medName.value, time: medTime.value});
-  localStorage.setItem("meds", JSON.stringify(list));
-  displayMed();
-}
-
-function displayMed() {
-  let list = JSON.parse(localStorage.getItem("meds")) || [];
-  medList.innerHTML = list.map(e => 
-    `<div class="entry">${e.name} at ${e.time}</div>`
-  ).join("");
-}
-
-function saveTransport() {
-  localStorage.setItem("transport", transportPlan.value);
-  displayTransport();
-}
-
-function displayTransport() {
-  transportDisplay.innerHTML = localStorage.getItem("transport") || "";
-}
-
-displayPO();
-displayCourt();
-displayMed();
-displayTransport();
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
-}
-
 </script>
 
 </body>
