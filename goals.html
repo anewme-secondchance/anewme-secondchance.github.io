@@ -49,10 +49,26 @@ button {
 
 textarea {
   width: 100%;
+  min-height: 80px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-top: 8px;
+}
+
+.progress-bar {
+  height: 20px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #1f3c88;
+  transition: width 0.3s;
 }
 </style>
 </head>
@@ -78,17 +94,21 @@ textarea {
 
 <div class="card">
 <h3>💰 Financial Goal</h3>
-<textarea id="moneyGoal" placeholder="Example: Save $50 per week"></textarea>
+<textarea id="moneyGoal" placeholder="Example: Save $500 in 3 months"></textarea>
 </div>
 
 <div class="card">
-<h3>🧠 Mental Health Goal</h3>
-<textarea id="mentalGoal" placeholder="Example: Attend counseling weekly"></textarea>
+<h3>🧠 Personal Growth Goal</h3>
+<textarea id="lifeGoal" placeholder="Example: Attend counseling weekly"></textarea>
 </div>
 
 <div class="card">
-<h3>🎯 Life Goal</h3>
-<textarea id="lifeGoal" placeholder="Example: Rebuild relationship with my children"></textarea>
+<h3>📊 Progress</h3>
+<input type="range" id="progressSlider" min="0" max="100">
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+<p><strong id="progressPercent">0%</strong> Complete</p>
 </div>
 
 <button onclick="saveGoals()">Save Goals</button>
@@ -98,7 +118,7 @@ textarea {
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
+import { 
   getAuth,
   signOut,
   onAuthStateChanged
@@ -126,7 +146,6 @@ const db = getFirestore(app);
 
 let currentUser;
 
-/* Protect Page */
 onAuthStateChanged(auth, async user => {
   if (!user) {
     window.location.href = "auth.html";
@@ -136,46 +155,56 @@ onAuthStateChanged(auth, async user => {
   }
 });
 
-/* Logout */
 window.logout = function() {
   signOut(auth).then(() => {
     window.location.href = "auth.html";
   });
 };
 
-/* Save Goals */
 window.saveGoals = async function() {
-  const goalData = {
-    housing: document.getElementById("housingGoal").value,
-    job: document.getElementById("jobGoal").value,
-    money: document.getElementById("moneyGoal").value,
-    mental: document.getElementById("mentalGoal").value,
-    life: document.getElementById("lifeGoal").value
+
+  const data = {
+    housingGoal: document.getElementById("housingGoal").value,
+    jobGoal: document.getElementById("jobGoal").value,
+    moneyGoal: document.getElementById("moneyGoal").value,
+    lifeGoal: document.getElementById("lifeGoal").value,
+    progress: document.getElementById("progressSlider").value
   };
 
   await setDoc(doc(db, "users", currentUser.uid), {
-    goals: goalData
+    goals: data
   }, { merge: true });
 
   alert("Goals Saved ✓");
 };
 
-/* Load Goals */
 async function loadGoals() {
   const docSnap = await getDoc(doc(db, "users", currentUser.uid));
   if (docSnap.exists()) {
     const data = docSnap.data();
     if (data.goals) {
-      document.getElementById("housingGoal").value = data.goals.housing || "";
-      document.getElementById("jobGoal").value = data.goals.job || "";
-      document.getElementById("moneyGoal").value = data.goals.money || "";
-      document.getElementById("mentalGoal").value = data.goals.mental || "";
-      document.getElementById("lifeGoal").value = data.goals.life || "";
+      document.getElementById("housingGoal").value = data.goals.housingGoal || "";
+      document.getElementById("jobGoal").value = data.goals.jobGoal || "";
+      document.getElementById("moneyGoal").value = data.goals.moneyGoal || "";
+      document.getElementById("lifeGoal").value = data.goals.lifeGoal || "";
+      document.getElementById("progressSlider").value = data.goals.progress || 0;
+      updateProgress(data.goals.progress || 0);
     }
   }
+}
+
+const slider = document.getElementById("progressSlider");
+slider.addEventListener("input", function() {
+  updateProgress(this.value);
+});
+
+function updateProgress(value) {
+  document.getElementById("progressFill").style.width = value + "%";
+  document.getElementById("progressPercent").textContent = value + "%";
 }
 
 </script>
 
 </body>
 </html>
+
