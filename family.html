@@ -3,194 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Family – A New Me</title>
-<link rel="manifest" href="manifest.json">
+<title>Family | A New Me</title>
 
 <style>
-* { box-sizing: border-box; }
-
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  font-family: Arial;
   background: #eef2f7;
 }
 
-.header {
+/* App Header */
+.app-header {
+  display: flex;
+  align-items: center;
   background: #1f3c88;
   color: white;
-  padding: 18px;
-  text-align: center;
+  padding: 15px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.back-btn:hover {
+  background: #ff914d;
+  color: white;
+}
+
+.page-title {
   font-size: 18px;
   font-weight: bold;
 }
 
+/* Content */
 .container {
   padding: 20px;
-  padding-bottom: 90px;
+  max-width: 900px;
+  margin: auto;
 }
 
 .card {
   background: white;
-  border-radius: 18px;
   padding: 20px;
+  border-radius: 12px;
   margin-bottom: 20px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  margin-top: 8px;
-  margin-bottom: 15px;
-}
-
-button {
-  background: #ff914d;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 10px;
-  width: 100%;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.entry {
-  margin-top: 10px;
-  font-size: 14px;
-  border-top: 1px solid #eee;
-  padding-top: 8px;
-}
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: white;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
-}
-
-.bottom-nav a {
-  text-decoration: none;
-  color: #1f3c88;
-  font-size: 13px;
+ul {
+  padding-left: 20px;
 }
 </style>
 </head>
+
 <body>
 
-<div class="header">👨‍👩‍👧 Family Rebuilding</div>
+<div class="app-header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <div class="page-title">Family</div>
+</div>
 
 <div class="container">
 
 <div class="card">
-<h3>Reunification Goal</h3>
-<input id="familyGoal" placeholder="Example: Rebuild weekly contact with children">
-<button onclick="saveFamilyGoal()">Save Goal</button>
-<div id="familyGoalDisplay" class="entry"></div>
-</div>
-
-<div class="card">
-<h3>Supervised Visit Planner</h3>
-<input type="date" id="visitDate">
-<textarea id="visitNotes" placeholder="How will you show patience and consistency?"></textarea>
-<button onclick="saveVisit()">Save Visit Plan</button>
-<div id="visitList"></div>
-</div>
-
-<div class="card">
-<h3>Co-Parent Communication Notes</h3>
-<textarea id="coparentNotes" placeholder="Keep communication respectful and focused on the child."></textarea>
-<button onclick="saveCoparent()">Save Notes</button>
-<div id="coparentDisplay" class="entry"></div>
-</div>
-
-<div class="card">
-<h3>Trust Rebuilding Tracker</h3>
-<textarea id="trustStep" placeholder="One action taken to rebuild trust"></textarea>
-<button onclick="saveTrustStep()">Save Action</button>
-<div id="trustList"></div>
-</div>
-
-<div class="card">
-<h3>Conflict Management Tips</h3>
+<h3>Reunification Tips</h3>
 <ul>
-<li>Pause before responding</li>
-<li>Speak calmly and clearly</li>
-<li>Focus on solutions, not blame</li>
-<li>Validate feelings without escalating</li>
-<li>Stay child-focused in disputes</li>
+<li>Understand that things may feel different at first.</li>
+<li>Allow children to express mixed emotions.</li>
+<li>Be patient and consistent.</li>
+<li>Create new healthy routines together.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Supervised Visit Tips</h3>
+<ul>
+<li>Arrive early and prepared.</li>
+<li>Focus on positive interaction.</li>
+<li>Avoid conflict topics.</li>
+<li>Show responsibility and growth.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Rebuilding Trust</h3>
+<ul>
+<li>Keep promises.</li>
+<li>Communicate openly.</li>
+<li>Take responsibility for past actions.</li>
+<li>Show consistency over time.</li>
 </ul>
 </div>
 
 </div>
 
-<div class="bottom-nav">
-<a href="index.html">🏠</a>
-<a href="resources.html">📚</a>
-<a href="goals.html">🎯</a>
-<a href="mindset.html">🧠</a>
-<a href="printable.html">🖨</a>
-</div>
-
 <script>
-
-function saveFamilyGoal() {
-  localStorage.setItem("familyGoal", familyGoal.value);
-  familyGoalDisplay.innerHTML = familyGoal.value;
+function goBack() {
+  if (document.referrer !== "") {
+    window.history.back();
+  } else {
+    window.location.href = "index.html";
+  }
 }
-
-function saveVisit() {
-  let visits = JSON.parse(localStorage.getItem("visits")) || [];
-  visits.push({date: visitDate.value, notes: visitNotes.value});
-  localStorage.setItem("visits", JSON.stringify(visits));
-  displayVisits();
-}
-
-function displayVisits() {
-  let visits = JSON.parse(localStorage.getItem("visits")) || [];
-  visitList.innerHTML = visits.map(v =>
-    `<div class="entry"><strong>${v.date}</strong><br>${v.notes}</div>`
-  ).join("");
-}
-
-function saveCoparent() {
-  localStorage.setItem("coparentNotes", coparentNotes.value);
-  coparentDisplay.innerHTML = coparentNotes.value;
-}
-
-function saveTrustStep() {
-  let trust = JSON.parse(localStorage.getItem("trustSteps")) || [];
-  trust.push(trustStep.value);
-  localStorage.setItem("trustSteps", JSON.stringify(trust));
-  displayTrust();
-}
-
-function displayTrust() {
-  let trust = JSON.parse(localStorage.getItem("trustSteps")) || [];
-  trustList.innerHTML = trust.map(t =>
-    `<div class="entry">✔ ${t}</div>`
-  ).join("");
-}
-
-function loadFamilyData() {
-  familyGoalDisplay.innerHTML = localStorage.getItem("familyGoal") || "";
-  coparentDisplay.innerHTML = localStorage.getItem("coparentNotes") || "";
-}
-
-displayVisits();
-displayTrust();
-loadFamilyData();
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
-}
-
 </script>
 
 </body>
