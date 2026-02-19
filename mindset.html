@@ -27,7 +27,8 @@ body {
   padding: 6px 14px;
   border-radius: 20px;
   cursor: pointer;
-  margin-right: 15px;
+  margin-right: 10px;
+  font-weight: bold;
 }
 
 .container {
@@ -76,13 +77,9 @@ button {
   border-bottom: 1px solid #eee;
 }
 
-.call-btn {
-  display: inline-block;
-  background: #ff914d;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 6px;
-  margin-top: 6px;
+a {
+  color: #1f3c88;
+  font-weight: bold;
   text-decoration: none;
 }
 </style>
@@ -92,7 +89,8 @@ button {
 
 <div class="app-header">
   <button onclick="goBack()" class="back-btn">← Back</button>
-  <div>Mindset</div>
+  <div style="flex:1;">Mindset</div>
+  <button onclick="logoutUser()" class="back-btn">Logout</button>
 </div>
 
 <div class="container">
@@ -106,7 +104,7 @@ button {
 </div>
 
 <div class="card">
-<h3>📱 Daily Motivation</h3>
+<h3>📱 Daily Motivation Message</h3>
 <p id="smsMessage"></p>
 <button onclick="newSMS()">New Message</button>
 </div>
@@ -148,9 +146,8 @@ button {
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
@@ -162,10 +159,22 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const userId = "defaultUser";
+const auth = getAuth(app);
 
-/* NAV */
+/* PROTECT PAGE */
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "auth.html";
+  }
+});
+
+/* LOGOUT */
+window.logoutUser = function() {
+  signOut(auth).then(() => {
+    window.location.href = "auth.html";
+  });
+};
+
 window.goBack = function() {
   window.location.href = "index.html";
 };
@@ -183,142 +192,123 @@ window.newQuote = function() {
   document.getElementById("dailyQuote").textContent =
     quotes[Math.floor(Math.random() * quotes.length)];
 };
+
 newQuote();
 
 /* SMS */
-const sms = [
+const smsMessages = [
 "You got through yesterday. You can handle today.",
+"One good decision changes everything.",
+"Keep going. You’re rebuilding something strong.",
 "Consistency beats motivation.",
-"One decision changes everything.",
-"You’re rebuilding something strong.",
-"You are capable of change."
+"You’re not starting over — you’re starting smarter."
 ];
 
 window.newSMS = function() {
-  document.getElementById("smsMessage").textContent =
-    sms[Math.floor(Math.random() * sms.length)];
+  const msg = smsMessages[Math.floor(Math.random() * smsMessages.length)];
+  document.getElementById("smsMessage").textContent = msg;
+  localStorage.setItem("dailySMS", msg);
 };
-newSMS();
 
-/* REFLECTIONS */
-async function saveReflections() {
-  await setDoc(doc(db, "mindset", userId), {
-    r1: r1.value,
-    r2: r2.value,
-    r3: r3.value
-  }, { merge: true });
+if(localStorage.getItem("dailySMS")){
+  document.getElementById("smsMessage").textContent = localStorage.getItem("dailySMS");
+} else {
+  newSMS();
 }
 
-async function loadReflections() {
-  const snap = await getDoc(doc(db, "mindset", userId));
-  if (snap.exists()) {
-    const d = snap.data();
-    r1.value = d.r1 || "";
-    r2.value = d.r2 || "";
-    r3.value = d.r3 || "";
-    streakCount.textContent = d.streak || 0;
-    soberCount.textContent = d.sober || 0;
-  }
-}
-
+/* REFLECTION SAVE */
 ["r1","r2","r3"].forEach(id=>{
-  document.getElementById(id).addEventListener("input", saveReflections);
+  const el = document.getElementById(id);
+  const saved = localStorage.getItem(id);
+  if(saved) el.value = saved;
+  el.addEventListener("input", ()=>localStorage.setItem(id, el.value));
 });
 
 /* STREAK */
-window.updateStreak = async function() {
-  const snap = await getDoc(doc(db, "mindset", userId));
-  let streak = snap.exists() && snap.data().streak ? snap.data().streak + 1 : 1;
-  await setDoc(doc(db, "mindset", userId), { streak }, { merge: true });
-  streakCount.textContent = streak;
+window.updateStreak = function(){
+  let s = localStorage.getItem("streak");
+  s = s ? parseInt(s) + 1 : 1;
+  localStorage.setItem("streak", s);
+  document.getElementById("streakCount").textContent = s;
 };
 
+if(localStorage.getItem("streak")){
+  document.getElementById("streakCount").textContent = localStorage.getItem("streak");
+}
+
 /* SOBRIETY */
-soberCheck.addEventListener("change", async function(){
+let sober = localStorage.getItem("soberCount");
+if(sober){
+  document.getElementById("soberCount").textContent = sober;
+}
+
+document.getElementById("soberCheck").addEventListener("change", function(){
   if(this.checked){
-    const snap = await getDoc(doc(db, "mindset", userId));
-    let sober = snap.exists() && snap.data().sober ? snap.data().sober + 1 : 1;
-    await setDoc(doc(db, "mindset", userId), { sober }, { merge: true });
-    soberCount.textContent = sober;
+    sober = sober ? parseInt(sober)+1 : 1;
+    localStorage.setItem("soberCount", sober);
+    document.getElementById("soberCount").textContent = sober;
   }
 });
 
 /* APPOINTMENTS */
-window.addAppt = async function() {
-  if(!apptName.value || !apptDate.value) return;
-  await addDoc(collection(db, "appointments"), {
-    name: apptName.value,
-    date: apptDate.value
-  });
+window.addAppt = function(){
+  const name = apptName.value;
+  const date = apptDate.value;
+  if(!name || !date) return;
+
+  const appts = JSON.parse(localStorage.getItem("appts") || "[]");
+  appts.push({name, date});
+  localStorage.setItem("appts", JSON.stringify(appts));
   showAppts();
 };
 
-async function showAppts() {
-  apptList.innerHTML = "";
-  const snap = await getDocs(collection(db, "appointments"));
-  snap.forEach(docSnap=>{
-    const a = docSnap.data();
-    apptList.innerHTML += `
-      <div class="resource-item">
-        <strong>${a.name}</strong><br>
-        ${new Date(a.date).toLocaleString()}
-      </div>`;
-  });
-}
-showAppts();
+function showAppts(){
+  const list = document.getElementById("apptList");
+  list.innerHTML = "";
+  const appts = JSON.parse(localStorage.getItem("appts") || "[]");
 
-/* REMINDERS */
-async function checkReminders(){
-  const now = new Date();
-  notificationArea.innerHTML = "";
-  const snap = await getDocs(collection(db, "appointments"));
-  snap.forEach(docSnap=>{
-    const a = docSnap.data();
-    const diff = (new Date(a.date) - now)/(1000*60*60);
-    if(diff > 0 && diff <= 24){
-      notificationArea.innerHTML += `
-        <div class="notification">
-          Reminder: ${a.name} is within 24 hours!
-        </div>`;
-    }
+  appts.forEach(a=>{
+    list.innerHTML += `<div class="resource-item">
+      <strong>${a.name}</strong><br>
+      ${new Date(a.date).toLocaleString()}
+    </div>`;
   });
 }
-checkReminders();
-setInterval(checkReminders, 60000);
+
+showAppts();
 
 /* TEXAS CENTERS */
 const centers = [
-{city:"Austin", zip:"78701", name:"Integral Care", phone:"5124724357", link:"https://integralcare.org"},
-{city:"Dallas", zip:"75201", name:"Metrocare Services", phone:"2147431200", link:"https://www.metrocareservices.org"},
-{city:"Houston", zip:"77002", name:"The Harris Center", phone:"7139707000", link:"https://www.theharriscenter.org"},
-{city:"San Antonio", zip:"78205", name:"CHCS", phone:"2102611000", link:"https://www.chcsbc.org"}
+{city:"Austin", zip:"78701", name:"Integral Care", link:"https://integralcare.org"},
+{city:"Dallas", zip:"75201", name:"Metrocare Services", link:"https://www.metrocareservices.org"},
+{city:"Houston", zip:"77002", name:"The Harris Center", link:"https://www.theharriscenter.org"},
+{city:"San Antonio", zip:"78205", name:"Center for Health Care Services", link:"https://www.chcsbc.org"},
+{city:"Fort Worth", zip:"76102", name:"MHMR Tarrant County", link:"https://www.mhmrtarrant.org"},
+{city:"Tyler", zip:"75701", name:"Andrews Center", link:"https://www.andrewscenter.com"}
 ];
 
 function loadCenters(list){
-  centersList.innerHTML = "";
+  const div = document.getElementById("centersList");
+  div.innerHTML = "";
   list.forEach(c=>{
-    centersList.innerHTML += `
-      <div class="resource-item">
-        <strong>${c.name}</strong><br>
-        ${c.city}, TX ${c.zip}<br>
-        <a href="${c.link}" target="_blank">Visit Website</a><br>
-        <a href="tel:${c.phone}" class="call-btn">📞 Call Now</a>
-      </div>`;
+    div.innerHTML += `<div class="resource-item">
+      <strong>${c.name}</strong><br>
+      ${c.city}, TX ${c.zip}<br>
+      <a href="${c.link}" target="_blank">Visit Website</a>
+    </div>`;
   });
 }
+
 loadCenters(centers);
 
 window.filterCenters = function(){
-  const input = searchInput.value.toLowerCase();
-  loadCenters(
-    centers.filter(c =>
-      c.city.toLowerCase().includes(input) ||
-      c.zip.includes(input)
-    )
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const filtered = centers.filter(c =>
+    c.city.toLowerCase().includes(input) ||
+    c.zip.includes(input)
   );
+  loadCenters(filtered);
 };
-
-loadReflections();
 
 </script>
 
