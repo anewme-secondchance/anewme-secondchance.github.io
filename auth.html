@@ -92,16 +92,18 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "PASTE_YOURS",
-  authDomain: "PASTE_YOURS",
-  projectId: "PASTE_YOURS",
-  storageBucket: "PASTE_YOURS",
-  messagingSenderId: "PASTE_YOURS",
-  appId: "PASTE_YOURS"
+  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
+  authDomain: "a-new-me-1a17a.firebaseapp.com",
+  projectId: "a-new-me-1a17a",
+  storageBucket: "a-new-me-1a17a.firebasestorage.app",
+  messagingSenderId: "362235516132",
+  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1",
+  measurementId: "G-Y27Q04XYH1"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -111,7 +113,6 @@ let isLogin = true;
 
 window.toggleMode = function() {
   isLogin = !isLogin;
-
   document.getElementById("formTitle").innerText = isLogin ? "Login" : "Sign Up";
   document.getElementById("authBtn").innerText = isLogin ? "Login" : "Sign Up";
   document.getElementById("switchText").innerText =
@@ -145,7 +146,13 @@ window.handleAuth = function() {
         message.innerText = error.message;
       });
   }
-}
+};
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    window.location.href = "mindset.html";
+  }
+});
 
 </script>
 
