@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employment | A New Me</title>
+<title>Goals | A New Me</title>
 
 <style>
 body {
@@ -49,18 +49,26 @@ button {
 
 textarea {
   width: 100%;
+  min-height: 80px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-top: 8px;
 }
 
-.notice {
-  background: #ffdddd;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-size: 14px;
+.progress-bar {
+  height: 20px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #1f3c88;
+  transition: width 0.3s;
 }
 </style>
 </head>
@@ -68,83 +76,42 @@ textarea {
 <body>
 
 <div class="app-header">
-  <div>Employment</div>
+  <div>Goals Tracker</div>
   <button onclick="logout()">Logout</button>
 </div>
 
 <div class="container">
 
-<div class="notice">
-<strong>Important:</strong> Some employers may hire individuals with felony convictions,
-but acceptance depends on the specific charge, how long ago it occurred,
-and company policy. Always apply and let the employer decide.
+<div class="card">
+<h3>🏠 Housing Goal</h3>
+<textarea id="housingGoal" placeholder="Example: Secure stable housing within 60 days"></textarea>
 </div>
 
 <div class="card">
-<h3>👔 What Men Should Wear</h3>
-<ul>
-<li>Clean button-up or polo shirt</li>
-<li>Dark jeans or slacks (no rips)</li>
-<li>Closed-toe shoes or boots</li>
-<li>Trimmed facial hair</li>
-<li>Light deodorant</li>
-</ul>
+<h3>💼 Employment Goal</h3>
+<textarea id="jobGoal" placeholder="Example: Apply to 5 jobs per week"></textarea>
 </div>
 
 <div class="card">
-<h3>👗 What Women Should Wear</h3>
-<ul>
-<li>Blouse or modest top</li>
-<li>Dress pants or knee-length skirt</li>
-<li>Closed-toe flats or low heels</li>
-<li>Neat hairstyle</li>
-<li>Light makeup</li>
-</ul>
+<h3>💰 Financial Goal</h3>
+<textarea id="moneyGoal" placeholder="Example: Save $500 in 3 months"></textarea>
 </div>
 
 <div class="card">
-<h3>🎤 Interview Practice</h3>
-
-<label>Tell Me About Yourself</label>
-<textarea id="q1"></textarea>
-
-<label>Why Should We Hire You?</label>
-<textarea id="q2"></textarea>
-
-<label>How Have You Grown?</label>
-<textarea id="q3"></textarea>
-
-<label>If Asked About Your Record</label>
-<textarea id="q4"></textarea>
-
-<button onclick="saveEmployment()">Save Answers</button>
+<h3>🧠 Personal Growth Goal</h3>
+<textarea id="lifeGoal" placeholder="Example: Attend counseling weekly"></textarea>
 </div>
 
 <div class="card">
-<h3>📄 Resume Example</h3>
-<p><strong>Kitchen Worker – State Facility</strong></p>
-<ul>
-<li>Prepared meals for 2,000+ individuals daily</li>
-<li>Maintained sanitation standards</li>
-<li>Worked in fast-paced team environment</li>
-</ul>
-
-<p><strong>Maintenance Assistant</strong></p>
-<ul>
-<li>Performed plumbing and repair tasks</li>
-<li>Followed safety procedures</li>
-<li>Completed task logs daily</li>
-</ul>
+<h3>📊 Progress</h3>
+<input type="range" id="progressSlider" min="0" max="100">
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+<p><strong id="progressPercent">0%</strong> Complete</p>
 </div>
 
-<div class="card">
-<h3>📌 Helpful Programs</h3>
-<ul>
-<li><a href="https://www.texasworkforce.org/project-rio" target="_blank">Project RIO – Texas Workforce</a></li>
-<li><a href="https://www.voatx.org/" target="_blank">VOA Texas Fresh Start</a></li>
-<li><a href="https://milesoffreedom.org/" target="_blank">Miles of Freedom</a></li>
-</ul>
-</div>
+<button onclick="saveGoals()">Save Goals</button>
 
 </div>
 
@@ -184,7 +151,7 @@ onAuthStateChanged(auth, async user => {
     window.location.href = "auth.html";
   } else {
     currentUser = user;
-    loadEmployment();
+    loadGoals();
   }
 });
 
@@ -194,32 +161,46 @@ window.logout = function() {
   });
 };
 
-window.saveEmployment = async function() {
+window.saveGoals = async function() {
+
   const data = {
-    about: document.getElementById("q1").value,
-    hire: document.getElementById("q2").value,
-    growth: document.getElementById("q3").value,
-    record: document.getElementById("q4").value
+    housingGoal: document.getElementById("housingGoal").value,
+    jobGoal: document.getElementById("jobGoal").value,
+    moneyGoal: document.getElementById("moneyGoal").value,
+    lifeGoal: document.getElementById("lifeGoal").value,
+    progress: document.getElementById("progressSlider").value
   };
 
   await setDoc(doc(db, "users", currentUser.uid), {
-    employment: data
+    goals: data
   }, { merge: true });
 
-  alert("Saved ✓");
+  alert("Goals Saved ✓");
 };
 
-async function loadEmployment() {
+async function loadGoals() {
   const docSnap = await getDoc(doc(db, "users", currentUser.uid));
   if (docSnap.exists()) {
     const data = docSnap.data();
-    if (data.employment) {
-      document.getElementById("q1").value = data.employment.about || "";
-      document.getElementById("q2").value = data.employment.hire || "";
-      document.getElementById("q3").value = data.employment.growth || "";
-      document.getElementById("q4").value = data.employment.record || "";
+    if (data.goals) {
+      document.getElementById("housingGoal").value = data.goals.housingGoal || "";
+      document.getElementById("jobGoal").value = data.goals.jobGoal || "";
+      document.getElementById("moneyGoal").value = data.goals.moneyGoal || "";
+      document.getElementById("lifeGoal").value = data.goals.lifeGoal || "";
+      document.getElementById("progressSlider").value = data.goals.progress || 0;
+      updateProgress(data.goals.progress || 0);
     }
   }
+}
+
+const slider = document.getElementById("progressSlider");
+slider.addEventListener("input", function() {
+  updateProgress(this.value);
+});
+
+function updateProgress(value) {
+  document.getElementById("progressFill").style.width = value + "%";
+  document.getElementById("progressPercent").textContent = value + "%";
 }
 
 </script>
