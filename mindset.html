@@ -6,67 +6,70 @@
 <title>Mindset | A New Me</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #eef2f7;
-}
+body { margin:0; font-family:Arial; background:#eef2f7; }
 
 .app-header {
-  display: flex;
-  align-items: center;
-  background: #1f3c88;
-  color: white;
-  padding: 15px;
+  display:flex;
+  align-items:center;
+  background:#1f3c88;
+  color:white;
+  padding:15px;
 }
 
 .back-btn {
-  background: white;
-  color: #1f3c88;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  margin-right: 15px;
+  background:white;
+  color:#1f3c88;
+  border:none;
+  padding:6px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  margin-right:15px;
 }
 
 .container {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
+  padding:20px;
+  max-width:900px;
+  margin:auto;
 }
 
 .card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
-textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-top: 8px;
+textarea, input {
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin-top:8px;
 }
 
 button {
-  background: #1f3c88;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 10px;
+  background:#1f3c88;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:6px;
+  cursor:pointer;
+  margin-top:10px;
 }
 
-.sober-box {
-  background: #f0f7ff;
-  border-left: 5px solid #1f3c88;
-  padding: 15px;
-  border-radius: 10px;
+.progress-bar {
+  background:#ddd;
+  border-radius:20px;
+  overflow:hidden;
+  height:15px;
+  margin-top:10px;
+}
+
+.progress-fill {
+  background:#1f3c88;
+  height:100%;
+  width:0%;
 }
 </style>
 </head>
@@ -74,13 +77,20 @@ button {
 <body>
 
 <div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
-  <div>Mindset</div>
+<button onclick="goBack()" class="back-btn">← Back</button>
+<div>Mindset</div>
 </div>
 
 <div class="container">
 
-<!-- JOURNALING -->
+<!-- DAILY AFFIRMATION -->
+<div class="card">
+<h3>💬 Today’s Affirmation</h3>
+<p id="affirmationText"></p>
+<button onclick="newAffirmation()">New Affirmation</button>
+</div>
+
+<!-- JOURNAL -->
 <div class="card">
 <h3>What went well today?</h3>
 <textarea id="r1"></textarea>
@@ -96,22 +106,39 @@ button {
 <textarea id="r3"></textarea>
 </div>
 
-<!-- CONSISTENCY STREAK -->
+<!-- GRATITUDE -->
+<div class="card">
+<h3>🙏 3 Things I’m Grateful For</h3>
+<textarea id="gratitude"></textarea>
+</div>
+
+<!-- 90 DAY GOAL -->
+<div class="card">
+<h3>🎯 My 90-Day Goal</h3>
+<textarea id="goal90"></textarea>
+</div>
+
+<!-- CONSISTENCY -->
 <div class="card">
 <h3>🔥 Consistency Streak</h3>
 <p>Days checked in: <strong id="streakCount">0</strong></p>
 <button onclick="updateStreak()">Mark Today Complete</button>
 </div>
 
-<!-- ADVANCED SOBRIETY TRACKER -->
-<div class="card sober-box">
+<!-- SOBRIETY -->
+<div class="card">
 <h3>💪 Sobriety Tracker</h3>
 
 <p>Current Streak: <strong id="soberCurrent">0</strong> days</p>
 <p>Longest Streak: <strong id="soberLongest">0</strong> days</p>
 <p>Total Sober Days: <strong id="soberTotal">0</strong></p>
 
+<div class="progress-bar">
+<div id="progressFill" class="progress-fill"></div>
+</div>
+
 <button onclick="markSoberDay()">I Stayed Sober Today</button>
+<button style="background:#c0392b;" onclick="resetSobriety()">Reset (Relapse)</button>
 
 <p id="soberMessage" style="margin-top:10px;color:green;"></p>
 </div>
@@ -120,86 +147,133 @@ button {
 
 <script>
 
-function goBack() {
-  window.location.href = "index.html";
+function goBack(){ window.location.href="index.html"; }
+
+/* DATA STORAGE */
+
+function loadData(){
+return JSON.parse(localStorage.getItem("mindsetData")) || {
+r1:"", r2:"", r3:"",
+gratitude:"",
+goal90:"",
+streak:0,
+soberCurrent:0,
+soberLongest:0,
+soberTotal:0,
+lastSoberDate:null
+};
 }
 
-/* SAVE + LOAD */
-
-function saveData(data) {
-  localStorage.setItem("mindsetData", JSON.stringify(data));
-}
-
-function loadData() {
-  return JSON.parse(localStorage.getItem("mindsetData")) || {
-    r1: "",
-    r2: "",
-    r3: "",
-    streak: 0,
-    soberCurrent: 0,
-    soberLongest: 0,
-    soberTotal: 0,
-    lastSoberDate: null
-  };
-}
-
-/* INITIAL LOAD */
+function saveData(){ localStorage.setItem("mindsetData", JSON.stringify(data)); }
 
 let data = loadData();
 
-document.getElementById("r1").value = data.r1;
-document.getElementById("r2").value = data.r2;
-document.getElementById("r3").value = data.r3;
-document.getElementById("streakCount").innerText = data.streak;
-document.getElementById("soberCurrent").innerText = data.soberCurrent;
-document.getElementById("soberLongest").innerText = data.soberLongest;
-document.getElementById("soberTotal").innerText = data.soberTotal;
+/* LOAD VALUES */
 
-/* AUTO SAVE JOURNAL */
+document.getElementById("r1").value=data.r1;
+document.getElementById("r2").value=data.r2;
+document.getElementById("r3").value=data.r3;
+document.getElementById("gratitude").value=data.gratitude;
+document.getElementById("goal90").value=data.goal90;
+document.getElementById("streakCount").innerText=data.streak;
+document.getElementById("soberCurrent").innerText=data.soberCurrent;
+document.getElementById("soberLongest").innerText=data.soberLongest;
+document.getElementById("soberTotal").innerText=data.soberTotal;
 
-["r1","r2","r3"].forEach(id=>{
-  document.getElementById(id).addEventListener("input", ()=>{
-    data[id] = document.getElementById(id).value;
-    saveData(data);
-  });
+/* AUTO SAVE TEXTAREAS */
+
+["r1","r2","r3","gratitude","goal90"].forEach(id=>{
+document.getElementById(id).addEventListener("input",()=>{
+data[id]=document.getElementById(id).value;
+saveData();
+});
 });
 
 /* CONSISTENCY */
 
-function updateStreak() {
-  data.streak++;
-  document.getElementById("streakCount").innerText = data.streak;
-  saveData(data);
+function updateStreak(){
+data.streak++;
+document.getElementById("streakCount").innerText=data.streak;
+saveData();
 }
 
-/* SOBRIETY TRACKER */
+/* SOBRIETY */
 
-function markSoberDay() {
-  const today = new Date().toDateString();
-
-  if (data.lastSoberDate === today) {
-    document.getElementById("soberMessage").innerText =
-      "You already marked today. Keep going.";
-    return;
-  }
-
-  data.soberCurrent++;
-  data.soberTotal++;
-  data.lastSoberDate = today;
-
-  if (data.soberCurrent > data.soberLongest) {
-    data.soberLongest = data.soberCurrent;
-  }
-
-  document.getElementById("soberCurrent").innerText = data.soberCurrent;
-  document.getElementById("soberLongest").innerText = data.soberLongest;
-  document.getElementById("soberTotal").innerText = data.soberTotal;
-
-  document.getElementById("soberMessage").innerText =
-    "Day recorded. Keep building.";
-
-  saveData(data);
+function updateProgress(){
+let percent=Math.min((data.soberCurrent/90)*100,100);
+document.getElementById("progressFill").style.width=percent+"%";
 }
+
+function markSoberDay(){
+const today=new Date().toDateString();
+if(data.lastSoberDate===today){
+document.getElementById("soberMessage").innerText="Already recorded today.";
+return;
+}
+
+data.soberCurrent++;
+data.soberTotal++;
+data.lastSoberDate=today;
+
+if(data.soberCurrent>data.soberLongest){
+data.soberLongest=data.soberCurrent;
+}
+
+checkMilestones();
+
+document.getElementById("soberCurrent").innerText=data.soberCurrent;
+document.getElementById("soberLongest").innerText=data.soberLongest;
+document.getElementById("soberTotal").innerText=data.soberTotal;
+
+updateProgress();
+saveData();
+}
+
+function resetSobriety(){
+if(confirm("Are you sure you want to reset your sobriety streak?")){
+data.soberCurrent=0;
+data.lastSoberDate=null;
+document.getElementById("soberCurrent").innerText=0;
+document.getElementById("soberMessage").innerText="Streak reset. Start again stronger.";
+updateProgress();
+saveData();
+}
+}
+
+function checkMilestones(){
+let message="";
+switch(data.soberCurrent){
+case 7: message="🎉 7 Days! Strong start!"; break;
+case 30: message="🔥 30 Days! Major progress!"; break;
+case 90: message="💪 90 Days! Life changing discipline!"; break;
+case 180: message="🚀 6 Months! Incredible strength!"; break;
+case 365: message="🏆 1 Year Sober! Elite level commitment!"; break;
+}
+if(message){
+document.getElementById("soberMessage").innerText=message;
+}
+}
+
+/* AFFIRMATIONS */
+
+const affirmations=[
+"I am not my past. I am building my future.",
+"Consistency beats intensity.",
+"I am rebuilding with purpose.",
+"My discipline defines me.",
+"I choose growth over comfort.",
+"One good decision today changes everything.",
+"I am stronger than my urges.",
+"Progress, not perfection."
+];
+
+function newAffirmation(){
+let random=affirmations[Math.floor(Math.random()*affirmations.length)];
+document.getElementById("affirmationText").innerText=random;
+}
+
+newAffirmation();
+updateProgress();
 
 </script>
 
