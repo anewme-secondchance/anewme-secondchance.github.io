@@ -3,40 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Money Planner | A New Me</title>
+<title>Money Plan | A New Me</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   background: #eef2f7;
 }
 
+/* Header */
 .app-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background: #1f3c88;
   color: white;
   padding: 15px;
 }
 
-button {
+.back-btn {
   background: white;
   color: #1f3c88;
   border: none;
   padding: 6px 14px;
   border-radius: 20px;
   cursor: pointer;
+  margin-right: 15px;
   font-weight: bold;
-  margin-top: 10px;
 }
 
 .container {
   padding: 20px;
   max-width: 900px;
   margin: auto;
-  padding-bottom: 80px;
 }
 
 .card {
@@ -47,169 +46,138 @@ button {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-input, textarea {
+input {
   width: 100%;
   padding: 10px;
+  margin-top: 8px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  margin-top: 8px;
 }
 
-.notice {
-  background: #fff4cc;
-  padding: 10px;
-  border-radius: 8px;
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
   margin-top: 10px;
 }
 
+.success {
+  margin-top: 10px;
+  color: green;
+  font-weight: bold;
+}
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="app-header">
-  <div>Money Planner</div>
-  <button onclick="logout()">Logout</button>
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <div>Financial Stability</div>
 </div>
 
 <div class="container">
 
+<!-- INCOME TRACKER -->
 <div class="card">
-<h3>💵 Weekly Budget</h3>
+<h3>💵 Monthly Income</h3>
 
-<label>Weekly Income</label>
+<label>Total Monthly Income:</label>
 <input type="number" id="income">
 
-<label>Rent</label>
+</div>
+
+<!-- EXPENSE TRACKER -->
+<div class="card">
+<h3>💳 Monthly Expenses</h3>
+
+<label>Rent:</label>
 <input type="number" id="rent">
 
-<label>Utilities</label>
+<label>Utilities:</label>
 <input type="number" id="utilities">
 
-<label>Food</label>
+<label>Food:</label>
 <input type="number" id="food">
 
-<label>Transportation</label>
-<input type="number" id="transport">
+<label>Transportation:</label>
+<input type="number" id="transportation">
 
-<label>Savings Goal</label>
-<input type="number" id="savings">
+<label>Other:</label>
+<input type="number" id="other">
 
-<button onclick="calculate()">Calculate Remaining</button>
+<button onclick="calculateBudget()">Calculate Budget</button>
 
-<p><strong>Remaining:</strong> $<span id="remaining">0</span></p>
-
+<div id="budgetResult" class="success"></div>
 </div>
 
+<!-- SAVINGS PLAN -->
 <div class="card">
-<h3>🏦 Banking Tips</h3>
-<ul>
-<li>Credit unions are often more flexible</li>
-<li>Bring ID and Social Security card</li>
-<li>Ask about second-chance banking accounts</li>
-</ul>
-</div>
+<h3>🏦 Savings Goal</h3>
 
-<div class="card">
-<h3>🚫 Avoid Payday Loans</h3>
-<div class="notice">
-Payday loans charge extremely high interest rates.  
-Use credit unions or payment plans instead.
-</div>
-</div>
+<label>How much do I want to save?</label>
+<input type="number" id="savingsGoal">
 
-<div class="card">
-<h3>📈 Rebuild Credit</h3>
-<ul>
-<li>Get a secured credit card</li>
-<li>Pay bills on time</li>
-<li>Keep balances low</li>
-<li>Check credit report yearly</li>
-</ul>
+<button onclick="saveMoneyPlan()">Save Financial Plan</button>
+
+<div id="savedMessage" class="success"></div>
 </div>
 
 </div>
 
-<script type="module">
+<script>
+function goBack() {
+  window.location.href = "index.html";
+}
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { 
-  getAuth,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+function calculateBudget() {
+  const income = parseFloat(document.getElementById("income").value) || 0;
+  const rent = parseFloat(document.getElementById("rent").value) || 0;
+  const utilities = parseFloat(document.getElementById("utilities").value) || 0;
+  const food = parseFloat(document.getElementById("food").value) || 0;
+  const transportation = parseFloat(document.getElementById("transportation").value) || 0;
+  const other = parseFloat(document.getElementById("other").value) || 0;
 
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  const totalExpenses = rent + utilities + food + transportation + other;
+  const remaining = income - totalExpenses;
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
-  authDomain: "a-new-me-1a17a.firebaseapp.com",
-  projectId: "a-new-me-1a17a",
-  storageBucket: "a-new-me-1a17a.firebasestorage.app",
-  messagingSenderId: "362235516132",
-  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
-};
+  document.getElementById("budgetResult").innerText =
+    "Remaining after expenses: $" + remaining.toFixed(2);
+}
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+function saveMoneyPlan() {
+  const plan = {
+    income: document.getElementById("income").value,
+    rent: document.getElementById("rent").value,
+    utilities: document.getElementById("utilities").value,
+    food: document.getElementById("food").value,
+    transportation: document.getElementById("transportation").value,
+    other: document.getElementById("other").value,
+    savingsGoal: document.getElementById("savingsGoal").value
+  };
 
-let currentUser;
+  localStorage.setItem("moneyPlan", JSON.stringify(plan));
+  document.getElementById("savedMessage").innerText = "✅ Financial plan saved.";
+}
 
-onAuthStateChanged(auth, async user => {
-  if (!user) {
-    window.location.href = "auth.html";
-  } else {
-    currentUser = user;
-    loadBudget();
-  }
-});
-
-window.logout = function() {
-  signOut(auth).then(() => {
-    window.location.href = "auth.html";
-  });
-};
-
-window.calculate = async function() {
-
-  const income = Number(document.getElementById("income").value) || 0;
-  const rent = Number(document.getElementById("rent").value) || 0;
-  const utilities = Number(document.getElementById("utilities").value) || 0;
-  const food = Number(document.getElementById("food").value) || 0;
-  const transport = Number(document.getElementById("transport").value) || 0;
-  const savings = Number(document.getElementById("savings").value) || 0;
-
-  const remaining = income - (rent + utilities + food + transport + savings);
-  document.getElementById("remaining").innerText = remaining;
-
-  await setDoc(doc(db, "users", currentUser.uid), {
-    budget: {
-      income, rent, utilities, food, transport, savings
-    }
-  }, { merge: true });
-};
-
-async function loadBudget() {
-  const docSnap = await getDoc(doc(db, "users", currentUser.uid));
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    if (data.budget) {
-      document.getElementById("income").value = data.budget.income || "";
-      document.getElementById("rent").value = data.budget.rent || "";
-      document.getElementById("utilities").value = data.budget.utilities || "";
-      document.getElementById("food").value = data.budget.food || "";
-      document.getElementById("transport").value = data.budget.transport || "";
-      document.getElementById("savings").value = data.budget.savings || "";
-    }
+function loadMoneyPlan() {
+  const saved = JSON.parse(localStorage.getItem("moneyPlan"));
+  if (saved) {
+    document.getElementById("income").value = saved.income || "";
+    document.getElementById("rent").value = saved.rent || "";
+    document.getElementById("utilities").value = saved.utilities || "";
+    document.getElementById("food").value = saved.food || "";
+    document.getElementById("transportation").value = saved.transportation || "";
+    document.getElementById("other").value = saved.other || "";
+    document.getElementById("savingsGoal").value = saved.savingsGoal || "";
   }
 }
 
+loadMoneyPlan();
 </script>
 
 </body>
