@@ -8,18 +8,16 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #eef2f7;
 }
 
-/* App Header */
 .app-header {
   display: flex;
   align-items: center;
   background: #1f3c88;
   color: white;
   padding: 15px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
 .back-btn {
@@ -28,14 +26,9 @@ body {
   border: none;
   padding: 6px 14px;
   border-radius: 20px;
-  font-size: 14px;
   cursor: pointer;
   margin-right: 15px;
-}
-
-.back-btn:hover {
-  background: #ff914d;
-  color: white;
+  font-weight: bold;
 }
 
 .page-title {
@@ -43,10 +36,9 @@ body {
   font-weight: bold;
 }
 
-/* Content */
 .container {
   padding: 20px;
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
 }
 
@@ -61,61 +53,155 @@ body {
 ul {
   padding-left: 20px;
 }
+
+a {
+  color: #1f3c88;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
+textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
 </style>
 </head>
 
 <body>
 
 <div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
-  <div class="page-title">Housing</div>
+<button onclick="goBack()" class="back-btn">← Back</button>
+<div class="page-title">Housing</div>
 </div>
 
 <div class="container">
 
+<!-- STATEWIDE HELP -->
 <div class="card">
-<h3>Housing Assistance</h3>
+<h3>🏠 Statewide Housing Help (Texas)</h3>
 <ul>
-<li>Transitional housing programs</li>
-<li>Emergency shelters</li>
-<li>Halfway houses</li>
-<li>Permanent supportive housing</li>
-<li>Reentry housing referrals</li>
+<li><strong>Texas 2-1-1</strong> – Dial 2-1-1  
+<br><a href="https://www.211texas.org" target="_blank">211texas.org</a></li>
+
+<li><strong>Texas Department of Housing & Community Affairs</strong>  
+<br><a href="https://www.tdhca.state.tx.us" target="_blank">tdhca.state.tx.us</a></li>
+
+<li><strong>HUD Housing Search</strong>  
+<br><a href="https://www.hud.gov" target="_blank">hud.gov</a></li>
 </ul>
 </div>
 
+<!-- MAJOR CITY EXAMPLES -->
 <div class="card">
-<h3>Important Documents Needed</h3>
+<h3>📍 Major Texas Reentry Housing Programs</h3>
+
+<ul>
+<li><strong>Dallas – Unlocking Doors</strong>  
+<br><a href="https://www.unlockingdoors.org" target="_blank">unlockingdoors.org</a></li>
+
+<li><strong>Houston – The Women's Home</strong>  
+<br><a href="https://www.thewomenshome.org" target="_blank">thewomenshome.org</a></li>
+
+<li><strong>San Antonio – Bexar County Reentry Center</strong>  
+<br><a href="https://www.bexar.org/3509/Reentry-Center" target="_blank">bexar.org/reentry</a></li>
+
+<li><strong>Austin – Texas Offenders Reentry Initiative (TORI)</strong>  
+<br><a href="https://www.medc-tori.org" target="_blank">medc-tori.org</a></li>
+</ul>
+
+<p>💡 Many cities have halfway houses, sober living, and faith-based transitional homes.</p>
+</div>
+
+<!-- DOCUMENTS -->
+<div class="card">
+<h3>📄 Important Documents Needed</h3>
 <ul>
 <li>State ID or Driver’s License</li>
 <li>Social Security Card</li>
 <li>Birth Certificate</li>
-<li>Proof of Income</li>
-<li>Proof of Address</li>
+<li>Proof of Income (pay stubs, job offer letter)</li>
+<li>Proof of Address (shelter letter, lease, halfway house letter)</li>
 </ul>
 </div>
 
+<!-- HOW TO APPLY -->
 <div class="card">
-<h3>Tips for Renting with a Record</h3>
+<h3>📝 How To Apply for Housing (Step-by-Step)</h3>
+
+<ol>
+<li>Call program directly and ask about availability.</li>
+<li>Ask what documents they require.</li>
+<li>Complete intake interview.</li>
+<li>Follow up politely within 3–5 days.</li>
+<li>Keep a notebook of who you called and dates.</li>
+</ol>
+
+<p><strong>Example Call Script:</strong></p>
+<p>
+“Hello, my name is ____. I am recently reentering the community and looking for stable housing. 
+I am employed / actively seeking work and have my ID. Could you tell me what steps I need to take to apply?”
+</p>
+</div>
+
+<!-- RENTING WITH A RECORD -->
+<div class="card">
+<h3>🔑 Tips for Renting with a Record</h3>
+
 <ul>
 <li>Be honest but brief about your past.</li>
-<li>Provide references if possible.</li>
+<li>Provide references (employer, mentor, PO if appropriate).</li>
 <li>Show proof of stable income.</li>
-<li>Offer a larger deposit if needed.</li>
-<li>Stay professional and confident.</li>
+<li>Offer larger deposit if possible.</li>
+<li>Stay calm and professional.</li>
 </ul>
+
+<p><strong>Example Explanation Script:</strong></p>
+<p>
+“I had a legal issue in the past, but I’ve completed all requirements and have been working steadily. 
+I’m focused on stability and being a responsible tenant.”
+</p>
+</div>
+
+<!-- PERSONAL PLAN -->
+<div class="card">
+<h3>📋 My Housing Plan</h3>
+
+<label>Where I am staying now:</label>
+<textarea id="h1"></textarea>
+
+<label>Backup housing option:</label>
+<textarea id="h2"></textarea>
+
+<label>Next place I will apply:</label>
+<textarea id="h3"></textarea>
+
 </div>
 
 </div>
 
 <script>
 function goBack() {
-  if (document.referrer !== "") {
-    window.history.back();
-  } else {
-    window.location.href = "index.html";
-  }
+  window.location.href = "index.html";
 }
+
+/* Auto Save */
+function autoSave(id,key){
+  const field=document.getElementById(id);
+  const saved=localStorage.getItem(key);
+  if(saved) field.value=saved;
+  field.addEventListener("input",()=>{
+    localStorage.setItem(key,field.value);
+  });
+}
+
+autoSave("h1","housing1");
+autoSave("h2","housing2");
+autoSave("h3","housing3");
 </script>
 
 </body>
