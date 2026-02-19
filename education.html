@@ -64,22 +64,22 @@ a {
   font-weight: bold;
   text-decoration: none;
 }
+a:hover { text-decoration: underline; }
 
-a:hover {
-  text-decoration: underline;
-}
+ul { padding-left: 20px; }
 </style>
 </head>
 
 <body>
 
 <div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
-  <div class="page-title">Education & GED</div>
+<button onclick="goBack()" class="back-btn">← Back</button>
+<div class="page-title">Education & GED</div>
 </div>
 
 <div class="container">
 
+<!-- ORIGINAL GED SECTION -->
 <div class="card">
 <h3>📘 GED Information</h3>
 <p>You can earn your GED online or at local testing centers.</p>
@@ -95,7 +95,6 @@ Texas Adult Education & Literacy
 
 <div class="card">
 <h3>📝 GED Enrollment Plan</h3>
-
 <label>Why do I want my GED?</label>
 <textarea id="ged1"></textarea>
 
@@ -104,9 +103,9 @@ Texas Adult Education & Literacy
 
 <label>My test goal date:</label>
 <textarea id="ged3"></textarea>
-
 </div>
 
+<!-- ORIGINAL COLLEGE SECTION -->
 <div class="card">
 <h3>🎓 How To Apply For College</h3>
 
@@ -125,12 +124,10 @@ Texas Adult Education & Literacy
 
 <p><strong>Texas Common Application:</strong></p>
 <a href="https://www.applytexas.org/" target="_blank">https://www.applytexas.org</a>
-
 </div>
 
 <div class="card">
 <h3>📋 College Application Practice</h3>
-
 <label>School I Want To Apply To:</label>
 <textarea id="college1"></textarea>
 
@@ -142,9 +139,90 @@ Texas Adult Education & Literacy
 
 <label>How will education improve my life?</label>
 <textarea id="college4"></textarea>
-
 </div>
 
+<!-- NEW TRADE SCHOOL SECTION -->
+<div class="card">
+<h3>🔧 Trade Schools & Skilled Careers</h3>
+<ul>
+<li>Electrician</li>
+<li>HVAC Technician</li>
+<li>Welding</li>
+<li>Plumbing</li>
+<li>Heavy Equipment Operator</li>
+<li>Commercial Truck Driving (CDL)</li>
+<li>Automotive Technician</li>
+<li>Medical Assistant</li>
+<li>Certified Nursing Assistant (CNA)</li>
+</ul>
+
+<p><strong>Find Programs:</strong></p>
+<ul>
+<li><a href="https://www.careeronestop.org" target="_blank">CareerOneStop Training Finder</a></li>
+<li><a href="https://www.apprenticeship.gov" target="_blank">Apprenticeship.gov</a></li>
+<li><a href="https://www.twc.texas.gov/jobseekers/training-education" target="_blank">Texas Workforce Training</a></li>
+</ul>
+</div>
+
+<!-- CERTIFICATIONS -->
+<div class="card">
+<h3>📜 Fast Certification Programs</h3>
+<ul>
+<li>OSHA 10 / OSHA 30</li>
+<li>Forklift Certification</li>
+<li>ServSafe Food Handler</li>
+<li>CPR / First Aid</li>
+<li>CDL License</li>
+<li>Google IT Support Certificate</li>
+<li>Microsoft Office Certification</li>
+</ul>
+
+<p><strong>Online Options:</strong></p>
+<ul>
+<li><a href="https://grow.google/certificates/" target="_blank">Google Career Certificates</a></li>
+<li><a href="https://www.linkedin.com/learning/" target="_blank">LinkedIn Learning</a></li>
+<li><a href="https://www.coursera.org" target="_blank">Coursera</a></li>
+</ul>
+</div>
+
+<!-- FAST $20+ CAREERS -->
+<div class="card">
+<h3>💵 Careers That Often Pay $20+/hr</h3>
+<ul>
+<li>Truck Driver (CDL)</li>
+<li>Welder</li>
+<li>Electrician Apprentice</li>
+<li>HVAC Technician</li>
+<li>Oilfield Worker</li>
+<li>Industrial Maintenance</li>
+<li>Commercial Construction</li>
+</ul>
+</div>
+
+<!-- LICENSING NOTES -->
+<div class="card">
+<h3>⚖ Licensing & Background Notes</h3>
+<p>Some state licenses may have restrictions depending on offense type.</p>
+<ul>
+<li>Healthcare licenses may restrict violent or fraud offenses.</li>
+<li>CDL eligibility varies by offense and time passed.</li>
+<li>Security guard licenses vary by state.</li>
+</ul>
+<p>Always check your state's licensing board before enrolling.</p>
+</div>
+
+<!-- SCHOLARSHIPS & PELL -->
+<div class="card">
+<h3>💰 Financial Aid & Scholarships</h3>
+<ul>
+<li><strong>Pell Grant:</strong> Available to many returning citizens through FAFSA.</li>
+<li><strong>Workforce Grants:</strong> Often available through state workforce offices.</li>
+<li><strong>Local Reentry Scholarships:</strong> Check nonprofits in your city.</li>
+</ul>
+<p>Many states restored Pell Grant eligibility for incarcerated and formerly incarcerated students.</p>
+</div>
+
+<!-- ENCOURAGEMENT -->
 <div class="card">
 <h3>💡 Encouragement</h3>
 <p>
@@ -156,8 +234,8 @@ It’s about proving to yourself you can do hard things.
 
 <p>
 Your past does not block your education.  
-Many colleges accept returning citizens.  
-Financial aid is available.
+Many colleges and trade programs accept returning citizens.  
+Financial aid and grants are available.
 </p>
 </div>
 
@@ -168,12 +246,10 @@ function goBack() {
   window.location.href = "index.html";
 }
 
-/* Auto Save */
 function setupSave(id, key) {
   const field = document.getElementById(id);
   const saved = localStorage.getItem(key);
   if (saved) field.value = saved;
-
   field.addEventListener("input", () => {
     localStorage.setItem(key, field.value);
   });
