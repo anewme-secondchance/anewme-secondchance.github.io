@@ -7,28 +7,63 @@
 
 <style>
 body { margin:0; font-family:Arial; background:#eef2f7; }
-.header { background:#1f3c88; color:white; padding:25px; text-align:center; }
+
+.header {
+  background:#1f3c88;
+  color:white;
+  padding:20px;
+  display:flex;
+  align-items:center;
+}
+
+.back-btn {
+  background:white;
+  color:#1f3c88;
+  border:none;
+  padding:6px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  margin-right:15px;
+  font-weight:bold;
+}
+
 .container { padding:20px; max-width:1000px; margin:auto; }
-.card { background:white; padding:15px; border-radius:10px; margin-bottom:12px; box-shadow:0 3px 8px rgba(0,0,0,0.08); }
-.button { background:#1f3c88; color:white; padding:8px 12px; border-radius:6px; text-decoration:none; display:inline-block; margin-top:5px; }
-.save-btn { background:#ff914d; border:none; padding:6px 10px; border-radius:5px; cursor:pointer; color:white; margin-top:8px; }
-input, select, textarea { padding:8px; margin-bottom:8px; width:100%; max-width:400px; }
-form { margin-top:20px; background:white; padding:15px; border-radius:10px; }
-h3 { margin-top:30px; }
+
+.card {
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:12px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.08);
+}
+
+.save-btn {
+  background:#ff914d;
+  border:none;
+  padding:6px 10px;
+  border-radius:5px;
+  cursor:pointer;
+  color:white;
+  margin-top:8px;
+}
+
+input, select {
+  padding:8px;
+  margin-bottom:8px;
+  width:100%;
+  max-width:400px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-<h1>Texas Reentry Resource Directory</h1>
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <h2>Texas Reentry Resource Directory</h2>
 </div>
 
 <div class="container">
-
-<a href="index.html" class="button">← Back to Home</a>
-
-<br><br>
 
 <input type="text" id="searchInput" placeholder="Search by name..." onkeyup="renderResources()">
 
@@ -36,10 +71,8 @@ h3 { margin-top:30px; }
 <option value="">All Cities</option>
 <option>Tyler</option>
 <option>Dallas</option>
-<option>Fort Worth</option>
 <option>Houston</option>
-<option>San Antonio</option>
-<option>Austin</option>
+<option>Statewide</option>
 </select>
 
 <select id="categoryFilter" onchange="renderResources()">
@@ -55,29 +88,56 @@ h3 { margin-top:30px; }
 <h3>All Resources</h3>
 <div id="resourceList"></div>
 
-<h3>Suggest a Resource</h3>
-
-<form onsubmit="submitSuggestion(event)">
-<input type="text" id="suggestName" placeholder="Organization Name" required>
-<input type="text" id="suggestCity" placeholder="City" required>
-<select id="suggestCategory" required>
-<option value="">Select Category</option>
-<option>Housing</option>
-<option>Employment</option>
-<option>Health</option>
-</select>
-<input type="text" id="suggestWebsite" placeholder="Website URL">
-<textarea id="suggestNotes" placeholder="Additional Notes"></textarea>
-<button class="button" type="submit">Submit Suggestion</button>
-</form>
-
-<h3>Community Suggestions</h3>
-<div id="suggestionList"></div>
-
 </div>
 
-<script src="resources-data.js"></script>
 <script>
+
+function goBack() {
+  window.location.href = "index.html";
+}
+
+/* RESOURCE DATA */
+const resources = [
+
+  {
+    name: "Bethesda Health Clinic",
+    city: "Tyler",
+    category: "Health",
+    phone: "903-596-8353",
+    website: "https://www.bethesdaclinic.org",
+    notes: "Free and low-cost medical and dental care for uninsured East Texas residents."
+  },
+
+  {
+    name: "ETBU Counseling Center",
+    city: "Tyler",
+    category: "Health",
+    phone: "903-923-2360",
+    website: "",
+    notes: "Call the Marshall office at 903-923-2360. Press the number option and request to be directed to the Tyler Counseling Center. Email: counseling@etbu.edu"
+  },
+
+  {
+    name: "Salvation Army",
+    city: "Tyler",
+    category: "Housing",
+    phone: "903-592-4361",
+    website: "https://www.salvationarmyusa.org",
+    notes: "Emergency shelter and rental assistance."
+  },
+
+  {
+    name: "Texas Workforce Commission",
+    city: "Statewide",
+    category: "Employment",
+    phone: "800-939-6631",
+    website: "https://www.twc.texas.gov",
+    notes: "Job search support and reentry employment assistance."
+  }
+
+];
+
+/* Render Resources */
 function renderResources() {
   const search = document.getElementById("searchInput").value.toLowerCase();
   const city = document.getElementById("cityFilter").value;
@@ -92,24 +152,21 @@ function renderResources() {
       (city === "" || resource.city === city) &&
       (category === "" || resource.category === category)
     ) {
-      list.innerHTML += createCard(resource);
+      list.innerHTML += `
+        <div class="card">
+          <strong>${resource.name}</strong><br>
+          ${resource.city} – ${resource.category}<br>
+          ${resource.phone ? `📞 <a href="tel:${resource.phone}">${resource.phone}</a><br>` : ""}
+          ${resource.website ? `🌐 <a href="${resource.website}" target="_blank">Website</a><br>` : ""}
+          ${resource.notes ? `<em>${resource.notes}</em><br>` : ""}
+          <button class="save-btn" onclick='saveResource(${JSON.stringify(resource)})'>Save</button>
+        </div>
+      `;
     }
   });
 }
 
-function createCard(resource) {
-  return `
-    <div class="card">
-      <strong>${resource.name}</strong><br>
-      ${resource.city || "Statewide"} – ${resource.category}<br>
-      ${resource.phone ? `📞 <a href="tel:${resource.phone}">${resource.phone}</a><br>` : ""}
-      ${resource.website ? `🌐 <a href="${resource.website}" target="_blank">Website</a><br>` : ""}
-      ${resource.notes ? `<em>${resource.notes}</em><br>` : ""}
-      <button class="save-btn" onclick='saveResource(${JSON.stringify(resource)})'>Save</button>
-    </div>
-  `;
-}
-
+/* Save Resource */
 function saveResource(resource) {
   let saved = JSON.parse(localStorage.getItem("savedResources")) || [];
   saved.push(resource);
@@ -117,6 +174,7 @@ function saveResource(resource) {
   renderSaved();
 }
 
+/* Render Saved */
 function renderSaved() {
   const savedList = document.getElementById("savedList");
   savedList.innerHTML = "";
@@ -126,42 +184,7 @@ function renderSaved() {
     savedList.innerHTML += `
       <div class="card">
         <strong>${resource.name}</strong><br>
-        ${resource.city || "Statewide"} – ${resource.category}
-      </div>
-    `;
-  });
-}
-
-function submitSuggestion(event) {
-  event.preventDefault();
-  const suggestion = {
-    name: document.getElementById("suggestName").value,
-    city: document.getElementById("suggestCity").value,
-    category: document.getElementById("suggestCategory").value,
-    website: document.getElementById("suggestWebsite").value,
-    notes: document.getElementById("suggestNotes").value
-  };
-
-  let suggestions = JSON.parse(localStorage.getItem("suggestions")) || [];
-  suggestions.push(suggestion);
-  localStorage.setItem("suggestions", JSON.stringify(suggestions));
-
-  event.target.reset();
-  renderSuggestions();
-}
-
-function renderSuggestions() {
-  const suggestionList = document.getElementById("suggestionList");
-  suggestionList.innerHTML = "";
-  let suggestions = JSON.parse(localStorage.getItem("suggestions")) || [];
-
-  suggestions.forEach(s => {
-    suggestionList.innerHTML += `
-      <div class="card">
-        <strong>${s.name}</strong><br>
-        ${s.city} – ${s.category}<br>
-        ${s.website ? `🌐 <a href="${s.website}" target="_blank">Website</a><br>` : ""}
-        ${s.notes ? `<em>${s.notes}</em>` : ""}
+        ${resource.city} – ${resource.category}
       </div>
     `;
   });
@@ -169,7 +192,7 @@ function renderSuggestions() {
 
 renderResources();
 renderSaved();
-renderSuggestions();
+
 </script>
 
 </body>
