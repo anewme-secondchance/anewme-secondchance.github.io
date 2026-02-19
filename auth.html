@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | A New Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #1f3c88;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #1f3c88;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+button:hover {
+  background: #162e66;
+}
+
+.switch {
+  text-align: center;
+  cursor: pointer;
+  color: #1f3c88;
+  font-weight: bold;
+}
+
+.message {
+  text-align: center;
+  margin-top: 10px;
+  color: red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2 id="formTitle">Login</h2>
+
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+
+  <button onclick="handleAuth()" id="authBtn">Login</button>
+
+  <div class="switch" onclick="toggleMode()" id="switchText">
+    Don't have an account? Sign up
+  </div>
+
+  <div class="message" id="message"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+let isLogin = true;
+
+window.toggleMode = function() {
+  isLogin = !isLogin;
+  document.getElementById("formTitle").innerText = isLogin ? "Login" : "Sign Up";
+  document.getElementById("authBtn").innerText = isLogin ? "Login" : "Sign Up";
+  document.getElementById("switchText").innerText =
+    isLogin ? "Don't have an account? Sign up" : "Already have an account? Login";
+}
+
+window.handleAuth = function() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("message");
+
+  if (!email || !password) {
+    message.innerText = "Please fill in all fields.";
+    return;
+  }
+
+  if (isLogin) {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        window.location.href = "mindset.html";
+      })
+      .catch(error => {
+        message.innerText = error.message;
+      });
+  } else {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        window.location.href = "mindset.html";
+      })
+      .catch(error => {
+        message.innerText = error.message;
+      });
+  }
+}
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    window.location.href = "mindset.html";
+  }
+});
+
+</script>
+
+</body>
+</html>
