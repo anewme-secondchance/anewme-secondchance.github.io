@@ -19,7 +19,6 @@ body {
   background: #1f3c88;
   color: white;
   padding: 15px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
 .back-btn {
@@ -28,14 +27,8 @@ body {
   border: none;
   padding: 6px 14px;
   border-radius: 20px;
-  font-size: 14px;
   cursor: pointer;
   margin-right: 15px;
-}
-
-.back-btn:hover {
-  background: #ff914d;
-  color: white;
 }
 
 .page-title {
@@ -57,12 +50,28 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-h3 {
-  margin-top: 0;
+select, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
 }
 
-ul {
-  padding-left: 20px;
+.result {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.eligible {
+  background: #d4edda;
+  color: #155724;
+}
+
+.not-eligible {
+  background: #f8d7da;
+  color: #721c24;
 }
 </style>
 </head>
@@ -77,87 +86,27 @@ ul {
 <div class="container">
 
 <div class="card">
-<h3>⚖ Expungement & Record Sealing</h3>
+<h3>⚖ Expungement & Record-Sealing Checker</h3>
 
-<p><strong>May Qualify If:</strong></p>
-<ul>
-<li>✔ Case was dismissed</li>
-<li>✔ Found not guilty</li>
-<li>✔ Deferred adjudication completed</li>
-<li>✔ Waiting period completed</li>
-<li>✔ No new convictions</li>
-</ul>
+<label>What was the outcome?</label>
+<select id="outcome">
+  <option value="">Select</option>
+  <option value="dismissed">Dismissed</option>
+  <option value="notguilty">Not Guilty</option>
+  <option value="deferred">Deferred Adjudication</option>
+  <option value="convicted">Convicted</option>
+</select>
 
-<p><strong>Important Waiting Periods:</strong></p>
-<ul>
-<li>Class C – 180 days</li>
-<li>Class A/B – 1 year</li>
-<li>Felony (no indictment) – 3 years</li>
-</ul>
+<label>Any new convictions since?</label>
+<select id="newCharges">
+  <option value="">Select</option>
+  <option value="no">No</option>
+  <option value="yes">Yes</option>
+</select>
 
-<p><strong>🚫 DON’TS:</strong></p>
-<ul>
-<li>⛔ Don’t apply before waiting period ends</li>
-<li>⛔ Don’t hide new charges from attorney</li>
-<li>⛔ Don’t assume all charges qualify</li>
-<li>⛔ Don’t skip legal advice — rules vary by case</li>
-<li>⛔ Don’t file paperwork incorrectly (can delay approval)</li>
-</ul>
+<button onclick="checkEligibility()">Check Eligibility</button>
 
-</div>
-
-<div class="card">
-<h3>💼 Interview Preparation</h3>
-
-<ul>
-<li>Wear clean, simple clothing</li>
-<li>Arrive 10–15 minutes early</li>
-<li>Practice answering questions</li>
-<li>Be honest but focus on growth</li>
-</ul>
-
-<p><strong>Practice Example:</strong></p>
-
-<p><strong>Question:</strong> “Tell me about yourself.”</p>
-<p><em>Example Answer:</em><br>
-“I’m a dependable worker who takes pride in showing up on time and learning quickly. I’ve spent the last few years building discipline and job skills, and I’m ready to bring that work ethic to your company.”
-</p>
-
-<p><strong>Question:</strong> “Why should we hire you?”</p>
-<p><em>Example Answer:</em><br>
-“I’m reliable, consistent, and ready to grow. I value teamwork and I take responsibility for my work.”
-</p>
-
-</div>
-
-<div class="card">
-<h3>📄 Resume Building</h3>
-
-<ul>
-<li>Include prison work professionally</li>
-<li>List certifications & training</li>
-<li>Highlight reliability & discipline</li>
-</ul>
-
-<p><strong>Example Resume Entry:</strong></p>
-
-<p><strong>Maintenance Assistant – Texas Correctional Facility</strong><br>
-2015–2023</p>
-
-<ul>
-<li>Performed plumbing and minor repair tasks</li>
-<li>Followed safety procedures daily</li>
-<li>Maintained equipment and completed task logs</li>
-</ul>
-
-<p><strong>Skills Example:</strong></p>
-<ul>
-<li>Teamwork</li>
-<li>Time Management</li>
-<li>Fast Learner</li>
-<li>Safety Awareness</li>
-<li>Basic Computer Skills</li>
-</ul>
+<div id="resultBox"></div>
 
 </div>
 
@@ -169,6 +118,40 @@ function goBack() {
     window.history.back();
   } else {
     window.location.href = "index.html";
+  }
+}
+
+function checkEligibility() {
+  const outcome = document.getElementById("outcome").value;
+  const newCharges = document.getElementById("newCharges").value;
+  const resultBox = document.getElementById("resultBox");
+
+  resultBox.className = "result";
+
+  if (outcome === "" || newCharges === "") {
+    resultBox.innerHTML = "Please answer all questions.";
+    resultBox.classList.add("not-eligible");
+    return;
+  }
+
+  if ((outcome === "dismissed" || outcome === "notguilty") && newCharges === "no") {
+    resultBox.innerHTML = "✔ You MAY be eligible for Expungement. <br><br><strong>Why:</strong> Case was dismissed or you were found not guilty, and you have no new convictions.";
+    resultBox.classList.add("eligible");
+  }
+
+  else if (outcome === "deferred" && newCharges === "no") {
+    resultBox.innerHTML = "✔ You MAY qualify for Record Sealing (Nondisclosure). <br><br><strong>Why:</strong> Deferred adjudication completed with no new convictions.";
+    resultBox.classList.add("eligible");
+  }
+
+  else if (newCharges === "yes") {
+    resultBox.innerHTML = "⛔ You may NOT be eligible right now. <br><br><strong>Why Not:</strong> New convictions often restart waiting periods or disqualify eligibility.";
+    resultBox.classList.add("not-eligible");
+  }
+
+  else {
+    resultBox.innerHTML = "⛔ You may not qualify for expungement. <br><br><strong>Why Not:</strong> Convictions typically do not qualify unless specific court programs apply.";
+    resultBox.classList.add("not-eligible");
   }
 }
 </script>
