@@ -92,8 +92,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
+  signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -102,8 +101,7 @@ const firebaseConfig = {
   projectId: "a-new-me-1a17a",
   storageBucket: "a-new-me-1a17a.firebasestorage.app",
   messagingSenderId: "362235516132",
-  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1",
-  measurementId: "G-Y27Q04XYH1"
+  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -147,12 +145,6 @@ window.handleAuth = function() {
       });
   }
 };
-
-onAuthStateChanged(auth, user => {
-  if (user) {
-    window.location.href = "mindset.html";
-  }
-});
 
 </script>
 
