@@ -35,7 +35,6 @@ body {
   padding: 20px;
   max-width: 900px;
   margin: auto;
-  padding-bottom: 60px;
 }
 
 .card {
@@ -46,16 +45,8 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-.notice {
-  background: #ffe5e5;
-  padding: 15px;
-  border-radius: 10px;
-  font-weight: bold;
-}
-
 textarea, input {
   width: 100%;
-  min-height: 90px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -72,12 +63,19 @@ button {
   margin-top: 10px;
 }
 
-.resume-preview {
+.notice {
+  background: #ffe5e5;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.resume-example {
   background: #f4f6fb;
   padding: 15px;
-  border-radius: 8px;
-  white-space: pre-line;
-  margin-top: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-family: Arial;
 }
 </style>
 </head>
@@ -92,130 +90,119 @@ button {
 <div class="container">
 
 <div class="card notice">
-🔴 Important: Not all employers hire individuals with felonies. Hiring depends on the charge, time passed, and company policy.
+🔴 Not all employers hire individuals with felonies.  
+Hiring depends on charge type, time passed, and company policy.
 </div>
 
-<!-- WHAT TO WEAR -->
+<!-- MEN SECTION -->
 <div class="card">
 <h3>👔 What Men Should Wear</h3>
 <ul>
 <li>Clean button-up shirt or polo</li>
 <li>Dark jeans or slacks (no rips)</li>
 <li>Closed-toe shoes or clean boots</li>
-<li>Neat grooming</li>
+<li>Trimmed facial hair</li>
+<li>Fresh haircut</li>
+<li>Light deodorant (no heavy cologne)</li>
 </ul>
+</div>
 
+<!-- WOMEN SECTION -->
+<div class="card">
 <h3>👗 What Women Should Wear</h3>
 <ul>
 <li>Blouse or professional top</li>
 <li>Dress pants or knee-length skirt</li>
 <li>Closed-toe flats or low heels</li>
 <li>Neat hairstyle</li>
+<li>Minimal jewelry</li>
+<li>Light makeup (optional)</li>
 </ul>
 </div>
 
-<!-- INTERVIEW -->
+<!-- FULL RESUME EXAMPLE -->
 <div class="card">
-<h3>🎤 Interview Preparation</h3>
+<h3>📄 Full Resume Example</h3>
 
-<p><strong>Tell Me About Yourself:</strong></p>
-<p>“I’m dependable, hardworking, and focused on long-term stability. I bring discipline, teamwork, and a strong work ethic.”</p>
+<div class="resume-example">
 
-<p><strong>If Asked About Your Record:</strong></p>
-<p>“I made mistakes in the past, but I’ve taken responsibility and completed programs. I’m committed to growth and contributing positively.”</p>
+<strong>John Davis</strong><br>
+Tyler, TX<br>
+(903) 555-1234<br>
+johndavis@email.com<br><br>
+
+<strong>Professional Summary</strong><br>
+Dependable and hardworking individual with 4+ years of food service and maintenance experience. Strong work ethic, team-oriented, and committed to long-term stability and growth.<br><br>
+
+<strong>Skills</strong><br>
+• Team Leadership<br>
+• Food Preparation & Safety<br>
+• Maintenance & Repairs<br>
+• Time Management<br>
+• OSHA Safety Standards<br><br>
+
+<strong>Work Experience</strong><br>
+
+<strong>Kitchen Worker</strong><br>
+Food Service Department | 2019 – 2023<br>
+• Prepared meals for over 1,500 individuals daily<br>
+• Maintained sanitation and food safety standards<br>
+• Worked efficiently in a fast-paced environment<br>
+• Completed Food Handler Certification<br><br>
+
+<strong>Maintenance Assistant</strong><br>
+Facility Operations | 2020 – 2023<br>
+• Performed plumbing and electrical repairs<br>
+• Followed OSHA safety guidelines<br>
+• Assisted in preventative maintenance<br><br>
+
+<strong>Education</strong><br>
+GED | 2018<br>
+
+<strong>Certifications</strong><br>
+• Food Handler Certification<br>
+• OSHA 10
+</div>
 </div>
 
-<!-- RESUME SECTION -->
+<!-- RESUME BUILDER -->
 <div class="card">
-<h3>📄 Resume Building Guide</h3>
-
-<h4>Step 1: Contact Information</h4>
-<p>Full Name | Phone | Professional Email</p>
-
-<h4>Step 2: Professional Summary</h4>
-<p>2–3 sentences about reliability, growth, and work ethic.</p>
-
-<h4>Step 3: Skills</h4>
-<ul>
-<li>Teamwork</li>
-<li>Time Management</li>
-<li>Safety Compliance</li>
-<li>Customer Service</li>
-<li>Inventory Control</li>
-</ul>
-
-<h4>Step 4: Work Experience</h4>
-<p>Use job titles only. Do NOT list the facility name.</p>
-
-<h4>Step 5: Education & Certifications</h4>
-<ul>
-<li>GED / High School Diploma</li>
-<li>OSHA 10</li>
-<li>Food Handler Certification</li>
-<li>Forklift Certification</li>
-</ul>
-
-<hr>
-
-<h3>📘 Practice Resume Template</h3>
-
-<div class="resume-preview">
-Your Name
-(000) 000-0000 | your@email.com
-
-PROFESSIONAL SUMMARY
-Write 2–3 sentences about your strengths and discipline.
-
-SKILLS
-• Skill 1
-• Skill 2
-• Skill 3
-• Skill 4
-
-WORK EXPERIENCE
-Job Title | Year – Year
-• Responsibility
-• Responsibility
-• Responsibility
-
-EDUCATION & CERTIFICATIONS
-List here
-</div>
-
-<hr>
-
-<h3>📝 Build Your Resume Below</h3>
+<h3>📝 Build Your Resume</h3>
 
 <label>Full Name</label>
-<input type="text" id="resName">
+<input type="text" id="rname">
+
+<label>City & State</label>
+<input type="text" id="rlocation">
 
 <label>Phone</label>
-<input type="text" id="resPhone">
+<input type="text" id="rphone">
 
 <label>Email</label>
-<input type="text" id="resEmail">
+<input type="text" id="remail">
 
 <label>Professional Summary</label>
-<textarea id="resSummary"></textarea>
+<textarea id="rsummary"></textarea>
 
-<label>Skills (separate with commas)</label>
-<textarea id="resSkills"></textarea>
+<label>Skills (comma separated)</label>
+<textarea id="rskills"></textarea>
 
 <label>Work Experience</label>
-<textarea id="resExperience"></textarea>
+<textarea id="rexperience"></textarea>
 
-<label>Education / Certifications</label>
-<textarea id="resEducation"></textarea>
+<label>Education</label>
+<textarea id="reducation"></textarea>
 
-<button onclick="generateResume()">Generate Resume</button>
+<label>Certifications</label>
+<textarea id="rcerts"></textarea>
 
-<div id="resumeOutput" class="resume-preview"></div>
-
+<button onclick="saveResume()">Save Resume</button>
+<p id="resumeMessage"></p>
 </div>
 
-<!-- PRACTICE -->
+<!-- PRACTICE SECTION -->
 <div class="card">
-<h3>📝 Practice Interview Answers</h3>
+<h3>🎤 Interview Practice</h3>
 
 <label>30-Second Introduction</label>
 <textarea id="practice1"></textarea>
@@ -230,51 +217,46 @@ List here
 <p id="saveMessage"></p>
 </div>
 
+<!-- ID HELP REMINDER -->
+<div class="card">
+<h3>🆔 Need Help Getting Your ID?</h3>
+<p>If your prison ID hasn’t arrived yet, visit the ID Help page for step-by-step instructions.</p>
+<button onclick="window.location.href='id-help.html'">Go to ID Help</button>
+</div>
+
 </div>
 
 <script>
 
-function goBack() {
-  window.location.href = "index.html";
+function goBack(){
+  window.location.href="index.html";
 }
 
-function generateResume() {
-
-  const skills = document.getElementById("resSkills").value.split(",");
-  const formattedSkills = skills.map(skill => "• " + skill.trim()).join("\n");
-
-  const resumeText = `
-${resName.value}
-${resPhone.value} | ${resEmail.value}
-
-PROFESSIONAL SUMMARY
-${resSummary.value}
-
-SKILLS
-${formattedSkills}
-
-WORK EXPERIENCE
-${resExperience.value}
-
-EDUCATION & CERTIFICATIONS
-${resEducation.value}
-`;
-
-  document.getElementById("resumeOutput").innerText = resumeText;
+function saveResume(){
+  const fields=["rname","rlocation","rphone","remail","rsummary","rskills","rexperience","reducation","rcerts"];
+  fields.forEach(id=>{
+    localStorage.setItem(id,document.getElementById(id).value);
+  });
+  document.getElementById("resumeMessage").innerText="Resume Saved ✓";
 }
 
-function savePractice() {
-  localStorage.setItem("practice1", practice1.value);
-  localStorage.setItem("practice2", practice2.value);
-  localStorage.setItem("practice3", practice3.value);
-  document.getElementById("saveMessage").innerText = "Saved ✓";
+function savePractice(){
+  localStorage.setItem("practice1",document.getElementById("practice1").value);
+  localStorage.setItem("practice2",document.getElementById("practice2").value);
+  localStorage.setItem("practice3",document.getElementById("practice3").value);
+  document.getElementById("saveMessage").innerText="Saved ✓";
 }
 
-window.onload = function() {
-  practice1.value = localStorage.getItem("practice1") || "";
-  practice2.value = localStorage.getItem("practice2") || "";
-  practice3.value = localStorage.getItem("practice3") || "";
-};
+window.onload=function(){
+  const fields=["rname","rlocation","rphone","remail","rsummary","rskills","rexperience","reducation","rcerts"];
+  fields.forEach(id=>{
+    document.getElementById(id).value=localStorage.getItem(id)||"";
+  });
+
+  document.getElementById("practice1").value=localStorage.getItem("practice1")||"";
+  document.getElementById("practice2").value=localStorage.getItem("practice2")||"";
+  document.getElementById("practice3").value=localStorage.getItem("practice3")||"";
+}
 
 </script>
 
