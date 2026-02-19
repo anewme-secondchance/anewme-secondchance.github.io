@@ -6,13 +6,61 @@
 <title>Mindset | A New Me</title>
 
 <style>
-body { margin:0; font-family:Arial; background:#eef2f7; }
-.app-header { display:flex; align-items:center; background:#1f3c88; color:white; padding:15px; }
-.back-btn { background:white; color:#1f3c88; border:none; padding:6px 14px; border-radius:20px; cursor:pointer; margin-right:15px; }
-.container { padding:20px; max-width:900px; margin:auto; padding-bottom:80px; }
-.card { background:white; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,0.08); }
-textarea { width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-top:8px; }
-button { background:#1f3c88; color:white; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; margin-top:10px; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  background: #1f3c88;
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+}
+
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
 </style>
 </head>
 
@@ -46,67 +94,68 @@ button { background:#1f3c88; color:white; border:none; padding:8px 14px; border-
 <button onclick="updateStreak()">Mark Today Complete</button>
 </div>
 
+<div class="card">
+<h3>💪 Sobriety Tracker</h3>
+<label>
+<input type="checkbox" id="soberCheck">
+I stayed sober today
+</label>
+<p>Days sober: <strong id="soberCount">0</strong></p>
 </div>
 
-<script type="module">
+</div>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
-  authDomain: "a-new-me-1a17a.firebaseapp.com",
-  projectId: "a-new-me-1a17a",
-  storageBucket: "a-new-me-1a17a.firebasestorage.app",
-  messagingSenderId: "362235516132",
-  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let userRef;
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    console.log("No user logged in.");
-    return;
-  }
-
-  userRef = doc(db, "users", user.uid);
-
-  const docSnap = await getDoc(userRef);
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    document.getElementById("r1").value = data.r1 || "";
-    document.getElementById("r2").value = data.r2 || "";
-    document.getElementById("r3").value = data.r3 || "";
-    document.getElementById("streakCount").innerText = data.streak || 0;
-  } else {
-    await setDoc(userRef, { r1:"", r2:"", r3:"", streak:0 });
-  }
-});
-
-async function saveField(field) {
-  const value = document.getElementById(field).value;
-  await updateDoc(userRef, { [field]: value });
-}
-
-["r1","r2","r3"].forEach(id=>{
-  document.getElementById(id).addEventListener("input", ()=>saveField(id));
-});
-
-window.updateStreak = async function() {
-  const current = parseInt(document.getElementById("streakCount").innerText) + 1;
-  document.getElementById("streakCount").innerText = current;
-  await updateDoc(userRef, { streak: current });
-}
-
-window.goBack = function() {
+function goBack() {
   window.location.href = "index.html";
-};
+}
+
+function saveData() {
+  const data = {
+    r1: document.getElementById("r1").value,
+    r2: document.getElementById("r2").value,
+    r3: document.getElementById("r3").value,
+    streak: document.getElementById("streakCount").innerText,
+    sober: document.getElementById("soberCount").innerText
+  };
+
+  localStorage.setItem("mindsetData", JSON.stringify(data));
+}
+
+function loadData() {
+  const saved = JSON.parse(localStorage.getItem("mindsetData"));
+  if (saved) {
+    document.getElementById("r1").value = saved.r1 || "";
+    document.getElementById("r2").value = saved.r2 || "";
+    document.getElementById("r3").value = saved.r3 || "";
+    document.getElementById("streakCount").innerText = saved.streak || 0;
+    document.getElementById("soberCount").innerText = saved.sober || 0;
+  }
+}
+
+document.getElementById("r1").addEventListener("input", saveData);
+document.getElementById("r2").addEventListener("input", saveData);
+document.getElementById("r3").addEventListener("input", saveData);
+
+function updateStreak() {
+  let current = parseInt(document.getElementById("streakCount").innerText);
+  current++;
+  document.getElementById("streakCount").innerText = current;
+  saveData();
+}
+
+document.getElementById("soberCheck").addEventListener("change", function() {
+  if (this.checked) {
+    let current = parseInt(document.getElementById("soberCount").innerText);
+    current++;
+    document.getElementById("soberCount").innerText = current;
+    saveData();
+    this.checked = false;
+  }
+});
+
+loadData();
 
 </script>
 
