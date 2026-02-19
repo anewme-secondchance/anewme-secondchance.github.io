@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Family & Rebuilding | A New Me</title>
+<title>Family | A New Me</title>
 
 <style>
 body {
@@ -14,32 +14,29 @@ body {
 
 .app-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background: #1f3c88;
   color: white;
   padding: 15px;
 }
 
-.back-btn {
+button {
   background: white;
   color: #1f3c88;
   border: none;
   padding: 6px 14px;
   border-radius: 20px;
   cursor: pointer;
-  margin-right: 15px;
   font-weight: bold;
-}
-
-.page-title {
-  font-size: 18px;
-  font-weight: bold;
+  margin-top: 10px;
 }
 
 .container {
   padding: 20px;
-  max-width: 950px;
+  max-width: 900px;
   margin: auto;
+  padding-bottom: 80px;
 }
 
 .card {
@@ -50,27 +47,12 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-textarea {
+textarea, input {
   width: 100%;
-  min-height: 80px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-top: 8px;
-}
-
-ul {
-  padding-left: 20px;
-}
-
-a {
-  color: #1f3c88;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 </style>
 </head>
@@ -78,201 +60,140 @@ a:hover {
 <body>
 
 <div class="app-header">
-<button onclick="goBack()" class="back-btn">← Back</button>
-<div class="page-title">Family & Rebuilding</div>
+  <div>Family & Rebuilding</div>
+  <button onclick="logout()">Logout</button>
 </div>
 
 <div class="container">
 
-<!-- REUNIFICATION -->
 <div class="card">
-<h3>👨‍👩‍👧 Reunification Tips</h3>
-<p><strong>Things may feel different at first.</strong> That’s normal.</p>
-<p>Say: “I know this is a big adjustment. I’m here and I’m staying.”</p>
-
-<p><strong>Let children express emotions.</strong></p>
-<p>If they say, “I’m mad at you,” respond: “You have a right to feel that way. I’m listening.”</p>
-
-<p><strong>Create new routines.</strong></p>
+<h3>🤝 Reunification Tips</h3>
 <ul>
-<li>Weekly dinner night</li>
-<li>Homework help schedule</li>
-<li>Weekend activity</li>
-<li>Bedtime reading</li>
+<li>Understand things may feel different at first.</li>
+<li>Allow children to express mixed emotions.</li>
+<li>Be patient and consistent.</li>
+<li>Create new healthy routines together.</li>
+<li>Listen more than you talk.</li>
+<li>Validate feelings without becoming defensive.</li>
 </ul>
-
-<p>Reunification is building a new, healthier normal.</p>
+<p><strong>Example:</strong> “I understand this is a big change. I’m here and I’m committed.”</p>
 </div>
 
-<!-- SUPERVISED VISITS -->
 <div class="card">
-<h3>🧸 Supervised Visit Tips</h3>
+<h3>👀 Supervised Visit Tips</h3>
 <ul>
-<li>Arrive early</li>
-<li>Dress neatly</li>
-<li>Stay calm</li>
-<li>Bring approved items only</li>
+<li>Arrive early and prepared.</li>
+<li>Focus on positive interaction.</li>
+<li>Avoid conflict topics.</li>
+<li>Show responsibility and growth.</li>
+<li>Bring age-appropriate activities.</li>
 </ul>
+<p><strong>Example:</strong> Bring coloring books, small games, or a simple craft project.</p>
+</div>
 
-<p><strong>Positive activities:</strong></p>
+<div class="card">
+<h3>🔐 Rebuilding Trust</h3>
 <ul>
-<li>Board games</li>
-<li>Drawing together</li>
-<li>Reading</li>
-<li>Talking about school</li>
+<li>Keep promises.</li>
+<li>Communicate openly.</li>
+<li>Take responsibility for past actions.</li>
+<li>Show consistency over time.</li>
+<li>Respect boundaries.</li>
 </ul>
-
-<p><strong>Avoid:</strong> Talking about court, blaming others, arguing.</p>
+<p><strong>Remember:</strong> Trust is rebuilt through actions, not words.</p>
 </div>
 
-<!-- TRUST -->
 <div class="card">
-<h3>🤝 Rebuilding Trust</h3>
-<ul>
-<li>Keep promises</li>
-<li>Call when you say you will</li>
-<li>Be honest</li>
-<li>Stay consistent</li>
-</ul>
+<h3>📝 My Family Plan</h3>
 
-<p>Trust rebuilds through repeated action over time.</p>
-</div>
+<label>What relationship am I rebuilding?</label>
+<input type="text" id="relationship">
 
-<!-- CO-PARENTING -->
-<div class="card">
-<h3>💬 Co-Parent Communication</h3>
-<ul>
-<li>Keep it about the child</li>
-<li>Stay factual</li>
-<li>Avoid emotional texts</li>
-<li>Use written communication if needed</li>
-</ul>
+<label>What is one step I can take this week?</label>
+<textarea id="step"></textarea>
 
-<p><strong>Example:</strong></p>
-<p>“I want to stay consistent and focused on what’s best for our child.”</p>
-</div>
+<label>How will I stay consistent?</label>
+<textarea id="consistency"></textarea>
 
-<!-- CONFLICT MANAGEMENT -->
-<div class="card">
-<h3>⚖ Conflict Management</h3>
-<ul>
-<li>Pause before reacting</li>
-<li>Never argue in front of children</li>
-<li>Use “I feel” instead of blame</li>
-<li>Seek mediation if needed</li>
-</ul>
-</div>
+<button onclick="saveFamily()">Save Plan</button>
 
-<!-- PARENTING CLASSES -->
-<div class="card">
-<h3>📘 Parenting Classes (Texas Resources)</h3>
-
-<p><strong>Texas Parenting Education Programs:</strong></p>
-<a href="https://www.texasattorneygeneral.gov/child-support/parenting-time" target="_blank">
-Texas Attorney General – Parenting Resources
-</a>
-
-<br><br>
-
-<a href="https://www.tdcj.texas.gov/divisions/rrd/reentry_program.html" target="_blank">
-TDCJ Reentry Family Programs
-</a>
-
-<br><br>
-
-<a href="https://www.findhelp.org/" target="_blank">
-FindHelp.org – Search Local Parenting Classes by ZIP Code
-</a>
-
-</div>
-
-<!-- CHILD SUPPORT -->
-<div class="card">
-<h3>💵 Child Support Help</h3>
-
-<p><strong>Texas Child Support Division:</strong></p>
-<a href="https://www.texasattorneygeneral.gov/child-support" target="_blank">
-Texas Child Support Services
-</a>
-
-<p>You can request modifications if your income changes.</p>
-
-<p>Always communicate with your caseworker before missing payments.</p>
-</div>
-
-<!-- CUSTODY & LEGAL -->
-<div class="card">
-<h3>⚖ Custody & Legal Help</h3>
-
-<p><strong>Texas Legal Aid:</strong></p>
-<a href="https://www.texaslawhelp.org/" target="_blank">
-TexasLawHelp.org
-</a>
-
-<br><br>
-
-<a href="https://www.lonestarlegal.org/" target="_blank">
-Lone Star Legal Aid
-</a>
-
-<br><br>
-
-<a href="https://www.trla.org/" target="_blank">
-Texas RioGrande Legal Aid
-</a>
-
-<p>Search your county for free family law clinics.</p>
-</div>
-
-<!-- REFLECTION -->
-<div class="card">
-<h3>📝 Family Reflection</h3>
-
-<label>What kind of parent do I want to be now?</label>
-<textarea id="family1"></textarea>
-
-<label>One action I can take this week:</label>
-<textarea id="family2"></textarea>
-
-<label>How will I stay calm during conflict?</label>
-<textarea id="family3"></textarea>
-
-</div>
-
-<!-- ENCOURAGEMENT -->
-<div class="card">
-<h3>❤️ Encouragement</h3>
-<p>
-Children don’t need perfection.  
-They need presence.  
-They need consistency.
-</p>
-
-<p>
-Healing takes time.  
-Showing up matters.
-</p>
 </div>
 
 </div>
 
-<script>
-function goBack() {
-  window.location.href = "index.html";
-}
+<script type="module">
 
-function setupSave(id, key) {
-  const field = document.getElementById(id);
-  const saved = localStorage.getItem(key);
-  if (saved) field.value = saved;
-  field.addEventListener("input", () => {
-    localStorage.setItem(key, field.value);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
+  authDomain: "a-new-me-1a17a.firebaseapp.com",
+  projectId: "a-new-me-1a17a",
+  storageBucket: "a-new-me-1a17a.firebasestorage.app",
+  messagingSenderId: "362235516132",
+  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser;
+
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    window.location.href = "auth.html";
+  } else {
+    currentUser = user;
+    loadFamily();
+  }
+});
+
+window.logout = function() {
+  signOut(auth).then(() => {
+    window.location.href = "auth.html";
   });
+};
+
+window.saveFamily = async function() {
+
+  const data = {
+    relationship: document.getElementById("relationship").value,
+    step: document.getElementById("step").value,
+    consistency: document.getElementById("consistency").value
+  };
+
+  await setDoc(doc(db, "users", currentUser.uid), {
+    family: data
+  }, { merge: true });
+
+  alert("Family Plan Saved ✓");
+};
+
+async function loadFamily() {
+  const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    if (data.family) {
+      document.getElementById("relationship").value = data.family.relationship || "";
+      document.getElementById("step").value = data.family.step || "";
+      document.getElementById("consistency").value = data.family.consistency || "";
+    }
+  }
 }
 
-setupSave("family1","family1");
-setupSave("family2","family2");
-setupSave("family3","family3");
 </script>
 
 </body>
