@@ -45,7 +45,7 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-input {
+input, select {
   width: 100%;
   padding: 10px;
   border-radius: 8px;
@@ -64,13 +64,24 @@ button {
 }
 
 .goal-item {
-  padding: 10px;
+  padding: 12px;
   border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.completed {
-  text-decoration: line-through;
-  color: gray;
+.progress-bar {
+  height: 10px;
+  background: #ddd;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #1f3c88;
+  border-radius: 6px;
 }
 </style>
 </head>
@@ -87,13 +98,28 @@ button {
 
 <div class="card">
 <h3>🎯 Add New Goal</h3>
-<input type="text" id="goalInput" placeholder="Enter your goal...">
+<input type="text" id="goalText" placeholder="Enter your goal...">
+<select id="goalCategory">
+  <option>Housing</option>
+  <option>Employment</option>
+  <option>Mental Health</option>
+  <option>Financial</option>
+  <option>Life</option>
+</select>
 <button onclick="addGoal()">Add Goal</button>
 </div>
 
 <div class="card">
-<h3>📌 My Goals</h3>
-<div id="goalList"></div>
+<h3>📊 Completion Progress</h3>
+<p>Completed: <strong id="completionPercent">0%</strong></p>
+<div class="progress-bar">
+  <div id="progressFill" class="progress-fill"></div>
+</div>
+</div>
+
+<div class="card">
+<h3>📋 My Goals</h3>
+<div id="goalsList"></div>
 </div>
 
 </div>
@@ -112,18 +138,18 @@ import {
   collection,
   addDoc,
   getDocs,
+  updateDoc,
   deleteDoc,
-  doc,
-  updateDoc
+  doc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
-  authDomain: "a-new-me-1a17a.firebaseapp.com",
-  projectId: "a-new-me-1a17a",
-  storageBucket: "a-new-me-1a17a.firebasestorage.app",
-  messagingSenderId: "362235516132",
-  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -152,52 +178,67 @@ window.goBack = function() {
 };
 
 window.addGoal = async function() {
-  const text = goalInput.value.trim();
+  const text = goalText.value;
+  const category = goalCategory.value;
+
   if (!text) return;
 
   await addDoc(collection(db, "users", currentUser.uid, "goals"), {
     text: text,
+    category: category,
     completed: false,
     createdAt: new Date()
   });
 
-  goalInput.value = "";
+  goalText.value = "";
   loadGoals();
 };
 
 async function loadGoals() {
-  const list = document.getElementById("goalList");
+  const list = document.getElementById("goalsList");
   list.innerHTML = "";
 
-  const querySnapshot = await getDocs(
+  let total = 0;
+  let completed = 0;
+
+  const snapshot = await getDocs(
     collection(db, "users", currentUser.uid, "goals")
   );
 
-  querySnapshot.forEach((docSnap) => {
+  snapshot.forEach((docSnap) => {
+    total++;
     const data = docSnap.data();
+    if (data.completed) completed++;
+
     const div = document.createElement("div");
     div.className = "goal-item";
-    if (data.completed) div.classList.add("completed");
 
     div.innerHTML = `
-      ${data.text}
-      <br>
-      <button onclick="toggleGoal('${docSnap.id}', ${data.completed})">
-        ${data.completed ? "Undo" : "Complete"}
-      </button>
-      <button onclick="deleteGoal('${docSnap.id}')">
-        Delete
-      </button>
+      <div>
+        <strong>${data.text}</strong><br>
+        <small>${data.category}</small>
+      </div>
+      <div>
+        <input type="checkbox" ${data.completed ? "checked" : ""}
+        onclick="toggleGoal('${docSnap.id}', ${data.completed})">
+        <button onclick="deleteGoal('${docSnap.id}')">X</button>
+      </div>
     `;
 
     list.appendChild(div);
   });
+
+  const percent = total ? Math.round((completed / total) * 100) : 0;
+
+  document.getElementById("completionPercent").innerText = percent + "%";
+  document.getElementById("progressFill").style.width = percent + "%";
 }
 
 window.toggleGoal = async function(id, currentStatus) {
-  await updateDoc(doc(db, "users", currentUser.uid, "goals", id), {
-    completed: !currentStatus
-  });
+  await updateDoc(
+    doc(db, "users", currentUser.uid, "goals", id),
+    { completed: !currentStatus }
+  );
   loadGoals();
 };
 
