@@ -10,6 +10,15 @@ const resources = [
   },
 
   {
+    name: "ETBU Counseling Center",
+    city: "Tyler",
+    category: "Health",
+    phone: "903-923-2360",
+    website: "",
+    notes: "East Texas Baptist University Counseling Center. Call the Marshall office at 903-923-2360 and press the number option to be directed to the Tyler Counseling Center. Email: counseling@etbu.edu"
+  },
+
+  {
     name: "East Texas Food Bank",
     city: "Tyler",
     category: "Health",
