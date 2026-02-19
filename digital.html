@@ -14,14 +14,13 @@ body {
 
 .app-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background: #1f3c88;
   color: white;
   padding: 15px;
 }
 
-button {
+.back-btn {
   background: white;
   color: #1f3c88;
   border: none;
@@ -29,7 +28,7 @@ button {
   border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
-  margin-top: 10px;
+  margin-right: 15px;
 }
 
 .container {
@@ -53,6 +52,7 @@ textarea {
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-top: 8px;
+  min-height: 100px;
 }
 
 a {
@@ -60,15 +60,14 @@ a {
   font-weight: bold;
   text-decoration: none;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="app-header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
   <div>Digital Literacy</div>
-  <button onclick="logout()">Logout</button>
 </div>
 
 <div class="container">
@@ -118,69 +117,29 @@ a {
 
 </div>
 
-<script type="module">
+<script>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { 
-  getAuth,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+function goBack() {
+  window.location.href = "index.html";
+}
 
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
-  authDomain: "a-new-me-1a17a.firebaseapp.com",
-  projectId: "a-new-me-1a17a",
-  storageBucket: "a-new-me-1a17a.firebasestorage.app",
-  messagingSenderId: "362235516132",
-  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let currentUser;
-
-onAuthStateChanged(auth, async user => {
-  if (!user) {
-    window.location.href = "auth.html";
-  } else {
-    currentUser = user;
-    loadNotes();
-  }
-});
-
-window.logout = function() {
-  signOut(auth).then(() => {
-    window.location.href = "auth.html";
-  });
-};
-
+/* SAVE NOTES LOCALLY */
 const notesArea = document.getElementById("notes");
 
-notesArea.addEventListener("input", async () => {
-  await setDoc(doc(db, "users", currentUser.uid), {
-    digitalNotes: notesArea.value
-  }, { merge: true });
-});
+function saveNotes() {
+  localStorage.setItem("digitalNotes", notesArea.value);
+}
 
-async function loadNotes() {
-  const docSnap = await getDoc(doc(db, "users", currentUser.uid));
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    if (data.digitalNotes) {
-      notesArea.value = data.digitalNotes;
-    }
+function loadNotes() {
+  const saved = localStorage.getItem("digitalNotes");
+  if (saved) {
+    notesArea.value = saved;
   }
 }
+
+notesArea.addEventListener("input", saveNotes);
+
+loadNotes();
 
 </script>
 
