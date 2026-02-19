@@ -14,32 +14,29 @@ body {
 
 .app-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background: #1f3c88;
   color: white;
   padding: 15px;
 }
 
-.back-btn {
+button {
   background: white;
   color: #1f3c88;
   border: none;
   padding: 6px 14px;
   border-radius: 20px;
   cursor: pointer;
-  margin-right: 15px;
   font-weight: bold;
-}
-
-.page-title {
-  font-size: 18px;
-  font-weight: bold;
+  margin-top: 10px;
 }
 
 .container {
   padding: 20px;
   max-width: 900px;
   margin: auto;
+  padding-bottom: 80px;
 }
 
 .card {
@@ -50,117 +47,141 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-ul {
-  padding-left: 20px;
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
 }
 
 a {
   color: #1f3c88;
-  text-decoration: none;
   font-weight: bold;
+  text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
 </style>
 </head>
 
 <body>
 
 <div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
-  <div class="page-title">Digital Literacy</div>
+  <div>Digital Literacy</div>
+  <button onclick="logout()">Logout</button>
 </div>
 
 <div class="container">
 
 <div class="card">
-<h3>⌨️ Typing Practice (Free)</h3>
+<h3>⌨ Typing Practice</h3>
 <ul>
 <li><a href="https://www.typing.com/" target="_blank">Typing.com</a></li>
-<li><a href="https://www.keybr.com/" target="_blank">Keybr.com</a></li>
-<li><a href="https://www.ratatype.com/" target="_blank">Ratatype</a></li>
 <li><a href="https://www.typingclub.com/" target="_blank">TypingClub</a></li>
-<li><a href="https://www.nitrotype.com/" target="_blank">NitroType (Typing Game)</a></li>
-<li><a href="https://play.typeracer.com/" target="_blank">TypeRacer</a></li>
+<li><a href="https://www.keybr.com/" target="_blank">Keybr</a></li>
+<li><a href="https://www.nitrotype.com/" target="_blank">NitroType (Game)</a></li>
 </ul>
 </div>
 
 <div class="card">
-<h3>💻 Basic Computer Skills</h3>
+<h3>🖥 Computer Basics</h3>
 <ul>
-<li>Turning computer on/off</li>
-<li>Using mouse & keyboard</li>
-<li>Understanding folders & files</li>
-<li>Opening & saving documents</li>
-</ul>
-
-<p><strong>Free Learning:</strong></p>
-<ul>
-<li><a href="https://edu.gcfglobal.org/en/topics/computers/" target="_blank">GCFLearnFree – Computer Basics</a></li>
+<li><a href="https://edu.gcfglobal.org/en/topics/computers/" target="_blank">GCFLearnFree Computer Basics</a></li>
 <li><a href="https://www.digitallearn.org/" target="_blank">DigitalLearn.org</a></li>
-<li><a href="https://techboomers.com/" target="_blank">TechBoomers</a></li>
+<li><a href="https://www.techboomers.com/" target="_blank">TechBoomers</a></li>
 </ul>
 </div>
 
 <div class="card">
-<h3>🌐 Internet & Email Skills</h3>
+<h3>📊 Office Skills</h3>
 <ul>
-<li>Using Google search</li>
-<li>Creating & sending emails</li>
-<li>Avoiding scams</li>
-<li>Uploading resumes</li>
-</ul>
-
-<ul>
-<li><a href="https://edu.gcfglobal.org/en/internetbasics/" target="_blank">GCF – Internet Basics</a></li>
-<li><a href="https://edu.gcfglobal.org/en/emailbasics/" target="_blank">GCF – Email Tutorials</a></li>
-</ul>
-</div>
-
-<div class="card">
-<h3>📊 Office Software</h3>
-<ul>
-<li>Microsoft Word</li>
-<li>Excel</li>
-<li>Google Docs</li>
-<li>Google Sheets</li>
-</ul>
-
-<ul>
-<li><a href="https://edu.gcfglobal.org/en/subjects/office/" target="_blank">GCF Word & Excel Training</a></li>
+<li><a href="https://edu.gcfglobal.org/en/word/" target="_blank">Microsoft Word Training</a></li>
+<li><a href="https://edu.gcfglobal.org/en/excel/" target="_blank">Excel Training</a></li>
 <li><a href="https://workspace.google.com/training/" target="_blank">Google Workspace Training</a></li>
 </ul>
 </div>
 
 <div class="card">
-<h3>🎯 Job & Career Tools</h3>
+<h3>💼 Job & Certification Training</h3>
 <ul>
-<li><a href="https://www.indeed.com/" target="_blank">Indeed</a></li>
-<li><a href="https://www.linkedin.com/" target="_blank">LinkedIn</a></li>
-<li><a href="https://www.glassdoor.com/" target="_blank">Glassdoor</a></li>
-<li><a href="https://www.texasworkforce.org/project-rio" target="_blank">Texas Workforce Project RIO</a></li>
 <li><a href="https://www.linkedin.com/learning/" target="_blank">LinkedIn Learning</a></li>
+<li><a href="https://www.coursera.org/" target="_blank">Coursera</a></li>
+<li><a href="https://www.udemy.com/" target="_blank">Udemy</a></li>
+<li><a href="https://www.the-last-mile.org/" target="_blank">The Last Mile</a></li>
 </ul>
 </div>
 
 <div class="card">
-<h3>🏫 Structured Reentry Digital Programs</h3>
-<ul>
-<li><a href="https://thelastmile.org/" target="_blank">The Last Mile</a></li>
-<li><a href="https://hungryhillfoundation.org/" target="_blank">Hungry Hill Foundation (Austin)</a></li>
-<li><a href="https://www.voatx.org/" target="_blank">VOA Texas Fresh Start</a></li>
-<li><a href="https://milesoffreedom.org/" target="_blank">Miles of Freedom (Dallas)</a></li>
-</ul>
+<h3>📝 My Learning Notes</h3>
+<textarea id="notes" placeholder="Track what you're learning..."></textarea>
 </div>
 
 </div>
 
-<script>
-function goBack() {
-  window.location.href = "index.html";
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA4O2nEtjdy9fSh66gnHH6jsbKKSWdJt4c",
+  authDomain: "a-new-me-1a17a.firebaseapp.com",
+  projectId: "a-new-me-1a17a",
+  storageBucket: "a-new-me-1a17a.firebasestorage.app",
+  messagingSenderId: "362235516132",
+  appId: "1:362235516132:web:1465c3ec03ce1d3f4608f1"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser;
+
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    window.location.href = "auth.html";
+  } else {
+    currentUser = user;
+    loadNotes();
+  }
+});
+
+window.logout = function() {
+  signOut(auth).then(() => {
+    window.location.href = "auth.html";
+  });
+};
+
+const notesArea = document.getElementById("notes");
+
+notesArea.addEventListener("input", async () => {
+  await setDoc(doc(db, "users", currentUser.uid), {
+    digitalNotes: notesArea.value
+  }, { merge: true });
+});
+
+async function loadNotes() {
+  const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    if (data.digitalNotes) {
+      notesArea.value = data.digitalNotes;
+    }
+  }
 }
+
 </script>
 
 </body>
