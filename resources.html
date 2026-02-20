@@ -65,6 +65,23 @@ input, select {
 
 <div class="container">
 
+<!-- EMERGENCY QUICK HELP -->
+<div class="card" style="background:#fff3cd; border-left:6px solid #ff914d;">
+  <strong>🚨 Emergency Quick Help</strong><br><br>
+
+  📞 <strong>911</strong> – Immediate danger or medical emergency<br><br>
+
+  🧠 <strong>988</strong> – Mental Health Crisis & Suicide Lifeline<br>
+  <a href="tel:988">Call 988</a><br><br>
+
+  📲 <strong>211 Texas</strong> – Housing, food, transportation, utilities, shelter<br>
+  <a href="tel:211">Call 211</a> |
+  <a href="https://www.211texas.org" target="_blank">211Texas.org</a>
+
+  <br><br>
+  <em>If you are in crisis, do not wait. Call immediately.</em>
+</div>
+
 <input type="text" id="searchInput" placeholder="Search by name..." onkeyup="renderResources()">
 
 <select id="cityFilter" onchange="renderResources()">
@@ -109,7 +126,7 @@ const resources = [
     category: "Health",
     phone: "903-596-8353",
     website: "https://www.bethesdaclinic.org",
-    notes: "Free and low-cost medical and dental care for uninsured East Texas residents."
+    notes: "Free and low-cost medical and dental care for uninsured residents."
   },
 
   {
@@ -118,7 +135,7 @@ const resources = [
     category: "Health",
     phone: "903-923-2360",
     website: "",
-    notes: "Call the Marshall office and request transfer to Tyler Counseling Center. Email: counseling@etbu.edu"
+    notes: "Call Marshall office and request transfer to Tyler Counseling Center. Email: counseling@etbu.edu"
   },
 
   {
@@ -145,7 +162,7 @@ const resources = [
     category: "Multi-Service",
     phone: "211",
     website: "https://www.211texas.org",
-    notes: "Call 211 for housing, food, transportation, utility assistance, mental health services, and emergency help."
+    notes: "Housing, food, transportation, utilities, mental health, emergency assistance."
   },
 
   {
@@ -154,7 +171,7 @@ const resources = [
     category: "ID Recovery",
     phone: "",
     website: "https://www.tdcj.texas.gov/divisions/rrd/index.html",
-    notes: "Official Texas Department of Criminal Justice reentry support including ID recovery, housing referrals, and transition planning."
+    notes: "Official reentry services including ID help and transition planning."
   },
 
   {
@@ -163,7 +180,7 @@ const resources = [
     category: "ID Recovery",
     phone: "",
     website: "https://www.dps.texas.gov/section/driver-license/driver-license-office-locations",
-    notes: "Apply for state ID or driver license in person. Request temporary paper ID while waiting."
+    notes: "Apply for state ID or driver license. Request temporary paper ID."
   },
 
   {
@@ -172,7 +189,7 @@ const resources = [
     category: "Transportation",
     phone: "",
     website: "",
-    notes: "Check your city’s public transit system for reduced fare programs and work transportation assistance."
+    notes: "Check your city's public transit system for reduced fares and work transport assistance."
   }
 
 ];
