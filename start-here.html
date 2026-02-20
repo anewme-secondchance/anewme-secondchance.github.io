@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First 7 Days | A New Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  background: #1f3c88;
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.check-item {
+  margin-top: 10px;
+}
+
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.progress {
+  font-weight: bold;
+  color: green;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <div>🚀 First 7 Days After Release</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h3>Focus Only On These Basics</h3>
+
+<div class="check-item">
+<input type="checkbox" id="task1"> Start ID process
+</div>
+
+<div class="check-item">
+<input type="checkbox" id="task2"> Confirm housing plan
+</div>
+
+<div class="check-item">
+<input type="checkbox" id="task3"> Apply for at least 5 jobs
+</div>
+
+<div class="check-item">
+<input type="checkbox" id="task4"> Contact probation/parole officer
+</div>
+
+<div class="check-item">
+<input type="checkbox" id="task5"> Create transportation plan
+</div>
+
+<div class="check-item">
+<input type="checkbox" id="task6"> Set 1 short-term goal
+</div>
+
+<button onclick="saveProgress()">Save Progress</button>
+
+<p id="progressText" class="progress"></p>
+
+</div>
+
+<div class="card">
+<h3>Remember</h3>
+<p>You do not need to fix everything in one week.</p>
+<p>Stability first. Everything else comes later.</p>
+</div>
+
+</div>
+
+<script>
+
+function goBack(){
+  window.location.href="index.html";
+}
+
+function saveProgress(){
+  const tasks = ["task1","task2","task3","task4","task5","task6"];
+  let completed = 0;
+
+  tasks.forEach(task=>{
+    const checked = document.getElementById(task).checked;
+    localStorage.setItem(task, checked);
+    if(checked) completed++;
+  });
+
+  document.getElementById("progressText").innerText =
+    "Progress: " + completed + " of 6 completed.";
+}
+
+window.onload = function(){
+  const tasks = ["task1","task2","task3","task4","task5","task6"];
+  let completed = 0;
+
+  tasks.forEach(task=>{
+    const saved = localStorage.getItem(task) === "true";
+    document.getElementById(task).checked = saved;
+    if(saved) completed++;
+  });
+
+  document.getElementById("progressText").innerText =
+    "Progress: " + completed + " of 6 completed.";
+};
+
+</script>
+
+</body>
+</html>
