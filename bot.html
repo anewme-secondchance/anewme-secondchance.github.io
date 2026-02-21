@@ -105,7 +105,7 @@ function speak(text, redirectPage) {
 
   speech.rate = 0.95;
 
-  // Fix for Safari's handling of speech
+  // Ensure this is directly triggered after the user click
   if ('speechSynthesis' in window) {
     window.speechSynthesis.speak(speech);
   } else {
@@ -145,7 +145,7 @@ function startListening() {
     transcriptDiv.innerText = "You said: " + message;
     statusDiv.innerText = "";
 
-    // Add small delay to allow Safari to process speech synthesis
+    // Fix: Ensure speech triggers after a small delay
     setTimeout(() => {
       routeUser(message);
     }, 100);
@@ -153,7 +153,7 @@ function startListening() {
 
   recognition.onerror = function() {
     statusDiv.innerText = "Speech failed.";
-    alert("Failed to process speech. Please try again.");
+    alert("Speech failed. Please try again.");
   };
 }
 
