@@ -44,6 +44,14 @@
         color: #333;
         white-space: pre-line;
     }
+    .notice {
+        background: #fff3cd;
+        color: #856404;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
 </style>
 </head>
 
@@ -54,6 +62,9 @@
 </div>
 
 <div class="container">
+
+    <div id="deviceNotice" class="notice"></div>
+
     <p>Talk to me. What do you need right now?</p>
 
     <label>Select Voice:</label><br>
@@ -70,18 +81,28 @@
 </div>
 
 <script>
+
 /* ---------------- ELEMENTS ---------------- */
 const statusDiv = document.getElementById("status");
 const transcriptDiv = document.getElementById("transcript");
 const voiceSelect = document.getElementById("voiceSelect");
+const deviceNotice = document.getElementById("deviceNotice");
 
 /* Detect iPhone */
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
+/* ---------------- DEVICE MESSAGE ---------------- */
+if (isIOS) {
+    deviceNotice.innerText =
+        "📱 iPhone Mode: Responses will appear as text. Voice playback is limited on iOS browsers.";
+} else {
+    deviceNotice.innerText =
+        "🤖 Android/Desktop Mode: The assistant will respond out loud using voice playback.";
+}
+
 /* ---------------- SPEAK FUNCTION ---------------- */
 function speak(text, redirectPage) {
 
-    /* iPhone MODE — TEXT ONLY */
     if (isIOS) {
         transcriptDiv.innerText = text;
 
@@ -93,13 +114,15 @@ function speak(text, redirectPage) {
         return;
     }
 
-    /* ANDROID MODE — SPEAK OUT LOUD */
     window.speechSynthesis.cancel();
     const speech = new SpeechSynthesisUtterance(text);
     const voices = window.speechSynthesis.getVoices();
 
     if (voiceSelect.value === "male") {
-        const maleVoice = voices.find(v => v.name.toLowerCase().includes("david") || v.name.toLowerCase().includes("google"));
+        const maleVoice = voices.find(v => 
+            v.name.toLowerCase().includes("david") || 
+            v.name.toLowerCase().includes("google")
+        );
         if (maleVoice) speech.voice = maleVoice;
     } else {
         const femaleVoice = voices.find(v => 
@@ -146,7 +169,7 @@ function startListening() {
 
         setTimeout(() => {
             routeUser(message);
-        }, 400); // iPhone needs extra time
+        }, 400);
     };
 
     recognition.onerror = function() {
@@ -158,7 +181,6 @@ function startListening() {
 /* ---------------- ROUTING ---------------- */
 function routeUser(message) {
 
-    /* EMOTIONAL SUPPORT */
     if (
         message.includes("scared") ||
         message.includes("overwhelmed") ||
@@ -172,56 +194,48 @@ function routeUser(message) {
         return;
     }
 
-    /* EMPLOYMENT */
     if (message.includes("job") || message.includes("work") || message.includes("employment")) {
         saveTopic("employment");
         speak("Good move. Let’s get you working again.", "employment.html");
         return;
     }
 
-    /* ID HELP */
     if (message.includes("id") || message.includes("identification") || message.includes("license")) {
         saveTopic("id");
         speak("ID is important. Let’s get that handled.", "id-help.html");
         return;
     }
 
-    /* HOUSING */
     if (message.includes("house") || message.includes("rent") || message.includes("shelter") || message.includes("place to stay")) {
         saveTopic("housing");
         speak("Housing comes first. Opening your options now.", "housing.html");
         return;
     }
 
-    /* MONEY */
     if (message.includes("money") || message.includes("budget") || message.includes("bills") || message.includes("bank")) {
         saveTopic("money");
         speak("Let’s get your money under control.", "money.html");
         return;
     }
 
-    /* EDUCATION */
     if (message.includes("school") || message.includes("ged") || message.includes("education") || message.includes("classes")) {
         saveTopic("education");
         speak("Education opens doors. Let’s get you started.", "education.html");
         return;
     }
 
-    /* FAMILY */
     if (message.includes("family") || message.includes("kids") || message.includes("child") || message.includes("parenting")) {
         saveTopic("family");
         speak("Family matters. Let’s work on that together.", "family.html");
         return;
     }
 
-    /* MINDSET */
     if (message.includes("mindset") || message.includes("motivation") || message.includes("mental")) {
         saveTopic("mindset");
         speak("Your mind is your foundation. Let’s strengthen it.", "mindset.html");
         return;
     }
 
-    /* DEFAULT */
     speak("I didn’t catch that. Try saying job, housing, ID, money, education, or family.");
 }
 
@@ -234,11 +248,6 @@ function saveTopic(topic) {
     localStorage.setItem("visits", visits);
 }
 
-/* ---------------- ON LOAD ---------------- */
-/* No auto-start — homepage loads normally */
-window.onload = function() {
-    // intentionally empty
-};
 </script>
 
 </body>
