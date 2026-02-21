@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Survey | A New Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+}
+
+.header {
+  background: #1f3c88;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.back-btn {
+  position: absolute;
+  left: 15px;
+  top: 18px;
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.container {
+  padding: 10px;
+}
+
+iframe {
+  width: 100%;
+  height: 95vh;
+  border: none;
+  border-radius: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <h2>📝 Help Us Improve</h2>
+</div>
+
+<div class="container">
+
+<iframe 
+  src="https://docs.google.com/forms/d/e/1FAIpQLSdHkn_0W2xaXeeErb5x9hnT3I7CQLUm9-NyAA2E4jd549Jq8w/viewform?embedded=true">
+  Loading…
+</iframe>
+
+</div>
+
+<script>
+function goBack() {
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
