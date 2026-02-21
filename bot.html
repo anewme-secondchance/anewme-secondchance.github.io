@@ -142,7 +142,11 @@ function startListening() {
     const message = event.results[0][0].transcript.toLowerCase();
     transcriptDiv.innerText = "You said: " + message;
     statusDiv.innerText = "";
-    routeUser(message);
+
+    // Add small delay to allow Safari to process speech synthesis
+    setTimeout(() => {
+      routeUser(message);
+    }, 100);
   };
 
   recognition.onerror = function() {
