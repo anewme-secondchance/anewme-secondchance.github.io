@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A New Me | Reentry Support</title>
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#1f3c88">
 
 <!-- Google Analytics -->
@@ -113,31 +112,26 @@ body {
 
 <div class="grid">
 
-<a href="resources.html" class="card"><span>📚</span>Resources</a>
-<a href="start-here.html" class="card"><span>🚀</span>First 7 Days</a>
-<a href="stability.html" class="card"><span>📋</span>Stability Plan</a>
-<a href="employment.html" class="card"><span>💼</span>Employment</a>
-<a href="resume.html" class="card"><span>📄</span>Resume Builder</a>
-<a href="id-help.html" class="card"><span>🆔</span>ID Help</a>
-<a href="housing.html" class="card"><span>🏠</span>Housing</a>
-<a href="money.html" class="card"><span>💰</span>Budget & Money</a>
-<a href="legal.html" class="card"><span>⚖</span>Legal Help</a>
-<a href="education.html" class="card"><span>🎓</span>Education & GED</a>
-<a href="digital.html" class="card"><span>💻</span>Digital Literacy</a>
-<a href="family.html" class="card"><span>👨‍👩‍👧</span>Family</a>
-<a href="mindset.html" class="card"><span>🧠</span>Mindset</a>
-<a href="goals.html" class="card"><span>🎯</span>Goals Tracker</a>
-<a href="bot.html" class="card"><span>🗣</span>Voice Assistant</a>
-
-<a href="testimonials.html" class="card">
-  <span>💬</span>
-  Testimonials
-</a>
+<a href="/resources.html" class="card"><span>📚</span>Resources</a>
+<a href="/start-here.html" class="card"><span>🚀</span>First 7 Days</a>
+<a href="/stability.html" class="card"><span>📋</span>Stability Plan</a>
+<a href="/employment.html" class="card"><span>💼</span>Employment</a>
+<a href="/resume.html" class="card"><span>📄</span>Resume Builder</a>
+<a href="/id-help.html" class="card"><span>🆔</span>ID Help</a>
+<a href="/housing.html" class="card"><span>🏠</span>Housing</a>
+<a href="/money.html" class="card"><span>💰</span>Budget & Money</a>
+<a href="/legal.html" class="card"><span>⚖</span>Legal Help</a>
+<a href="/education.html" class="card"><span>🎓</span>Education & GED</a>
+<a href="/digital.html" class="card"><span>💻</span>Digital Literacy</a>
+<a href="/family.html" class="card"><span>👨‍👩‍👧</span>Family</a>
+<a href="/mindset.html" class="card"><span>🧠</span>Mindset</a>
+<a href="/goals.html" class="card"><span>🎯</span>Goals Tracker</a>
+<a href="/bot.html" class="card"><span>🗣</span>Voice Assistant</a>
+<a href="/testimonials.html" class="card"><span>💬</span>Testimonials</a>
 
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdHkn_0W2xaXeeErb5x9hnT3I7CQLUm9-NyAA2E4jd549Jq8w/viewform"
    class="card"
-   target="_blank"
-   onclick="gtag('event', 'survey_click', { 'event_category': 'engagement' });">
+   target="_blank">
   <span>📝</span>
   Feedback Survey
 </a>
@@ -155,13 +149,14 @@ body {
 </div>
 
 <script>
+/* SERVICE WORKER */
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js')
-    .then(function() {
-      console.log("Service Worker Registered");
-    });
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(() => console.log("Service Worker Registered"))
+    .catch(err => console.log("SW failed:", err));
 }
 
+/* INSTALL BUTTON */
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
 
@@ -184,15 +179,15 @@ function shareApp() {
   const shareData = {
     title: "A New Me",
     text: "Rebuilding. Restoring. Moving Forward.",
-    url: "https://anew-me-second-chance-github-io.vercel.app"
+    url: window.location.origin
   };
 
   if (navigator.share) {
     navigator.share(shareData)
-      .then(() => console.log("Shared successfully"))
-      .catch((error) => console.log("Error sharing:", error));
+      .catch(err => console.log("Share failed:", err));
   } else {
-    window.location.href = shareData.url;
+    navigator.clipboard.writeText(shareData.url);
+    alert("Link copied!");
   }
 }
 </script>
