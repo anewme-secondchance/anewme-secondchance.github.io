@@ -3,7 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Testimonials | A New Me</title>
+<title>A New Me | Reentry Support</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1f3c88">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y27Q04XYH1"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Y27Q04XYH1');
+</script>
 
 <style>
 body {
@@ -15,64 +28,72 @@ body {
 .header {
   background: linear-gradient(135deg, #1f3c88, #2a5298);
   color: white;
-  padding: 20px;
   text-align: center;
-  position: relative;
+  padding: 30px 20px;
 }
 
-.back-btn {
-  position: absolute;
-  left: 15px;
-  top: 18px;
-  background: white;
-  color: #1f3c88;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.header p {
+  margin-top: 8px;
+  font-size: 14px;
+  opacity: 0.9;
 }
 
 .container {
   padding: 20px;
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
+}
+
+#installBtn {
+  display: none;
+  padding: 12px 20px;
+  background: #1f3c88;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
 }
 
 .card {
   background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  padding: 25px 15px;
+  border-radius: 14px;
+  text-align: center;
+  text-decoration: none;
+  color: #1f3c88;
+  font-weight: bold;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+  transition: 0.2s ease;
 }
 
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
 }
 
-button {
-  background: #1f3c88;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.quote {
-  font-style: italic;
+.card span {
+  display: block;
+  font-size: 26px;
   margin-bottom: 10px;
 }
 
-.name {
-  font-weight: bold;
-  color: #1f3c88;
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: #555;
 }
 </style>
 </head>
@@ -80,66 +101,82 @@ button {
 <body>
 
 <div class="header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
-  <h2>💬 Community Testimonials</h2>
+  <h1>A New Me</h1>
+  <p>Rebuilding. Restoring. Moving Forward.</p>
 </div>
 
 <div class="container">
 
-<div class="card">
-  <h3>Share Your Experience</h3>
-  <input type="text" id="nameInput" placeholder="First name or initials">
-  <textarea id="testimonialInput" rows="4" placeholder="How has A New Me helped you?"></textarea>
-  <button onclick="addTestimonial()">Submit</button>
+<div style="text-align:center;">
+  <button id="installBtn">Install App</button>
 </div>
 
-<div id="testimonialList"></div>
+<div class="grid">
 
+<a href="resources.html" class="card"><span>📚</span>Resources</a>
+<a href="start-here.html" class="card"><span>🚀</span>First 7 Days</a>
+<a href="stability.html" class="card"><span>📋</span>Stability Plan</a>
+<a href="employment.html" class="card"><span>💼</span>Employment</a>
+<a href="resume.html" class="card"><span>📄</span>Resume Builder</a>
+<a href="id-help.html" class="card"><span>🆔</span>ID Help</a>
+<a href="housing.html" class="card"><span>🏠</span>Housing</a>
+<a href="money.html" class="card"><span>💰</span>Budget & Money</a>
+<a href="legal.html" class="card"><span>⚖</span>Legal Help</a>
+<a href="education.html" class="card"><span>🎓</span>Education & GED</a>
+<a href="digital.html" class="card"><span>💻</span>Digital Literacy</a>
+<a href="family.html" class="card"><span>👨‍👩‍👧</span>Family</a>
+<a href="mindset.html" class="card"><span>🧠</span>Mindset</a>
+<a href="goals.html" class="card"><span>🎯</span>Goals Tracker</a>
+<a href="bot.html" class="card"><span>🗣</span>Voice Assistant</a>
+
+<!-- Testimonials -->
+<a href="testimonials.html" class="card">
+  <span>💬</span>
+  Testimonials
+</a>
+
+<!-- Survey (Opens Safely in Safari) -->
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSdHkn_0W2xaXeeErb5x9hnT3I7CQLUm9-NyAA2E4jd549Jq8w/viewform"
+   class="card"
+   target="_blank"
+   onclick="gtag('event', 'survey_click', { 'event_category': 'engagement' });">
+  <span>📝</span>
+  Feedback Survey
+</a>
+
+<a href="share.html" class="card"><span>📲</span>Share App</a>
+
+</div>
+</div>
+
+<div class="footer">
+  Every day is a chance to rebuild. Progress over perfection.
 </div>
 
 <script>
-
-function goBack() {
-  window.location.href = "index.html";
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(function() {
+      console.log("Service Worker Registered");
+    });
 }
 
-let testimonials = JSON.parse(localStorage.getItem("testimonials")) || [];
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
 
-function renderTestimonials() {
-  const container = document.getElementById("testimonialList");
-  container.innerHTML = "";
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'inline-block';
+});
 
-  testimonials.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "card";
-
-    div.innerHTML = `
-      <div class="quote">"${item.text}"</div>
-      <div class="name">– ${item.name}</div>
-    `;
-
-    container.appendChild(div);
-  });
-
-  localStorage.setItem("testimonials", JSON.stringify(testimonials));
-}
-
-function addTestimonial() {
-  const name = document.getElementById("nameInput").value;
-  const text = document.getElementById("testimonialInput").value;
-
-  if (!name || !text) return;
-
-  testimonials.push({ name: name, text: text });
-
-  document.getElementById("nameInput").value = "";
-  document.getElementById("testimonialInput").value = "";
-
-  renderTestimonials();
-}
-
-renderTestimonials();
-
+installBtn.addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+  }
+});
 </script>
 
 </body>
