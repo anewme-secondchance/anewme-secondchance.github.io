@@ -235,27 +235,9 @@ function saveTopic(topic) {
 }
 
 /* ---------------- ON LOAD ---------------- */
+/* No auto-start — homepage loads normally */
 window.onload = function() {
-    const visits = parseInt(localStorage.getItem("visits")) || 0;
-    const lastTopic = localStorage.getItem("lastTopic");
-
-    setTimeout(() => {
-        if (visits === 0) {
-            speak("Alright. Fresh start. I’m with you.");
-        } else if (visits <= 3) {
-            speak("I see you showing up. That’s how change starts.");
-        } else if (visits <= 6) {
-            speak("You’re building momentum. Keep going.");
-        } else {
-            speak("You’re not who you used to be. I see your progress.");
-        }
-
-        if (lastTopic) {
-            setTimeout(() => {
-                speak("Last time we were working on " + lastTopic + ". Want to continue?");
-            }, 2500);
-        }
-    }, 800);
+    // intentionally empty
 };
 </script>
 
