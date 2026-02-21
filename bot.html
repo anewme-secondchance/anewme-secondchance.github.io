@@ -83,7 +83,14 @@ const statusDiv = document.getElementById("status");
 const transcriptDiv = document.getElementById("transcript");
 const voiceSelect = document.getElementById("voiceSelect");
 
+let recorder;
+let audioChunks = [];
+
+/* ---------------- SPEAK FUNCTION ---------------- */
+
 function speak(text, redirectPage) {
+
+  window.speechSynthesis.cancel();
 
   const speech = new SpeechSynthesisUtterance(text);
   const voices = window.speechSynthesis.getVoices();
@@ -112,26 +119,65 @@ function speak(text, redirectPage) {
   window.speechSynthesis.speak(speech);
 }
 
-function startListening() {
+/* ---------------- RECORD AUDIO ---------------- */
 
-  if (!('webkitSpeechRecognition' in window)) {
-    alert("Please use Chrome for voice support.");
-    return;
+async function startListening() {
+
+  try {
+    statusDiv.innerText = "Recording...";
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    recorder = new MediaRecorder(stream);
+    audioChunks = [];
+
+    recorder.ondataavailable = e => {
+      audioChunks.push(e.data);
+    };
+
+    recorder.onstop = sendAudioToBackend;
+
+    recorder.start();
+
+    setTimeout(() => {
+      recorder.stop();
+      statusDiv.innerText = "Processing...";
+    }, 4000);
+
+  } catch (err) {
+    statusDiv.innerText = "Microphone access denied.";
   }
-
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = "en-US";
-  recognition.start();
-
-  statusDiv.innerText = "Listening...";
-
-  recognition.onresult = function(event) {
-    const message = event.results[0][0].transcript.toLowerCase();
-    transcriptDiv.innerText = "You said: " + message;
-    statusDiv.innerText = "";
-    routeUser(message);
-  };
 }
+
+/* ---------------- SEND TO BACKEND ---------------- */
+
+async function sendAudioToBackend() {
+
+  const blob = new Blob(audioChunks, { type: "audio/webm" });
+  const formData = new FormData();
+  formData.append("file", blob, "speech.webm");
+
+  try {
+
+    const response = await fetch("https://voice-backend-r1yo.onrender.com/speech", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    transcriptDiv.innerText = "You said: " + data.text;
+
+    routeUser(data.text.toLowerCase());
+
+    statusDiv.innerText = "";
+
+  } catch (error) {
+    statusDiv.innerText = "Speech processing failed.";
+  }
+}
+
+/* ---------------- ROUTING ---------------- */
 
 function routeUser(message) {
 
@@ -170,6 +216,8 @@ function routeUser(message) {
   }
 }
 
+/* ---------------- SAVE DATA ---------------- */
+
 function saveTopic(topic) {
 
   localStorage.setItem("lastTopic", topic);
@@ -178,6 +226,8 @@ function saveTopic(topic) {
   visits += 1;
   localStorage.setItem("visits", visits);
 }
+
+/* ---------------- ON LOAD ---------------- */
 
 window.onload = function() {
 
