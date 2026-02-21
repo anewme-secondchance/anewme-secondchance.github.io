@@ -3,252 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voice Assistant | A New Me</title>
+<title>A New Me | Home</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #eef2f7;
-  text-align: center;
-}
-
-.header {
-  background: #1f3c88;
-  color: white;
-  padding: 20px;
-}
-
-.container {
-  padding: 30px;
-}
-
-button {
-  background: #1f3c88;
-  color: white;
-  border: none;
-  padding: 14px 22px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 15px;
-}
-
-select {
-  padding: 8px;
-  margin-top: 10px;
-  border-radius: 6px;
-}
-
-.status {
-  margin-top: 20px;
-  font-weight: bold;
-}
-
-.transcript {
-  margin-top: 15px;
-  color: #333;
-  white-space: pre-line;
-}
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #eef2f7;
+        text-align: center;
+    }
+    .header {
+        background: #1f3c88;
+        color: white;
+        padding: 25px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+    .container {
+        padding: 25px;
+    }
+    .menu-button {
+        display: block;
+        width: 90%;
+        margin: 10px auto;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        font-size: 18px;
+        border: 2px solid #1f3c88;
+        color: #1f3c88;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .footer {
+        margin-top: 30px;
+        color: #555;
+        font-size: 14px;
+    }
 </style>
 </head>
 
 <body>
 
 <div class="header">
-<h2>🗣 Reentry Assistant</h2>
+    A New Me<br>
+    <span style="font-size:14px; font-weight:normal;">Rebuilding. Restoring. Moving Forward.</span>
 </div>
 
 <div class="container">
 
-<p>Talk to me. What do you need right now?</p>
+    <a class="menu-button" href="#">📚 Resources</a>
+    <a class="menu-button" href="#">🚀 First 7 Days</a>
+    <a class="menu-button" href="#">📋 Stability Plan</a>
+    <a class="menu-button" href="employment.html">💼 Employment</a>
+    <a class="menu-button" href="#">📄 Resume Builder</a>
+    <a class="menu-button" href="id-help.html">🆔 ID Help</a>
+    <a class="menu-button" href="housing.html">🏠 Housing</a>
+    <a class="menu-button" href="money.html">💰 Budget & Money</a>
+    <a class="menu-button" href="#">⚖ Legal Help</a>
+    <a class="menu-button" href="education.html">🎓 Education & GED</a>
+    <a class="menu-button" href="#">💻 Digital Literacy</a>
+    <a class="menu-button" href="family.html">👨‍👩‍👧 Family</a>
+    <a class="menu-button" href="mindset.html">🧠 Mindset</a>
+    <a class="menu-button" href="goals.html">🎯 Goals Tracker</a>
 
-<label>Select Voice:</label><br>
-<select id="voiceSelect">
-  <option value="female">Female Voice</option>
-  <option value="male">Male Voice</option>
-</select>
+    <!-- IMPORTANT: This opens your assistant -->
+    <a class="menu-button" href="assistant.html">🗣 Voice Assistant</a>
 
-<br>
+    <a class="menu-button" href="#">📲 Share App</a>
 
-<button onclick="startListening()">🎤 Tap to Speak</button>
-
-<div class="status" id="status"></div>
-<div class="transcript" id="transcript"></div>
-
+    <div class="footer">
+        Every day is a chance to rebuild. Progress over perfection.
+    </div>
 </div>
-
-<script>
-
-const statusDiv = document.getElementById("status");
-const transcriptDiv = document.getElementById("transcript");
-const voiceSelect = document.getElementById("voiceSelect");
-
-// Detect iPhone / iPad
-const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-/* ---------------- SPEAK FUNCTION ---------------- */
-
-function speak(text, redirectPage) {
-
-  // iPhone: NO TALKING — text only, but still navigate
-  if (isIOS) {
-    transcriptDiv.innerText = text;
-
-    if (redirectPage) {
-      setTimeout(() => {
-        window.location.href = redirectPage;
-      }, 1200);
-    }
-    return;
-  }
-
-  // Android: normal talking
-  window.speechSynthesis.cancel();
-
-  const speech = new SpeechSynthesisUtterance(text);
-  const voices = window.speechSynthesis.getVoices();
-
-  if (voiceSelect.value === "male") {
-    const maleVoice = voices.find(v => v.name.toLowerCase().includes("david"));
-    if (maleVoice) speech.voice = maleVoice;
-  } else {
-    const femaleVoice = voices.find(v =>
-      v.name.toLowerCase().includes("zira") ||
-      v.name.toLowerCase().includes("samantha")
-    );
-    if (femaleVoice) speech.voice = femaleVoice;
-  }
-
-  speech.rate = 0.95;
-
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.speak(speech);
-  }
-
-  speech.onend = function() {
-    if (redirectPage) {
-      setTimeout(() => {
-        window.location.href = redirectPage;
-      }, 900);
-    }
-  };
-}
-
-/* ---------------- FREE SPEECH RECOGNITION ---------------- */
-
-function startListening() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    alert("Speech recognition not supported in this browser.");
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = "en-US";
-  recognition.interimResults = false;
-  recognition.continuous = false;
-
-  statusDiv.innerText = "Listening...";
-  recognition.start();
-
-  recognition.onresult = function(event) {
-    const message = event.results[0][0].transcript.toLowerCase();
-    transcriptDiv.innerText = "You said: " + message;
-    statusDiv.innerText = "";
-
-    setTimeout(() => {
-      routeUser(message);
-    }, 100);
-  };
-
-  recognition.onerror = function() {
-    statusDiv.innerText = "Speech failed.";
-    alert("Speech failed. Please try again.");
-  };
-}
-
-/* ---------------- ROUTING ---------------- */
-
-function routeUser(message) {
-
-  if (
-    message.includes("scared") ||
-    message.includes("overwhelmed") ||
-    message.includes("lost") ||
-    message.includes("stressed")
-  ) {
-    speak("Hey. Look at me. Breathe. You survived worse than this. We are handling this one step at a time. What’s first?");
-    return;
-  }
-
-  if (message.includes("job") || message.includes("work")) {
-    saveTopic("employment");
-    speak("Good. We’re not sitting still. Let’s get you working.", "employment.html");
-  }
-
-  else if (message.includes("id")) {
-    saveTopic("id");
-    speak("We need that ID handled. No excuses. I’m taking you there now.", "id-help.html");
-  }
-
-  else if (message.includes("house") || message.includes("rent")) {
-    saveTopic("housing");
-    speak("Housing is priority. Stability first. Opening it now.", "housing.html");
-  }
-
-  else if (message.includes("money") || message.includes("budget")) {
-    saveTopic("money");
-    speak("We’re getting your money right. Let’s move.", "money.html");
-  }
-
-  else {
-    speak("Say job, housing, ID, or money. We’re moving forward.");
-  }
-}
-
-/* ---------------- SAVE DATA ---------------- */
-
-function saveTopic(topic) {
-  localStorage.setItem("lastTopic", topic);
-
-  let visits = parseInt(localStorage.getItem("visits")) || 0;
-  visits += 1;
-  localStorage.setItem("visits", visits);
-}
-
-/* ---------------- ON LOAD ---------------- */
-
-window.onload = function() {
-  const visits = parseInt(localStorage.getItem("visits")) || 0;
-  const lastTopic = localStorage.getItem("lastTopic");
-
-  setTimeout(() => {
-
-    if (visits === 0) {
-      speak("Alright. Fresh start. I’m with you.");
-    } 
-    else if (visits <= 3) {
-      speak("I see you showing up. That’s how change happens.");
-    } 
-    else if (visits <= 6) {
-      speak("You’re building momentum. Don’t stop now.");
-    } 
-    else {
-      speak("You’re not the same person you were. I see the work.");
-    }
-
-    if (lastTopic) {
-      setTimeout(() => {
-        speak("Last time we were working on " + lastTopic + ". We finishing that?");
-      }, 2500);
-    }
-
-  }, 800);
-};
-
-</script>
 
 </body>
 </html>
