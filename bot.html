@@ -48,6 +48,7 @@ select {
 .transcript {
   margin-top: 15px;
   color: #333;
+  white-space: pre-line;
 }
 </style>
 </head>
@@ -83,9 +84,6 @@ const statusDiv = document.getElementById("status");
 const transcriptDiv = document.getElementById("transcript");
 const voiceSelect = document.getElementById("voiceSelect");
 
-let recorder;
-let audioChunks = [];
-
 /* ---------------- SPEAK FUNCTION ---------------- */
 
 function speak(text, redirectPage) {
@@ -119,62 +117,37 @@ function speak(text, redirectPage) {
   window.speechSynthesis.speak(speech);
 }
 
-/* ---------------- RECORD AUDIO ---------------- */
+/* ---------------- FREE SPEECH RECOGNITION ---------------- */
 
-async function startListening() {
+function startListening() {
 
-  try {
-    statusDiv.innerText = "Recording...";
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-    recorder = new MediaRecorder(stream);
-    audioChunks = [];
-
-    recorder.ondataavailable = e => {
-      audioChunks.push(e.data);
-    };
-
-    recorder.onstop = sendAudioToBackend;
-
-    recorder.start();
-
-    setTimeout(() => {
-      recorder.stop();
-      statusDiv.innerText = "Processing...";
-    }, 4000);
-
-  } catch (err) {
-    statusDiv.innerText = "Microphone access denied.";
+  if (!SpeechRecognition) {
+    alert("Speech recognition not supported in this browser. Use Safari on iPhone or Chrome on Android.");
+    return;
   }
-}
 
-/* ---------------- SEND TO BACKEND ---------------- */
+  const recognition = new SpeechRecognition();
 
-async function sendAudioToBackend() {
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.continuous = false;
 
-  const blob = new Blob(audioChunks, { type: "audio/webm" });
-  const formData = new FormData();
-  formData.append("file", blob, "speech.webm");
+  statusDiv.innerText = "Listening...";
 
-  try {
+  recognition.start();
 
-    const response = await fetch("https://voice-backend-r1yo.onrender.com/speech", {
-      method: "POST",
-      body: formData
-    });
-
-    const data = await response.json();
-
-    transcriptDiv.innerText = "You said: " + data.text;
-
-    routeUser(data.text.toLowerCase());
-
+  recognition.onresult = function(event) {
+    const message = event.results[0][0].transcript.toLowerCase();
+    transcriptDiv.innerText = "You said: " + message;
     statusDiv.innerText = "";
+    routeUser(message);
+  };
 
-  } catch (error) {
-    statusDiv.innerText = "Speech processing failed.";
-  }
+  recognition.onerror = function() {
+    statusDiv.innerText = "Speech failed.";
+  };
 }
 
 /* ---------------- ROUTING ---------------- */
