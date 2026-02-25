@@ -59,6 +59,23 @@ body {
   margin-bottom: 20px;
 }
 
+/* SEARCH BAR */
+.search-container {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+#mainSearch {
+  width: 100%;
+  max-width: 500px;
+  padding: 14px;
+  border-radius: 30px;
+  border: none;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  outline: none;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -108,6 +125,15 @@ body {
 
 <div style="text-align:center;">
   <button id="installBtn">Install App</button>
+</div>
+
+<!-- SEARCH BAR ADDED -->
+<div class="search-container">
+  <input 
+    type="text" 
+    id="mainSearch" 
+    placeholder="Search for jobs, housing, ID, court, GED..."
+  >
 </div>
 
 <div class="grid">
@@ -171,6 +197,47 @@ installBtn.addEventListener('click', async () => {
     deferredPrompt.prompt();
     await deferredPrompt.userChoice;
     deferredPrompt = null;
+  }
+});
+
+/* SEARCH FUNCTION */
+document.getElementById("mainSearch").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    const query = e.target.value.toLowerCase();
+
+    const routes = {
+      "job": "/employment.html",
+      "employment": "/employment.html",
+      "resume": "/resume.html",
+      "house": "/housing.html",
+      "housing": "/housing.html",
+      "rent": "/housing.html",
+      "id": "/id-help.html",
+      "license": "/id-help.html",
+      "money": "/money.html",
+      "budget": "/money.html",
+      "court": "/legal.html",
+      "legal": "/legal.html",
+      "ged": "/education.html",
+      "education": "/education.html",
+      "family": "/family.html",
+      "mental": "/mindset.html",
+      "mindset": "/mindset.html",
+      "goal": "/goals.html",
+      "digital": "/digital.html",
+      "first": "/start-here.html",
+      "stability": "/stability.html",
+      "resource": "/resources.html"
+    };
+
+    for (let key in routes) {
+      if (query.includes(key)) {
+        window.location.href = routes[key];
+        return;
+      }
+    }
+
+    alert("No matching service found. Try another keyword.");
   }
 });
 
