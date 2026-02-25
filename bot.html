@@ -6,52 +6,52 @@
 <title>Voice Assistant | A New Me</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #eef2f7;
-        text-align: center;
-    }
-    .header {
-        background: #1f3c88;
-        color: white;
-        padding: 20px;
-    }
-    .container {
-        padding: 30px;
-    }
-    button {
-        background: #1f3c88;
-        color: white;
-        border: none;
-        padding: 14px 22px;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        margin-top: 15px;
-    }
-    select {
-        padding: 8px;
-        margin-top: 10px;
-        border-radius: 6px;
-    }
-    .status {
-        margin-top: 20px;
-        font-weight: bold;
-    }
-    .transcript {
-        margin-top: 15px;
-        color: #333;
-        white-space: pre-line;
-    }
-    .notice {
-        background: #fff3cd;
-        color: #856404;
-        padding: 12px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        font-size: 14px;
-    }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    text-align: center;
+}
+.header {
+    background: #1f3c88;
+    color: white;
+    padding: 20px;
+}
+.container {
+    padding: 30px;
+}
+button {
+    background: #1f3c88;
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+select {
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+.status {
+    margin-top: 20px;
+    font-weight: bold;
+}
+.transcript {
+    margin-top: 15px;
+    color: #333;
+    white-space: pre-line;
+}
+.notice {
+    background: #fff3cd;
+    color: #856404;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
 </style>
 </head>
 
@@ -82,35 +82,26 @@
 
 <script>
 
-/* ---------------- ELEMENTS ---------------- */
 const statusDiv = document.getElementById("status");
 const transcriptDiv = document.getElementById("transcript");
 const voiceSelect = document.getElementById("voiceSelect");
 const deviceNotice = document.getElementById("deviceNotice");
 
-/* Detect iPhone */
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
-/* ---------------- DEVICE MESSAGE ---------------- */
 if (isIOS) {
     deviceNotice.innerText =
-        "📱 iPhone Mode: Responses will appear as text. Voice playback is limited on iOS browsers.";
+        "📱 iPhone Mode: Responses will appear as text. Tap to speak each time.";
 } else {
     deviceNotice.innerText =
-        "🤖 Android/Desktop Mode: The assistant will respond out loud using voice playback.";
+        "🤖 Android/Desktop Mode: The assistant will respond out loud.";
 }
 
-/* ---------------- SPEAK FUNCTION ---------------- */
-function speak(text, redirectPage) {
+/* ---------------- SPEAK ---------------- */
+function speak(text) {
 
     if (isIOS) {
-        transcriptDiv.innerText = text;
-
-        if (redirectPage) {
-            setTimeout(() => {
-                window.location.href = redirectPage;
-            }, 900);
-        }
+        transcriptDiv.innerText = "AI: " + text;
         return;
     }
 
@@ -119,34 +110,23 @@ function speak(text, redirectPage) {
     const voices = window.speechSynthesis.getVoices();
 
     if (voiceSelect.value === "male") {
-        const maleVoice = voices.find(v => 
-            v.name.toLowerCase().includes("david") || 
-            v.name.toLowerCase().includes("google")
-        );
+        const maleVoice = voices.find(v => v.name.toLowerCase().includes("david"));
         if (maleVoice) speech.voice = maleVoice;
     } else {
-        const femaleVoice = voices.find(v => 
-            v.name.toLowerCase().includes("zira") || 
-            v.name.toLowerCase().includes("samantha") || 
-            v.name.toLowerCase().includes("google")
+        const femaleVoice = voices.find(v =>
+            v.name.toLowerCase().includes("zira") ||
+            v.name.toLowerCase().includes("samantha")
         );
         if (femaleVoice) speech.voice = femaleVoice;
     }
 
     speech.rate = 0.95;
     window.speechSynthesis.speak(speech);
-
-    speech.onend = function() {
-        if (redirectPage) {
-            setTimeout(() => {
-                window.location.href = redirectPage;
-            }, 900);
-        }
-    };
 }
 
-/* ---------------- LISTENING ---------------- */
+/* ---------------- LISTEN ---------------- */
 function startListening() {
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
@@ -163,89 +143,43 @@ function startListening() {
     recognition.start();
 
     recognition.onresult = function(event) {
-        const message = event.results[0][0].transcript.toLowerCase();
-        transcriptDiv.innerText = "You said: " + message;
+        const message = event.results[0][0].transcript;
+        transcriptDiv.innerText = "You: " + message;
         statusDiv.innerText = "";
 
-        setTimeout(() => {
-            routeUser(message);
-        }, 400);
+        sendToAI(message);
     };
 
     recognition.onerror = function() {
-        statusDiv.innerText = "Speech failed.";
-        alert("Speech failed. Try again.");
+        statusDiv.innerText = "Speech failed. Try again.";
     };
 }
 
-/* ---------------- ROUTING ---------------- */
-function routeUser(message) {
+/* ---------------- SEND TO AI ---------------- */
+async function sendToAI(message) {
 
-    if (
-        message.includes("scared") ||
-        message.includes("overwhelmed") ||
-        message.includes("lost") ||
-        message.includes("stressed") ||
-        message.includes("anxious") ||
-        message.includes("panic") ||
-        message.includes("worried")
-    ) {
-        speak("Hey. Slow down. You’re not alone. You’ve survived every hard day so far. We’ll take this one step at a time. What do you want to handle first?");
-        return;
+    statusDiv.innerText = "Thinking...";
+
+    try {
+        const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message })
+        });
+
+        const data = await response.json();
+
+        statusDiv.innerText = "";
+        transcriptDiv.innerText += "\n\nAI: " + data.reply;
+
+        speak(data.reply);
+
+    } catch (error) {
+        statusDiv.innerText = "";
+        transcriptDiv.innerText = "Error connecting to assistant.";
     }
-
-    if (message.includes("job") || message.includes("work") || message.includes("employment")) {
-        saveTopic("employment");
-        speak("Good move. Let’s get you working again.", "employment.html");
-        return;
-    }
-
-    if (message.includes("id") || message.includes("identification") || message.includes("license")) {
-        saveTopic("id");
-        speak("ID is important. Let’s get that handled.", "id-help.html");
-        return;
-    }
-
-    if (message.includes("house") || message.includes("rent") || message.includes("shelter") || message.includes("place to stay")) {
-        saveTopic("housing");
-        speak("Housing comes first. Opening your options now.", "housing.html");
-        return;
-    }
-
-    if (message.includes("money") || message.includes("budget") || message.includes("bills") || message.includes("bank")) {
-        saveTopic("money");
-        speak("Let’s get your money under control.", "money.html");
-        return;
-    }
-
-    if (message.includes("school") || message.includes("ged") || message.includes("education") || message.includes("classes")) {
-        saveTopic("education");
-        speak("Education opens doors. Let’s get you started.", "education.html");
-        return;
-    }
-
-    if (message.includes("family") || message.includes("kids") || message.includes("child") || message.includes("parenting")) {
-        saveTopic("family");
-        speak("Family matters. Let’s work on that together.", "family.html");
-        return;
-    }
-
-    if (message.includes("mindset") || message.includes("motivation") || message.includes("mental")) {
-        saveTopic("mindset");
-        speak("Your mind is your foundation. Let’s strengthen it.", "mindset.html");
-        return;
-    }
-
-    speak("I didn’t catch that. Try saying job, housing, ID, money, education, or family.");
-}
-
-/* ---------------- SAVE DATA ---------------- */
-function saveTopic(topic) {
-    localStorage.setItem("lastTopic", topic);
-
-    let visits = parseInt(localStorage.getItem("visits")) || 0;
-    visits += 1;
-    localStorage.setItem("visits", visits);
 }
 
 </script>
