@@ -40,14 +40,18 @@ select {
     font-weight: bold;
 }
 .transcript {
-    margin-top: 15px;
+    margin-top: 20px;
     color: #333;
     white-space: pre-line;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .notice {
     background: #fff3cd;
     color: #856404;
-    padding: 12px;
+    padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
     font-size: 14px;
@@ -89,20 +93,30 @@ const deviceNotice = document.getElementById("deviceNotice");
 
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
+/* ---------------- DEVICE NOTICE ---------------- */
 if (isIOS) {
-    deviceNotice.innerText =
-        "📱 iPhone Mode: Responses will appear as text. Tap to speak each time.";
+    deviceNotice.innerHTML = `
+        <strong>📱 iPhone Mode</strong><br><br>
+        • Tap the microphone to speak<br>
+        • AI responses appear in text<br>
+        • Voice playback is limited by iOS browsers<br><br>
+        Tap again anytime to continue the conversation.
+    `;
 } else {
-    deviceNotice.innerText =
-        "🤖 Android/Desktop Mode: The assistant will respond out loud.";
+    deviceNotice.innerHTML = `
+        <strong>🤖 Android / Desktop Mode</strong><br><br>
+        • Tap the microphone to speak<br>
+        • AI responds out loud<br>
+        • Full voice playback supported<br><br>
+        You can continue the conversation naturally.
+    `;
 }
 
-/* ---------------- SPEAK ---------------- */
+/* ---------------- SPEAK FUNCTION ---------------- */
 function speak(text) {
 
     if (isIOS) {
-        transcriptDiv.innerText = "AI: " + text;
-        return;
+        return; // iPhone shows text only
     }
 
     window.speechSynthesis.cancel();
@@ -110,7 +124,9 @@ function speak(text) {
     const voices = window.speechSynthesis.getVoices();
 
     if (voiceSelect.value === "male") {
-        const maleVoice = voices.find(v => v.name.toLowerCase().includes("david"));
+        const maleVoice = voices.find(v =>
+            v.name.toLowerCase().includes("david")
+        );
         if (maleVoice) speech.voice = maleVoice;
     } else {
         const femaleVoice = voices.find(v =>
@@ -124,7 +140,7 @@ function speak(text) {
     window.speechSynthesis.speak(speech);
 }
 
-/* ---------------- LISTEN ---------------- */
+/* ---------------- START LISTENING ---------------- */
 function startListening() {
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -144,7 +160,7 @@ function startListening() {
 
     recognition.onresult = function(event) {
         const message = event.results[0][0].transcript;
-        transcriptDiv.innerText = "You: " + message;
+        transcriptDiv.innerText += "\nYou: " + message;
         statusDiv.innerText = "";
 
         sendToAI(message);
@@ -178,7 +194,7 @@ async function sendToAI(message) {
 
     } catch (error) {
         statusDiv.innerText = "";
-        transcriptDiv.innerText = "Error connecting to assistant.";
+        transcriptDiv.innerText += "\n\nError connecting to assistant.";
     }
 }
 
