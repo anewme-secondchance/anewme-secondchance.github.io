@@ -30,19 +30,18 @@ button {
     cursor: pointer;
     margin-top: 15px;
 }
-select {
-    padding: 8px;
-    margin-top: 10px;
-    border-radius: 6px;
-}
 .status {
     margin-top: 20px;
     font-weight: bold;
 }
 .transcript {
-    margin-top: 15px;
+    margin-top: 20px;
     color: #333;
     white-space: pre-line;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .notice {
     background: #fff3cd;
@@ -63,28 +62,33 @@ select {
 
 <div class="container">
 
-    <div id="deviceNotice" class="notice"></div>
+<div id="deviceNotice" class="notice"></div>
 
-    <p>Talk to me. What do you need right now?</p>
+<p>Talk to me. What do you need right now?</p>
 
-    <label>Select Voice:</label><br>
-    <select id="voiceSelect">
-        <option value="female">Female Voice</option>
-        <option value="male">Male Voice</option>
-    </select>
+<div class="notice">
+<strong>How it works:</strong><br><br>
+This assistant listens for keywords and guides you automatically.<br><br>
+Try saying:<br>
+• Job or Work<br>
+• Housing or Rent<br>
+• ID or License<br>
+• Money or Budget<br>
+• School or GED<br>
+• Family
+</div>
 
-    <br>
-    <button onclick="startListening()">🎤 Tap to Speak</button>
+<button onclick="startListening()">🎤 Tap to Speak</button>
 
-    <div class="status" id="status"></div>
-    <div class="transcript" id="transcript"></div>
+<div class="status" id="status"></div>
+<div class="transcript" id="transcript"></div>
+
 </div>
 
 <script>
 
 const statusDiv = document.getElementById("status");
 const transcriptDiv = document.getElementById("transcript");
-const voiceSelect = document.getElementById("voiceSelect");
 const deviceNotice = document.getElementById("deviceNotice");
 
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
@@ -95,32 +99,30 @@ if (isIOS) {
         <strong>📱 iPhone Mode</strong><br><br>
         • Tap the microphone to speak<br>
         • Responses appear in text<br>
-        • Voice playback limited by iOS<br><br>
-        Tap again anytime to continue.
+        • Voice playback limited by iOS
     `;
 } else {
     deviceNotice.innerHTML = `
         <strong>🤖 Android / Desktop Mode</strong><br><br>
         • Tap the microphone to speak<br>
-        • Responses play out loud<br>
-        • Full voice support available
+        • Responses play out loud
     `;
 }
 
 /* SPEAK FUNCTION */
 function speak(text, redirectPage) {
 
+    transcriptDiv.innerText += "\nAI: " + text;
+
     if (isIOS) {
-        transcriptDiv.innerText = text;
         if (redirectPage) {
             setTimeout(() => {
                 window.location.href = redirectPage;
-            }, 900);
+            }, 1200);
         }
         return;
     }
 
-    window.speechSynthesis.cancel();
     const speech = new SpeechSynthesisUtterance(text);
     speech.rate = 0.95;
     window.speechSynthesis.speak(speech);
@@ -129,7 +131,7 @@ function speak(text, redirectPage) {
         if (redirectPage) {
             setTimeout(() => {
                 window.location.href = redirectPage;
-            }, 900);
+            }, 800);
         }
     };
 }
@@ -154,7 +156,7 @@ function startListening() {
 
     recognition.onresult = function(event) {
         const message = event.results[0][0].transcript.toLowerCase();
-        transcriptDiv.innerText = "You: " + message;
+        transcriptDiv.innerText += "\nYou: " + message;
         statusDiv.innerText = "";
         setTimeout(() => routeUser(message), 400);
     };
@@ -166,6 +168,11 @@ function startListening() {
 
 /* ROUTING */
 function routeUser(message) {
+
+    if (message.includes("overwhelmed") || message.includes("stressed")) {
+        speak("Take a breath. You are not alone. Do you need housing, a job, or ID help?");
+        return;
+    }
 
     if (message.includes("job") || message.includes("work")) {
         speak("Let’s get you working again.", "employment.html");
@@ -193,7 +200,7 @@ function routeUser(message) {
     }
 
     if (message.includes("family")) {
-        speak("Family matters.", "family.html");
+        speak("Family matters. Taking you there now.", "family.html");
         return;
     }
 
