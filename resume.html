@@ -69,6 +69,27 @@ button {
   border-radius:8px;
   margin-top:10px;
 }
+
+.resume-preview{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  margin-top:15px;
+}
+
+.support-message{
+  background:#e8f0ff;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:15px;
+}
+
+.success-message{
+  margin-top:15px;
+  font-weight:bold;
+  color:#1f3c88;
+}
 </style>
 </head>
 
@@ -135,6 +156,11 @@ GED | 2018<br><br>
 <div class="card">
 <h3>Step 3: Build Your Resume</h3>
 
+<div class="support-message">
+Start simple. Your first resume does not have to be perfect.  
+You can improve it later. If you do not have something yet, you can leave it blank.
+</div>
+
 <label>Full Name</label>
 <input type="text" id="name">
 
@@ -163,7 +189,18 @@ GED | 2018<br><br>
 <textarea id="certifications"></textarea>
 
 <button onclick="saveResume()">Save Resume</button>
+<button onclick="generateResume()">Generate My Resume</button>
+
 <p id="saveMessage"></p>
+</div>
+
+<div class="card">
+<h3>Your Generated Resume</h3>
+
+<div id="resumePreview" class="resume-preview"></div>
+
+<p id="confidenceMessage" class="success-message"></p>
+
 </div>
 
 <div class="card">
@@ -191,6 +228,51 @@ function saveResume(){
     localStorage.setItem(id,document.getElementById(id).value);
   });
   document.getElementById("saveMessage").innerText="Resume Saved ✓";
+}
+
+function generateResume(){
+
+const name=document.getElementById("name").value;
+const location=document.getElementById("location").value;
+const phone=document.getElementById("phone").value;
+const email=document.getElementById("email").value;
+const summary=document.getElementById("summary").value;
+const skills=document.getElementById("skills").value.split(",");
+const experience=document.getElementById("experience").value;
+const education=document.getElementById("education").value;
+const certifications=document.getElementById("certifications").value;
+
+let skillsList="";
+skills.forEach(skill=>{
+skillsList+="• "+skill.trim()+"<br>";
+});
+
+const resumeHTML=`
+<h2>${name}</h2>
+${location}<br>
+${phone}<br>
+${email}<br><br>
+
+<strong>Professional Summary</strong><br>
+${summary}<br><br>
+
+<strong>Skills</strong><br>
+${skillsList}<br>
+
+<strong>Work Experience</strong><br>
+${experience}<br><br>
+
+<strong>Education</strong><br>
+${education}<br><br>
+
+<strong>Certifications</strong><br>
+${certifications}
+`;
+
+document.getElementById("resumePreview").innerHTML=resumeHTML;
+
+document.getElementById("confidenceMessage").innerText =
+"Great start. You now have a basic resume. You can improve it anytime.";
 }
 
 window.onload=function(){
