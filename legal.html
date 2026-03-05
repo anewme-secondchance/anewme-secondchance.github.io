@@ -97,7 +97,9 @@ a {
 </div>
 
 <div class="card">
+
 <h3>Expungement May Apply If:</h3>
+
 <ul>
 <li>Case dismissed</li>
 <li>Found Not Guilty</li>
@@ -107,11 +109,13 @@ a {
 
 <button onclick="toggleExpunge()">How to Expunge My Record</button>
 
-<div id="expungeSteps" style="display:none; margin-top:10px;">
+<div id="expungeSteps" style="display:none;margin-top:15px;">
+
 <h4>Steps to Expunge Your Record in Texas</h4>
+
 <ol>
 <li>Confirm you qualify for expunction.</li>
-<li>Find your case details (county, court, case number).</li>
+<li>Gather your case information (county, court, case number).</li>
 <li>Complete a Petition for Expunction form.</li>
 <li>File the petition with the district court in the county where the arrest occurred.</li>
 <li>Pay the filing fee or request a fee waiver.</li>
@@ -121,10 +125,9 @@ a {
 
 <p>
 Expunction Forms:<br>
-<a href="https://www.txcourts.gov/forms/" target="_blank">
-Texas Judicial Branch Forms
-</a>
+<a href="https://www.txcourts.gov/forms/" target="_blank">Texas Judicial Branch Forms</a>
 </p>
+
 </div>
 
 </div>
@@ -160,7 +163,7 @@ Texas Judicial Branch Forms
 <li>If you are on probation/parole, you must follow supervision terms — but you still maintain constitutional rights.</li>
 </ul>
 
-<p><strong>Important:</strong> Stay calm, do not argue on the scene, and document details afterward.</p>
+<p><strong>Important:</strong> Stay calm and document details afterward.</p>
 
 <p>
 Helpful Rights Information:<br>
@@ -173,7 +176,7 @@ Helpful Rights Information:<br>
 
 <p><strong>You CANNOT vote if:</strong></p>
 <ul>
-<li>You are currently incarcerated</li>
+<li>You are incarcerated</li>
 <li>You are on parole</li>
 <li>You are on probation</li>
 </ul>
@@ -185,25 +188,10 @@ Helpful Rights Information:<br>
 <li>Probation is completed</li>
 </ul>
 
-<p>Voting rights are automatically restored in Texas after full completion of sentence — no special court process required.</p>
-
-<p><strong>Next Step:</strong></p>
-<ul>
-<li>Register to vote again if needed</li>
-<li>Confirm your voter registration status</li>
-</ul>
-
 <p>
 Texas Voter Registration:<br>
 <a href="https://www.votetexas.gov/register-to-vote/" target="_blank">
 www.votetexas.gov/register-to-vote
-</a>
-</p>
-
-<p>
-Check Registration Status:<br>
-<a href="https://teamrv-mvp.sos.texas.gov/MVP/mvp.do" target="_blank">
-Texas Voter Portal
 </a>
 </p>
 
@@ -225,16 +213,6 @@ Lone Star Legal Aid<br>
 <p>
 Texas RioGrande Legal Aid<br>
 <a href="https://www.trla.org" target="_blank">www.trla.org</a>
-</p>
-
-<p>
-Texas Judicial Branch Self Help<br>
-<a href="https://www.txcourts.gov/forms" target="_blank">www.txcourts.gov/forms</a>
-</p>
-
-<p>
-Texas Workforce Commission Reentry<br>
-<a href="https://www.twc.texas.gov" target="_blank">www.twc.texas.gov</a>
 </p>
 
 </div>
@@ -264,46 +242,54 @@ Texas Workforce Commission Reentry<br>
 <button onclick="saveLegal()">Save Legal Info</button>
 
 <p id="saveMessage" class="success"></p>
+
 </div>
 
 </div>
 
 <script>
 
-function goBack() {
-  window.location.href = "index.html";
+function goBack(){
+window.location.href="index.html";
 }
 
 function toggleExpunge(){
-  const steps = document.getElementById("expungeSteps");
+const steps=document.getElementById("expungeSteps");
 
-  if(steps.style.display === "none"){
-    steps.style.display = "block";
-  } else {
-    steps.style.display = "none";
-  }
+if(steps.style.display==="block"){
+steps.style.display="none";
+}else{
+steps.style.display="block";
 }
 
-function saveLegal() {
-  const data = {
-    county: document.getElementById("county").value,
-    charge: document.getElementById("charge").value,
-    outcome: document.getElementById("outcome").value,
-    notes: document.getElementById("notes").value
-  };
-
-  localStorage.setItem("legalPlan", JSON.stringify(data));
-  document.getElementById("saveMessage").innerText = "Saved ✓";
 }
 
-window.onload = function() {
-  const saved = JSON.parse(localStorage.getItem("legalPlan"));
-  if(saved){
-    document.getElementById("county").value = saved.county || "";
-    document.getElementById("charge").value = saved.charge || "";
-    document.getElementById("outcome").value = saved.outcome || "";
-    document.getElementById("notes").value = saved.notes || "";
-  }
+function saveLegal(){
+
+const data={
+county:document.getElementById("county").value,
+charge:document.getElementById("charge").value,
+outcome:document.getElementById("outcome").value,
+notes:document.getElementById("notes").value
+};
+
+localStorage.setItem("legalPlan",JSON.stringify(data));
+
+document.getElementById("saveMessage").innerText="Saved ✓";
+
+}
+
+window.onload=function(){
+
+const saved=JSON.parse(localStorage.getItem("legalPlan"));
+
+if(saved){
+document.getElementById("county").value=saved.county||"";
+document.getElementById("charge").value=saved.charge||"";
+document.getElementById("outcome").value=saved.outcome||"";
+document.getElementById("notes").value=saved.notes||"";
+}
+
 };
 
 </script>
