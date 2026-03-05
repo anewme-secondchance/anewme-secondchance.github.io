@@ -104,6 +104,29 @@ a {
 <li>No-billed by grand jury</li>
 <li>Arrested but never charged</li>
 </ul>
+
+<button onclick="toggleExpunge()">How to Expunge My Record</button>
+
+<div id="expungeSteps" style="display:none; margin-top:10px;">
+<h4>Steps to Expunge Your Record in Texas</h4>
+<ol>
+<li>Confirm you qualify for expunction.</li>
+<li>Find your case details (county, court, case number).</li>
+<li>Complete a Petition for Expunction form.</li>
+<li>File the petition with the district court in the county where the arrest occurred.</li>
+<li>Pay the filing fee or request a fee waiver.</li>
+<li>Attend a court hearing if required.</li>
+<li>If approved, the court orders agencies to destroy the record.</li>
+</ol>
+
+<p>
+Expunction Forms:<br>
+<a href="https://www.txcourts.gov/forms/" target="_blank">
+Texas Judicial Branch Forms
+</a>
+</p>
+</div>
+
 </div>
 
 <div class="card">
@@ -144,8 +167,6 @@ Helpful Rights Information:<br>
 <a href="https://www.aclutx.org" target="_blank">ACLU of Texas</a>
 </p>
 </div>
-
-<!-- NEW VOTING RIGHTS SECTION ADDED BELOW -->
 
 <div class="card">
 <h3>🗳 Voting Rights Restoration (Texas)</h3>
@@ -248,8 +269,19 @@ Texas Workforce Commission Reentry<br>
 </div>
 
 <script>
+
 function goBack() {
   window.location.href = "index.html";
+}
+
+function toggleExpunge(){
+  const steps = document.getElementById("expungeSteps");
+
+  if(steps.style.display === "none"){
+    steps.style.display = "block";
+  } else {
+    steps.style.display = "none";
+  }
 }
 
 function saveLegal() {
@@ -273,6 +305,7 @@ window.onload = function() {
     document.getElementById("notes").value = saved.notes || "";
   }
 };
+
 </script>
 
 </body>
