@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,6 @@ body {
   background: #eef2f7;
 }
 
-/* Header */
 .app-header {
   display: flex;
   align-items: center;
@@ -51,6 +50,7 @@ input, textarea {
   margin-top: 8px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 button {
@@ -73,15 +73,13 @@ button {
 
 <body>
 
-<!-- HEADER WITH BACK BUTTON -->
 <div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
   <div>Housing Stability</div>
 </div>
 
 <div class="container">
 
-<!-- IMPORTANT DOCUMENTS -->
 <div class="card">
 <h3>📄 Important Documents Needed</h3>
 <ul>
@@ -93,7 +91,6 @@ button {
 </ul>
 </div>
 
-<!-- RENTING WITH A RECORD -->
 <div class="card">
 <h3>💡 Tips for Renting with a Record</h3>
 <ul>
@@ -107,49 +104,56 @@ button {
 <p><strong>Remember:</strong> Some landlords consider time since offense, rehabilitation, and income stability.</p>
 </div>
 
-<!-- MY HOUSING PLAN -->
 <div class="card">
 <h3>📝 My Housing Plan</h3>
 
-<label>Where do I want to live?</label>
+<label for="planLocation">Where do I want to live?</label>
 <input type="text" id="planLocation">
 
-<label>Monthly budget for rent:</label>
+<label for="planBudget">Monthly budget for rent:</label>
 <input type="text" id="planBudget">
 
-<label>Backup housing option:</label>
+<label for="planBackup">Backup housing option:</label>
 <input type="text" id="planBackup">
 
-<button onclick="saveHousingPlan()">Save Plan</button>
+<button type="button" onclick="saveHousingPlan()">Save Plan</button>
 
-<div id="savedMessage" class="success"></div>
+<div id="savedMessage" class="success" aria-live="polite"></div>
 </div>
 
 </div>
 
 <script>
 function goBack() {
-  window.location.href = "index.html";
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
 }
 
 function saveHousingPlan() {
   const plan = {
-    location: document.getElementById("planLocation").value,
-    budget: document.getElementById("planBudget").value,
-    backup: document.getElementById("planBackup").value
+    location: document.getElementById('planLocation').value,
+    budget: document.getElementById('planBudget').value,
+    backup: document.getElementById('planBackup').value
   };
 
-  localStorage.setItem("housingPlan", JSON.stringify(plan));
-  document.getElementById("savedMessage").innerText = "✅ Housing plan saved.";
+  localStorage.setItem('housingPlan', JSON.stringify(plan));
+  document.getElementById('savedMessage').innerText = `Housing plan saved at ${new Date().toLocaleTimeString()}.`;
 }
 
 function loadHousingPlan() {
-  const saved = JSON.parse(localStorage.getItem("housingPlan"));
-  if (saved) {
-    document.getElementById("planLocation").value = saved.location || "";
-    document.getElementById("planBudget").value = saved.budget || "";
-    document.getElementById("planBackup").value = saved.backup || "";
+  const raw = localStorage.getItem('housingPlan');
+  if (!raw) {
+    return;
   }
+
+  const saved = JSON.parse(raw);
+  document.getElementById('planLocation').value = saved.location || '';
+  document.getElementById('planBudget').value = saved.budget || '';
+  document.getElementById('planBackup').value = saved.backup || '';
+  document.getElementById('savedMessage').innerText = 'Loaded your saved housing plan from this device.';
 }
 
 loadHousingPlan();
