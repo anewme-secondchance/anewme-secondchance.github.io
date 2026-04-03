@@ -1,227 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stability Plan | A New Me</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #eef2f7;
-}
-
-.app-header {
-  display: flex;
-  align-items: center;
-  background: #1f3c88;
-  color: white;
-  padding: 15px;
-}
-
-.back-btn {
-  background: white;
-  color: #1f3c88;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  margin-right: 15px;
-  font-weight: bold;
-}
-
-.container {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-textarea, input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-button {
-  background: #1f3c88;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.success {
-  margin-top: 10px;
-  color: green;
-  font-weight: bold;
-}
-</style>
+<style>body{margin:0;font-family:Arial;background:#eef2f7}.app-header{display:flex;align-items:center;background:#1f3c88;color:#fff;padding:15px}.back-btn{background:#fff;color:#1f3c88;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;margin-right:15px;font-weight:700}.container{padding:20px;max-width:900px;margin:auto}.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 10px rgba(0,0,0,.08)}textarea,input{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}button{background:#1f3c88;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;margin-top:10px}.success{margin-top:10px;color:green;font-weight:700}</style>
 </head>
-
 <body>
-
 <div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
-  <div>Stability Plan</div>
+<button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+<div>Stability Plan</div>
 </div>
-
 <div class="container">
-
-<!-- 1. LEGAL STABILITY -->
 <div class="card">
 <h3>🔒 1. Legal Stability</h3>
-
-<label>What are my probation/parole requirements?</label>
-<textarea id="legalRequirements"></textarea>
-
-<label>My compliance plan:</label>
-<textarea id="legalPlan"></textarea>
-
-<label>My long-term legal goal (expungement, clean record, etc.):</label>
-<textarea id="legalGoal"></textarea>
+<label for="legalRequirements">What are my probation/parole requirements?</label>
+<textarea id="legalRequirements">
+</textarea>
+<label for="legalPlan">My compliance plan:</label>
+<textarea id="legalPlan">
+</textarea>
+<label for="legalGoal">My long-term legal goal:</label>
+<textarea id="legalGoal">
+</textarea>
 </div>
-
-<!-- 2. EMPLOYMENT STABILITY -->
 <div class="card">
 <h3>💼 2. Employment Stability</h3>
-
-<label>Current Job or Employment Plan:</label>
-<textarea id="jobPlan"></textarea>
-
-<label>Backup Job Plan:</label>
-<textarea id="backupJob"></textarea>
-
-<label>Skill I will improve in the next 6 months:</label>
-<textarea id="skillGoal"></textarea>
-
-<label>6-Month Career Goal:</label>
-<textarea id="careerGoal"></textarea>
+<label for="jobPlan">Current Job or Employment Plan:</label>
+<textarea id="jobPlan">
+</textarea>
+<label for="backupJob">Backup Job Plan:</label>
+<textarea id="backupJob">
+</textarea>
+<label for="skillGoal">Skill I will improve in next 6 months:</label>
+<textarea id="skillGoal">
+</textarea>
+<label for="careerGoal">6-Month Career Goal:</label>
+<textarea id="careerGoal">
+</textarea>
 </div>
-
-<!-- 3. HOUSING STABILITY -->
 <div class="card">
 <h3>🏠 3. Housing Stability</h3>
-
-<label>Current Living Situation:</label>
-<textarea id="currentHousing"></textarea>
-
-<label>Monthly Rent Budget:</label>
-<input type="text" id="rentBudget">
-
-<label>Emergency Backup Housing Plan:</label>
-<textarea id="housingBackup"></textarea>
-
-<label>Deposit Savings Goal:</label>
-<input type="text" id="depositGoal">
+<label for="currentHousing">Current Living Situation:</label>
+<textarea id="currentHousing">
+</textarea>
+<label for="rentBudget">Monthly Rent Budget:</label>
+<input id="rentBudget" type="text">
+<label for="housingBackup">Emergency Backup Housing Plan:</label>
+<textarea id="housingBackup">
+</textarea>
+<label for="depositGoal">Deposit Savings Goal:</label>
+<input id="depositGoal" type="text">
 </div>
-
-<!-- 4. FINANCIAL STABILITY -->
 <div class="card">
 <h3>💵 4. Financial Stability</h3>
-
-<label>Monthly Income:</label>
-<input type="text" id="monthlyIncome">
-
-<label>Monthly Expenses:</label>
-<input type="text" id="monthlyExpenses">
-
-<label>Amount I will save monthly:</label>
-<input type="text" id="monthlySavings">
-
-<label>My First Financial Goal:</label>
-<textarea id="financialGoal"></textarea>
+<label for="monthlyIncome">Monthly Income:</label>
+<input id="monthlyIncome" type="text">
+<label for="monthlyExpenses">Monthly Expenses:</label>
+<input id="monthlyExpenses" type="text">
+<label for="monthlySavings">Amount I will save monthly:</label>
+<input id="monthlySavings" type="text">
+<label for="financialGoal">My First Financial Goal:</label>
+<textarea id="financialGoal">
+</textarea>
 </div>
-
-<!-- 5. TRANSPORTATION STABILITY (ADDED ONLY) -->
 <div class="card">
 <h3>🚍 5. Transportation Stability</h3>
-
-<label>How will I get to work daily?</label>
-<textarea id="transportWork"></textarea>
-
-<label>How will I get to probation/parole appointments?</label>
-<textarea id="transportProbation"></textarea>
-
-<label>Public transportation available in my area:</label>
-<textarea id="publicTransport"></textarea>
-
-<label>Backup transportation plan (rideshare, family, church, etc.):</label>
-<textarea id="transportBackup"></textarea>
-
-<p><strong>Helpful Resources:</strong></p>
+<label for="transportWork">How will I get to work daily?</label>
+<textarea id="transportWork">
+</textarea>
+<label for="transportProbation">How will I get to probation/parole appointments?</label>
+<textarea id="transportProbation">
+</textarea>
+<label for="publicTransport">Public transportation in my area:</label>
+<textarea id="publicTransport">
+</textarea>
+<label for="transportBackup">Backup transportation plan:</label>
+<textarea id="transportBackup">
+</textarea>
+<p>
+<strong>Helpful Resources:</strong>
+</p>
 <ul>
 <li>Call 211 for transportation assistance</li>
-<li>Texas Workforce Commission may offer transportation support</li>
-<li>Local churches & nonprofits sometimes provide ride vouchers</li>
-<li>Ask probation office about transportation hardship assistance</li>
+<li>TWC may offer transportation support</li>
+<li>Local churches/nonprofits may provide ride vouchers</li>
+<li>Ask probation office about hardship assistance</li>
 </ul>
 </div>
-
 <div class="card">
-<button onclick="saveStabilityPlan()">Save Stability Plan</button>
-<div id="savedMessage" class="success"></div>
+<button type="button" onclick="saveStabilityPlan()">Save Stability Plan</button>
+<div id="savedMessage" class="success" aria-live="polite">
 </div>
-
 </div>
-
-<script>
-function goBack() {
-  window.location.href = "index.html";
-}
-
-function saveStabilityPlan() {
-  const plan = {
-    legalRequirements: document.getElementById("legalRequirements").value,
-    legalPlan: document.getElementById("legalPlan").value,
-    legalGoal: document.getElementById("legalGoal").value,
-    jobPlan: document.getElementById("jobPlan").value,
-    backupJob: document.getElementById("backupJob").value,
-    skillGoal: document.getElementById("skillGoal").value,
-    careerGoal: document.getElementById("careerGoal").value,
-    currentHousing: document.getElementById("currentHousing").value,
-    rentBudget: document.getElementById("rentBudget").value,
-    housingBackup: document.getElementById("housingBackup").value,
-    depositGoal: document.getElementById("depositGoal").value,
-    monthlyIncome: document.getElementById("monthlyIncome").value,
-    monthlyExpenses: document.getElementById("monthlyExpenses").value,
-    monthlySavings: document.getElementById("monthlySavings").value,
-    financialGoal: document.getElementById("financialGoal").value,
-    transportWork: document.getElementById("transportWork").value,
-    transportProbation: document.getElementById("transportProbation").value,
-    publicTransport: document.getElementById("publicTransport").value,
-    transportBackup: document.getElementById("transportBackup").value
-  };
-
-  localStorage.setItem("stabilityPlan", JSON.stringify(plan));
-  document.getElementById("savedMessage").innerText = "✅ Stability plan saved.";
-}
-
-function loadStabilityPlan() {
-  const saved = JSON.parse(localStorage.getItem("stabilityPlan"));
-  if (saved) {
-    Object.keys(saved).forEach(key => {
-      if (document.getElementById(key)) {
-        document.getElementById(key).value = saved[key];
-      }
-    });
-  }
-}
-
-loadStabilityPlan();
-</script>
-
+</div>
+<script>function goBack(){if(window.history.length>1){window.history.back();return;}window.location.href='index.html';}const ids=['legalRequirements','legalPlan','legalGoal','jobPlan','backupJob','skillGoal','careerGoal','currentHousing','rentBudget','housingBackup','depositGoal','monthlyIncome','monthlyExpenses','monthlySavings','financialGoal','transportWork','transportProbation','publicTransport','transportBackup'];function saveStabilityPlan(){const plan={};ids.forEach(id=>plan[id]=document.getElementById(id).value);localStorage.setItem('stabilityPlan',JSON.stringify(plan));savedMessage.innerText=`Stability plan saved at ${new Date().toLocaleTimeString()}.`;}function loadStabilityPlan(){const s=JSON.parse(localStorage.getItem('stabilityPlan'));if(!s)return;ids.forEach(id=>{if(s[id]!=null)document.getElementById(id).value=s[id];});savedMessage.innerText='Loaded your saved plan from this device.';}loadStabilityPlan();</script>
 </body>
 </html>
