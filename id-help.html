@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,42 +75,40 @@ a {
 <body>
 
 <div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
   <div>ID Help After Release</div>
 </div>
 
 <div class="container">
 
-<!-- NEW CHECKLIST ADDED (NOTHING ELSE CHANGED) -->
 <div class="card">
 <h3>📝 ID Recovery Checklist</h3>
 
 <ul>
-<li><input type="checkbox" onchange="saveChecklist()"> Contacted prison reentry office</li>
-<li><input type="checkbox" onchange="saveChecklist()"> Confirmed ID was submitted</li>
-<li><input type="checkbox" onchange="saveChecklist()"> Verified mailing address</li>
-<li><input type="checkbox" onchange="saveChecklist()"> Visited Texas DPS</li>
-<li><input type="checkbox" onchange="saveChecklist()"> Requested temporary paper ID</li>
-<li><input type="checkbox" onchange="saveChecklist()"> Applied for replacement Social Security card</li>
-<li><input type="checkbox" onchange="saveChecklist()"> Ordered birth certificate (if needed)</li>
-<li><input type="checkbox" onchange="saveChecklist()"> Contacted nonprofit for fee assistance</li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Contacted prison reentry office</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Confirmed ID was submitted</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Verified mailing address</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Visited Texas DPS</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Requested temporary paper ID</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Applied for replacement Social Security card</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Ordered birth certificate (if needed)</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Contacted nonprofit for fee assistance</label></li>
 </ul>
 
-<p id="checkMessage"></p>
+<p id="checkMessage" aria-live="polite"></p>
 </div>
 
 <div class="card warning">
-🚨 If your prison ID has not arrived yet — DO NOT WAIT.  
+🚨 If your prison ID has not arrived yet — DO NOT WAIT.
 You can take action immediately.
 </div>
 
-<!-- SECTION 1 -->
 <div class="card">
 <h3>1️⃣ Go to Texas DPS Yourself</h3>
 
 <p>Even if they told you it would be mailed, you can apply directly.</p>
 
-<p><strong>Bring:</strong></p>     
+<p><strong>Bring:</strong></p>
 <ul>
 <li>Release paperwork</li>
 <li>Prison ID (even if expired)</li>
@@ -119,14 +117,13 @@ You can take action immediately.
 </ul>
 
 <p>Find DPS locations:</p>
-<p><a href="https://www.dps.texas.gov/section/driver-license/driver-license-office-locations" target="_blank">
+<p><a href="https://www.dps.texas.gov/section/driver-license/driver-license-office-locations" target="_blank" rel="noopener noreferrer">
 Texas DPS Office Locator
 </a></p>
 
 <p><strong>Ask for a temporary paper ID while you wait.</strong></p>
 </div>
 
-<!-- SECTION 2 -->
 <div class="card">
 <h3>2️⃣ If You Do Not Have a Social Security Card</h3>
 
@@ -140,18 +137,17 @@ Texas DPS Office Locator
 </ul>
 
 <p>Find office:</p>
-<p><a href="https://www.ssa.gov/locator/" target="_blank">
+<p><a href="https://www.ssa.gov/locator/" target="_blank" rel="noopener noreferrer">
 Social Security Office Locator
 </a></p>
 </div>
 
-<!-- SECTION 3 -->
 <div class="card">
 <h3>3️⃣ If You Do Not Have a Birth Certificate</h3>
 
 <p>Order it from Texas Vital Records:</p>
 
-<p><a href="https://www.dshs.texas.gov/vs" target="_blank">
+<p><a href="https://www.dshs.texas.gov/vs" target="_blank" rel="noopener noreferrer">
 Texas Vital Statistics
 </a></p>
 
@@ -160,11 +156,10 @@ Texas Vital Statistics
 <p>Many nonprofits will help pay the fee.</p>
 </div>
 
-<!-- SECTION 4 -->
 <div class="card">
 <h3>4️⃣ You CAN Start Job Searching Without ID</h3>
 
-<p>You cannot complete hiring paperwork without proper ID,  
+<p>You cannot complete hiring paperwork without proper ID,
 but you CAN:</p>
 
 <ul>
@@ -180,7 +175,6 @@ but you CAN:</p>
 </div>
 </div>
 
-<!-- SECTION 5 -->
 <div class="card">
 <h3>5️⃣ If Prison Never Submitted It</h3>
 
@@ -201,7 +195,6 @@ but you CAN:</p>
 <p>Sometimes it was mailed to the wrong address.</p>
 </div>
 
-<!-- SECTION 6 -->
 <div class="card">
 <h3>6️⃣ Help Paying for ID</h3>
 
@@ -214,12 +207,11 @@ but you CAN:</p>
 <li>Texas Workforce Commission Reentry Services</li>
 </ul>
 
-<p><a href="https://www.twc.texas.gov" target="_blank">
+<p><a href="https://www.twc.texas.gov" target="_blank" rel="noopener noreferrer">
 Texas Workforce Commission
 </a></p>
 </div>
 
-<!-- FINAL IMPORTANT NOTE -->
 <div class="card warning">
 ⚠ To legally complete employment paperwork (I-9), you must have:
 <ul>
@@ -233,30 +225,33 @@ Start the process immediately — do not wait on the prison.
 
 <script>
 function goBack() {
-  window.location.href = "index.html";
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
 }
 
-/* SAVE CHECKLIST */
 function saveChecklist() {
   const checkboxes = document.querySelectorAll("input[type='checkbox']");
-  let states = [];
+  const states = [];
 
-  checkboxes.forEach(box => {
+  checkboxes.forEach((box) => {
     states.push(box.checked);
   });
 
-  localStorage.setItem("idChecklist", JSON.stringify(states));
-  document.getElementById("checkMessage").innerText = "Checklist saved ✓";
+  localStorage.setItem('idChecklist', JSON.stringify(states));
+  document.getElementById('checkMessage').innerText = `Checklist saved at ${new Date().toLocaleTimeString()}.`;
 }
 
-/* LOAD CHECKLIST */
 window.onload = function() {
-  const saved = JSON.parse(localStorage.getItem("idChecklist"));
+  const saved = JSON.parse(localStorage.getItem('idChecklist'));
   if (saved) {
     const checkboxes = document.querySelectorAll("input[type='checkbox']");
     checkboxes.forEach((box, index) => {
       box.checked = saved[index] || false;
     });
+    document.getElementById('checkMessage').innerText = 'Loaded your saved checklist from this device.';
   }
 };
 </script>
