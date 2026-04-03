@@ -1,1 +1,30 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Testimonials | A New Me</title><style>body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:#eef2f7}.header{background:linear-gradient(135deg,#1f3c88,#2a5298);color:#fff;padding:20px;text-align:center;position:relative}.back-btn{position:absolute;left:15px;top:18px;background:#fff;color:#1f3c88;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;font-weight:700}.container{padding:20px;max-width:900px;margin:auto}.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 10px rgba(0,0,0,.08)}input,textarea{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}button{background:#1f3c88;color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;margin-top:10px}.quote{font-style:italic;margin-bottom:10px}.name{font-weight:700;color:#1f3c88}</style></head><body><div class="header"><button type="button" onclick="goBack()" class="back-btn">&larr; Back</button><h2>💬 Community Testimonials</h2></div><div class="container"><div class="card"><h3>Share Your Experience</h3><input type="text" id="nameInput" placeholder="First name or initials"><textarea id="testimonialInput" rows="4" placeholder="How has A New Me helped you?"></textarea><button type="button" onclick="addTestimonial()">Submit</button><p id="submitMsg" aria-live="polite"></p></div><div id="testimonialList"></div></div><script>function goBack(){if(window.history.length>1){window.history.back();return;}window.location.href='index.html';}let testimonials=JSON.parse(localStorage.getItem('testimonials'))||[];function esc(v){return v.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');}function renderTestimonials(){testimonialList.innerHTML='';testimonials.forEach(i=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<div class="quote">"${esc(i.text)}"</div><div class="name">– ${esc(i.name)}</div>`;testimonialList.appendChild(d);});localStorage.setItem('testimonials',JSON.stringify(testimonials));}function addTestimonial(){const name=nameInput.value.trim();const text=testimonialInput.value.trim();if(!name||!text){submitMsg.innerText='Please complete both fields.';return;}testimonials.push({name,text});nameInput.value='';testimonialInput.value='';submitMsg.innerText='Thank you! Your testimonial was saved.';renderTestimonials();}renderTestimonials();</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testimonials | A New Me</title>
+<style>body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:#eef2f7}.header{background:linear-gradient(135deg,#1f3c88,#2a5298);color:#fff;padding:20px;text-align:center;position:relative}.back-btn{position:absolute;left:15px;top:18px;background:#fff;color:#1f3c88;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;font-weight:700}.container{padding:20px;max-width:900px;margin:auto}.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 10px rgba(0,0,0,.08)}input,textarea{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}button{background:#1f3c88;color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;margin-top:10px}.quote{font-style:italic;margin-bottom:10px}.name{font-weight:700;color:#1f3c88}</style>
+</head>
+<body>
+<div class="header">
+<button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+<h2>💬 Community Testimonials</h2>
+</div>
+<div class="container">
+<div class="card">
+<h3>Share Your Experience</h3>
+<input type="text" id="nameInput" placeholder="First name or initials">
+<textarea id="testimonialInput" rows="4" placeholder="How has A New Me helped you?">
+</textarea>
+<button type="button" onclick="addTestimonial()">Submit</button>
+<p id="submitMsg" aria-live="polite">
+</p>
+</div>
+<div id="testimonialList">
+</div>
+</div>
+<script>function goBack(){if(window.history.length>1){window.history.back();return;}window.location.href='index.html';}let testimonials=JSON.parse(localStorage.getItem('testimonials'))||[];function esc(v){return v.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');}function renderTestimonials(){testimonialList.innerHTML='';testimonials.forEach(i=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<div class="quote">"${esc(i.text)}"</div>
+<div class="name">– ${esc(i.name)}</div>`;testimonialList.appendChild(d);});localStorage.setItem('testimonials',JSON.stringify(testimonials));}function addTestimonial(){const name=nameInput.value.trim();const text=testimonialInput.value.trim();if(!name||!text){submitMsg.innerText='Please complete both fields.';return;}testimonials.push({name,text});nameInput.value='';testimonialInput.value='';submitMsg.innerText='Thank you! Your testimonial was saved.';renderTestimonials();}renderTestimonials();</script>
+</body>
+</html>
