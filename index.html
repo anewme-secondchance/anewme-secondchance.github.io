@@ -8,7 +8,6 @@
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#1f3c88">
 
-<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y27Q04XYH1"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -59,7 +58,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* SEARCH BAR */
 .search-container {
   text-align: center;
   margin-bottom: 25px;
@@ -127,12 +125,12 @@ body {
   <button id="installBtn">Install App</button>
 </div>
 
-<!-- SEARCH BAR ADDED -->
 <div class="search-container">
-  <input 
-    type="text" 
-    id="mainSearch" 
+  <input
+    type="text"
+    id="mainSearch"
     placeholder="Search for jobs, housing, ID, court, GED..."
+    aria-label="Search services"
   >
 </div>
 
@@ -148,16 +146,17 @@ body {
 <a href="/money.html" class="card"><span>💰</span>Budget & Money</a>
 <a href="/legal.html" class="card"><span>⚖</span>Legal Help</a>
 <a href="/education.html" class="card"><span>🎓</span>Education & GED</a>
-<a href="/digital.html" class="card"><span>💻</span>Digital Literacy</a>
+<a href="/digital-literacy.html" class="card"><span>💻</span>Digital Literacy</a>
 <a href="/family.html" class="card"><span>👨‍👩‍👧</span>Family</a>
-<a href="/mindset.html" class="card"><span>🧠</span>Mindset</a>
+<a href="/motivation-mindset.html" class="card"><span>🧠</span>Mindset</a>
 <a href="/goals.html" class="card"><span>🎯</span>Goals Tracker</a>
 <a href="/bot.html" class="card"><span>🗣</span>Voice Assistant</a>
-<a href="/testimonials.html" class="card"><span>💬</span>Testimonials</a>
+<a href="/success-stories.html" class="card"><span>💬</span>Testimonials</a>
 
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdHkn_0W2xaXeeErb5x9hnT3I7CQLUm9-NyAA2E4jd549Jq8w/viewform"
    class="card"
-   target="_blank">
+   target="_blank"
+   rel="noopener noreferrer">
   <span>📝</span>
   Feedback Survey
 </a>
@@ -175,14 +174,12 @@ body {
 </div>
 
 <script>
-/* SERVICE WORKER */
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js')
-    .then(() => console.log("Service Worker Registered"))
-    .catch(err => console.log("SW failed:", err));
+    .then(() => console.log('Service Worker Registered'))
+    .catch((err) => console.log('SW failed:', err));
 }
 
-/* INSTALL BUTTON */
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
 
@@ -200,61 +197,62 @@ installBtn.addEventListener('click', async () => {
   }
 });
 
-/* SEARCH FUNCTION */
-document.getElementById("mainSearch").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
+document.getElementById('mainSearch').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
     const query = e.target.value.toLowerCase();
 
     const routes = {
-      "job": "/employment.html",
-      "employment": "/employment.html",
-      "resume": "/resume.html",
-      "house": "/housing.html",
-      "housing": "/housing.html",
-      "rent": "/housing.html",
-      "id": "/id-help.html",
-      "license": "/id-help.html",
-      "money": "/money.html",
-      "budget": "/money.html",
-      "court": "/legal.html",
-      "legal": "/legal.html",
-      "ged": "/education.html",
-      "education": "/education.html",
-      "family": "/family.html",
-      "mental": "/mindset.html",
-      "mindset": "/mindset.html",
-      "goal": "/goals.html",
-      "digital": "/digital.html",
-      "first": "/start-here.html",
-      "stability": "/stability.html",
-      "resource": "/resources.html"
+      job: '/employment.html',
+      employment: '/employment.html',
+      resume: '/resume.html',
+      house: '/housing.html',
+      housing: '/housing.html',
+      rent: '/housing.html',
+      id: '/id-help.html',
+      license: '/id-help.html',
+      money: '/money.html',
+      budget: '/money.html',
+      court: '/legal.html',
+      legal: '/legal.html',
+      ged: '/education.html',
+      education: '/education.html',
+      family: '/family.html',
+      mental: '/motivation-mindset.html',
+      mindset: '/motivation-mindset.html',
+      goal: '/goals.html',
+      digital: '/digital-literacy.html',
+      first: '/start-here.html',
+      stability: '/stability.html',
+      resource: '/resources.html'
     };
 
-    for (let key in routes) {
+    for (const key in routes) {
       if (query.includes(key)) {
         window.location.href = routes[key];
         return;
       }
     }
 
-    alert("No matching service found. Try another keyword.");
+    alert('No matching service found. Try another keyword.');
   }
 });
 
-/* SHARE FUNCTION */
 function shareApp() {
   const shareData = {
-    title: "A New Me",
-    text: "Rebuilding. Restoring. Moving Forward.",
+    title: 'A New Me',
+    text: 'Rebuilding. Restoring. Moving Forward.',
     url: window.location.origin
   };
 
   if (navigator.share) {
     navigator.share(shareData)
-      .catch(err => console.log("Share failed:", err));
+      .catch((err) => console.log('Share failed:', err));
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareData.url)
+      .then(() => alert('Link copied!'))
+      .catch(() => alert('Unable to copy link on this device.'));
   } else {
-    navigator.clipboard.writeText(shareData.url);
-    alert("Link copied!");
+    alert(shareData.url);
   }
 }
 </script>
