@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,6 +51,7 @@ textarea, input, select {
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-top: 8px;
+  box-sizing: border-box;
 }
 
 button {
@@ -76,25 +77,30 @@ button {
   border-radius:8px;
   margin-top:10px;
 }
+
+.status {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #166534;
+}
 </style>
 </head>
 
 <body>
 
 <div class="app-header">
-  <button onclick="goBack()" class="back-btn">← Back</button>
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
   <div>Employment</div>
 </div>
 
 <div class="container">
 
-<div class="card notice">
-🔴 Hiring depends on charge type, time passed, and company policy.
+<div class="card notice" role="note" aria-label="Employment disclaimer">
+Hiring depends on charge type, time passed, and company policy.
 </div>
 
-<!-- MEN SECTION -->
 <div class="card">
-<h3>👔 What Men Should Wear</h3>
+<h3>What Men Should Wear</h3>
 <ul>
 <li>Clean button-up shirt or polo</li>
 <li>Dark jeans or slacks</li>
@@ -105,9 +111,8 @@ button {
 </ul>
 </div>
 
-<!-- WOMEN SECTION -->
 <div class="card">
-<h3>👗 What Women Should Wear</h3>
+<h3>What Women Should Wear</h3>
 <ul>
 <li>Blouse or professional top</li>
 <li>Dress pants or knee-length skirt</li>
@@ -118,41 +123,39 @@ button {
 </ul>
 </div>
 
-<!-- JOB SEARCH LINKS -->
 <div class="card">
-<h3>🔎 Find & Apply for Jobs</h3>
+<h3>Find & Apply for Jobs</h3>
 
 <p><strong>Second-Chance Friendly:</strong></p>
-<p><a href="https://www.honestjobs.com" target="_blank">Honest Jobs</a></p>
-<p><a href="https://www.70millionjobs.com" target="_blank">70 Million Jobs</a></p>
+<p><a href="https://www.honestjobs.com" target="_blank" rel="noopener noreferrer">Honest Jobs</a></p>
+<p><a href="https://www.70millionjobs.com" target="_blank" rel="noopener noreferrer">70 Million Jobs</a></p>
 
 <hr>
 
 <p><strong>General Job Platforms:</strong></p>
-<p><a href="https://www.indeed.com" target="_blank">Indeed</a></p>
-<p><a href="https://www.glassdoor.com" target="_blank">Glassdoor</a></p>
-<p><a href="https://www.ziprecruiter.com" target="_blank">ZipRecruiter</a></p>
+<p><a href="https://www.indeed.com" target="_blank" rel="noopener noreferrer">Indeed</a></p>
+<p><a href="https://www.glassdoor.com" target="_blank" rel="noopener noreferrer">Glassdoor</a></p>
+<p><a href="https://www.ziprecruiter.com" target="_blank" rel="noopener noreferrer">ZipRecruiter</a></p>
 
 <hr>
 
 <p><strong>Texas Workforce Commission:</strong></p>
-<p><a href="https://www.twc.texas.gov/jobseekers" target="_blank">Search Texas Jobs</a></p>
+<p><a href="https://www.twc.texas.gov/jobseekers" target="_blank" rel="noopener noreferrer">Search Texas Jobs</a></p>
 </div>
 
-<!-- JOB APPLICATION TRACKER -->
 <div class="card">
-<h3>📋 Job Application Tracker</h3>
+<h3>Job Application Tracker</h3>
 
-<label>Company Name</label>
+<label for="company">Company Name</label>
 <input type="text" id="company">
 
-<label>Position</label>
+<label for="position">Position</label>
 <input type="text" id="position">
 
-<label>Date Applied</label>
+<label for="date">Date Applied</label>
 <input type="date" id="date">
 
-<label>Status</label>
+<label for="status">Status</label>
 <select id="status">
 <option>Applied</option>
 <option>Interview Scheduled</option>
@@ -161,128 +164,147 @@ button {
 <option>Hired</option>
 </select>
 
-<button onclick="addApplication()">Add Application</button>
+<button type="button" onclick="addApplication()">Add Application</button>
+<p id="trackerStatus" class="status" aria-live="polite"></p>
 
 <div id="applicationsList"></div>
 </div>
 
-<!-- INTERVIEW PRACTICE -->
 <div class="card">
-<h3>🎤 Interview Practice</h3>
+<h3>Interview Practice</h3>
 
-<label>30-Second Introduction</label>
+<label for="practice1">30-Second Introduction</label>
 <textarea id="practice1"></textarea>
 
-<label>Why Should We Hire You?</label>
+<label for="practice2">Why Should We Hire You?</label>
 <textarea id="practice2"></textarea>
 
-<label>How Have You Grown?</label>
+<label for="practice3">How Have You Grown?</label>
 <textarea id="practice3"></textarea>
 
-<button onclick="savePractice()">Save Practice</button>
-<p id="saveMessage"></p>
+<button type="button" onclick="savePractice()">Save Practice</button>
+<p id="saveMessage" class="status" aria-live="polite"></p>
 </div>
 
-<!-- ID HELP -->
 <div class="card">
-<h3>🆔 Need Help Getting Your ID?</h3>
+<h3>Need Help Getting Your ID?</h3>
 <p>If your ID has not arrived yet, visit the ID Help page for step-by-step instructions.</p>
-<button onclick="window.location.href='id-help.html'">Go to ID Help</button>
+<button type="button" onclick="window.location.href='id-help.html'">Go to ID Help</button>
 </div>
 
 </div>
 
 <script>
-
-function goBack(){
-  window.location.href="index.html";
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
 }
 
-/* JOB TRACKER WITH 7-DAY FOLLOW-UP */
+function getApplications() {
+  return JSON.parse(localStorage.getItem('applications')) || [];
+}
 
-function addApplication(){
-  const company = document.getElementById("company").value;
-  const position = document.getElementById("position").value;
-  const date = document.getElementById("date").value;
-  const status = document.getElementById("status").value;
+function setApplications(applications) {
+  localStorage.setItem('applications', JSON.stringify(applications));
+}
 
-  if(!company || !position) return;
+function addApplication() {
+  const company = document.getElementById('company').value.trim();
+  const position = document.getElementById('position').value.trim();
+  const date = document.getElementById('date').value;
+  const status = document.getElementById('status').value;
 
-  const applications = JSON.parse(localStorage.getItem("applications")) || [];
+  if (!company || !position) {
+    document.getElementById('trackerStatus').innerText = 'Add both company and position before saving.';
+    return;
+  }
 
+  const applications = getApplications();
   applications.push({
     company,
     position,
     date,
     status,
-    timestamp: new Date().getTime()
+    timestamp: Date.now()
   });
 
-  localStorage.setItem("applications", JSON.stringify(applications));
+  setApplications(applications);
 
-  document.getElementById("company").value="";
-  document.getElementById("position").value="";
-  document.getElementById("date").value="";
+  document.getElementById('company').value = '';
+  document.getElementById('position').value = '';
+  document.getElementById('date').value = '';
+  document.getElementById('trackerStatus').innerText = 'Application saved.';
 
   renderApplications();
 }
 
-function renderApplications(){
-  const list = document.getElementById("applicationsList");
-  list.innerHTML="";
+function renderApplications() {
+  const list = document.getElementById('applicationsList');
+  list.innerHTML = '';
 
-  const applications = JSON.parse(localStorage.getItem("applications")) || [];
+  const applications = getApplications();
 
-  applications.forEach((app, index)=>{
-
-    const now = new Date().getTime();
+  applications.forEach((app, index) => {
+    const now = Date.now();
     const sevenDays = 7 * 24 * 60 * 60 * 1000;
-    const showReminder = (now - app.timestamp) > sevenDays && app.status === "Applied";
+    const showReminder = (now - app.timestamp) > sevenDays && app.status === 'Applied';
 
-    list.innerHTML += `
-      <div class="tracker-item">
-        <strong>${app.company}</strong><br>
-        Position: ${app.position}<br>
-        Date Applied: ${app.date || "N/A"}<br>
-        Status: ${app.status}<br>
-        ${showReminder ? `<p style="color:red;"><strong>⚠ Time to Follow Up!</strong></p>` : ""}
-        <button onclick="updateStatus(${index}, 'Followed Up')">Mark Followed Up</button>
-        <button onclick="deleteApplication(${index})">Delete</button>
-      </div>
+    const card = document.createElement('div');
+    card.className = 'tracker-item';
+    card.innerHTML = `
+      <strong>${escapeHtml(app.company)}</strong><br>
+      Position: ${escapeHtml(app.position)}<br>
+      Date Applied: ${escapeHtml(app.date || 'N/A')}<br>
+      Status: ${escapeHtml(app.status)}<br>
+      ${showReminder ? '<p style="color:red;"><strong>⚠ Time to Follow Up!</strong></p>' : ''}
+      <button type="button" onclick="updateStatus(${index}, 'Followed Up')">Mark Followed Up</button>
+      <button type="button" onclick="deleteApplication(${index})">Delete</button>
     `;
+
+    list.appendChild(card);
   });
 }
 
-function updateStatus(index, newStatus){
-  const applications = JSON.parse(localStorage.getItem("applications")) || [];
+function updateStatus(index, newStatus) {
+  const applications = getApplications();
+  if (!applications[index]) return;
   applications[index].status = newStatus;
-  localStorage.setItem("applications", JSON.stringify(applications));
+  setApplications(applications);
   renderApplications();
 }
 
-function deleteApplication(index){
-  const applications = JSON.parse(localStorage.getItem("applications")) || [];
-  applications.splice(index,1);
-  localStorage.setItem("applications", JSON.stringify(applications));
+function deleteApplication(index) {
+  const applications = getApplications();
+  applications.splice(index, 1);
+  setApplications(applications);
   renderApplications();
 }
 
-/* INTERVIEW PRACTICE */
-
-function savePractice(){
-  localStorage.setItem("practice1",document.getElementById("practice1").value);
-  localStorage.setItem("practice2",document.getElementById("practice2").value);
-  localStorage.setItem("practice3",document.getElementById("practice3").value);
-  document.getElementById("saveMessage").innerText="Saved ✓";
+function savePractice() {
+  localStorage.setItem('practice1', document.getElementById('practice1').value);
+  localStorage.setItem('practice2', document.getElementById('practice2').value);
+  localStorage.setItem('practice3', document.getElementById('practice3').value);
+  document.getElementById('saveMessage').innerText = `Saved at ${new Date().toLocaleTimeString()}.`;
 }
 
-window.onload=function(){
-  document.getElementById("practice1").value=localStorage.getItem("practice1")||"";
-  document.getElementById("practice2").value=localStorage.getItem("practice2")||"";
-  document.getElementById("practice3").value=localStorage.getItem("practice3")||"";
+function escapeHtml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+window.onload = function() {
+  document.getElementById('practice1').value = localStorage.getItem('practice1') || '';
+  document.getElementById('practice2').value = localStorage.getItem('practice2') || '';
+  document.getElementById('practice3').value = localStorage.getItem('practice3') || '';
   renderApplications();
-}
-
+};
 </script>
 
 </body>
