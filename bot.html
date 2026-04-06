@@ -62,6 +62,9 @@ button {
 
 <div class="container">
 
+<!-- BACK BUTTON ADDED -->
+<button onclick="goBack()">⬅ Back</button>
+
 <div id="deviceNotice" class="notice"></div>
 
 <p>Talk to me. What do you need right now?</p>
@@ -205,6 +208,11 @@ function routeUser(message) {
     }
 
     speak("Try saying job, housing, ID, money, education, or family.");
+}
+
+/* BACK FUNCTION ADDED */
+function goBack() {
+    window.history.back();
 }
 
 </script>
