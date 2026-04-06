@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A New Me | Reentry Support</title>
 
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1f3c88">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y27Q04XYH1"></script>
@@ -130,33 +130,34 @@ body {
     type="text"
     id="mainSearch"
     placeholder="Search for jobs, housing, ID, court, GED..."
-    aria-label="Search services"
   >
 </div>
 
 <div class="grid">
 
-<a href="/resources.html" class="card"><span>📚</span>Resources</a>
-<a href="/start-here.html" class="card"><span>🚀</span>First 7 Days</a>
-<a href="/stability.html" class="card"><span>📋</span>Stability Plan</a>
-<a href="/employment.html" class="card"><span>💼</span>Employment</a>
-<a href="/resume.html" class="card"><span>📄</span>Resume Builder</a>
-<a href="/id-help.html" class="card"><span>🆔</span>ID Help</a>
-<a href="/housing.html" class="card"><span>🏠</span>Housing</a>
-<a href="/money.html" class="card"><span>💰</span>Budget & Money</a>
-<a href="/legal.html" class="card"><span>⚖</span>Legal Help</a>
-<a href="/education.html" class="card"><span>🎓</span>Education & GED</a>
-<a href="/digital-literacy.html" class="card"><span>💻</span>Digital Literacy</a>
-<a href="/family.html" class="card"><span>👨‍👩‍👧</span>Family</a>
-<a href="/motivation-mindset.html" class="card"><span>🧠</span>Mindset</a>
-<a href="/goals.html" class="card"><span>🎯</span>Goals Tracker</a>
-<a href="/bot.html" class="card"><span>🗣</span>Voice Assistant</a>
+<a href="resources.html" class="card"><span>📚</span>Resources</a>
+<a href="start-here.html" class="card"><span>🚀</span>First 7 Days</a>
+<a href="stability.html" class="card"><span>📋</span>Stability Plan</a>
+<a href="employment.html" class="card"><span>💼</span>Employment</a>
+<a href="resume.html" class="card"><span>📄</span>Resume Builder</a>
+<a href="id-help.html" class="card"><span>🆔</span>ID Help</a>
+<a href="housing.html" class="card"><span>🏠</span>Housing</a>
+<a href="money.html" class="card"><span>💰</span>Budget & Money</a>
+<a href="legal.html" class="card"><span>⚖</span>Legal Help</a>
+<a href="education.html" class="card"><span>🎓</span>Education & GED</a>
+
+<!-- ✅ FIXED DIGITAL LINK -->
+<a href="digital-literacy.html" class="card"><span>💻</span>Digital Literacy</a>
+
+<a href="family.html" class="card"><span>👨‍👩‍👧</span>Family</a>
+<a href="motivation-mindset.html" class="card"><span>🧠</span>Mindset</a>
+<a href="goals.html" class="card"><span>🎯</span>Goals Tracker</a>
+<a href="bot.html" class="card"><span>🗣</span>Voice Assistant</a>
 <a href="testimonials.html" class="card"><span>💬</span>Testimonials</a>
 
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdHkn_0W2xaXeeErb5x9hnT3I7CQLUm9-NyAA2E4jd549Jq8w/viewform"
    class="card"
-   target="_blank"
-   rel="noopener noreferrer">
+   target="_blank">
   <span>📝</span>
   Feedback Survey
 </a>
@@ -175,57 +176,41 @@ body {
 
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-    .then(() => console.log('Service Worker Registered'))
-    .catch((err) => console.log('SW failed:', err));
+  navigator.serviceWorker.register('service-worker.js');
 }
-
-let deferredPrompt;
-const installBtn = document.getElementById('installBtn');
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = 'inline-block';
-});
-
-installBtn.addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-  }
-});
 
 document.getElementById('mainSearch').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     const query = e.target.value.toLowerCase();
 
     const routes = {
-      job: '/employment.html',
-      employment: '/employment.html',
-      resume: '/resume.html',
-      house: '/housing.html',
-      housing: '/housing.html',
-      rent: '/housing.html',
-      id: '/id-help.html',
-      license: '/id-help.html',
-      money: '/money.html',
-      budget: '/money.html',
-      court: '/legal.html',
-      legal: '/legal.html',
-      ged: '/education.html',
-      education: '/education.html',
-      family: '/family.html',
-      mental: '/motivation-mindset.html',
-      mindset: '/motivation-mindset.html',
-      goal: '/goals.html',
-      digital: '/digital-literacy.html',
+      job: 'employment.html',
+      employment: 'employment.html',
+      resume: 'resume.html',
+      house: 'housing.html',
+      housing: 'housing.html',
+      rent: 'housing.html',
+      id: 'id-help.html',
+      license: 'id-help.html',
+      money: 'money.html',
+      budget: 'money.html',
+      court: 'legal.html',
+      legal: 'legal.html',
+      ged: 'education.html',
+      education: 'education.html',
+      family: 'family.html',
+      mental: 'motivation-mindset.html',
+      mindset: 'motivation-mindset.html',
+      goal: 'goals.html',
+
+      // ✅ FIXED DIGITAL SEARCH
+      digital: 'digital-literacy.html',
+
       testimonial: 'testimonials.html',
       testimonials: 'testimonials.html',
-      first: '/start-here.html',
-      stability: '/stability.html',
-      resource: '/resources.html'
+      first: 'start-here.html',
+      stability: 'stability.html',
+      resource: 'resources.html'
     };
 
     for (const key in routes) {
@@ -235,26 +220,22 @@ document.getElementById('mainSearch').addEventListener('keypress', function(e) {
       }
     }
 
-    alert('No matching service found. Try another keyword.');
+    alert('No matching service found.');
   }
 });
 
 function shareApp() {
-  const shareData = {
-    title: 'A New Me',
-    text: 'Rebuilding. Restoring. Moving Forward.',
-    url: window.location.origin
-  };
+  const url = window.location.href;
 
   if (navigator.share) {
-    navigator.share(shareData)
-      .catch((err) => console.log('Share failed:', err));
-  } else if (navigator.clipboard) {
-    navigator.clipboard.writeText(shareData.url)
-      .then(() => alert('Link copied!'))
-      .catch(() => alert('Unable to copy link on this device.'));
+    navigator.share({
+      title: 'A New Me',
+      text: 'Rebuilding. Restoring. Moving Forward.',
+      url: url
+    });
   } else {
-    alert(shareData.url);
+    navigator.clipboard.writeText(url);
+    alert('Link copied!');
   }
 }
 </script>
