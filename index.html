@@ -50,6 +50,13 @@ body {
   font-size: 26px;
   margin-bottom: 10px;
 }
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: #555;
+}
 </style>
 </head>
 
@@ -78,19 +85,58 @@ body {
 <a href="digital-literacy.html" class="card"><span>💻</span>Digital Literacy</a>
 <a href="family.html" class="card"><span>👨‍👩‍👧</span>Family</a>
 
-<!-- ✅ FIXED MINDSET -->
+<!-- ✅ FIXED -->
 <a href="mindset.html" class="card"><span>🧠</span>Mindset & Motivation</a>
 
 <a href="goals.html" class="card"><span>🎯</span>Goals Tracker</a>
 <a href="bot.html" class="card"><span>🗣</span>Voice Assistant</a>
 <a href="testimonials.html" class="card"><span>💬</span>Testimonials</a>
 
+<!-- ✅ SURVEY BACK -->
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSdHkn_0W2xaXeeErb5x9hnT3I7CQLUm9-NyAA2E4jd549Jq8w/viewform"
+   class="card"
+   target="_blank">
+  <span>📝</span>
+  Feedback Survey
+</a>
+
+<!-- ✅ SHARE BACK -->
+<a href="#" class="card" onclick="shareApp(); return false;">
+  <span>📲</span>
+  Share App
+</a>
+
 </div>
 
+</div>
+
+<div class="footer">
+  Every day is a chance to rebuild. Progress over perfection.
 </div>
 
 <script>
-// SEARCH FIXED
+// SERVICE WORKER
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+
+// SHARE FUNCTION
+function shareApp() {
+  const url = window.location.href;
+
+  if (navigator.share) {
+    navigator.share({
+      title: 'A New Me',
+      text: 'Rebuilding. Restoring. Moving Forward.',
+      url: url
+    });
+  } else {
+    navigator.clipboard.writeText(url);
+    alert('Link copied!');
+  }
+}
+
+// SEARCH (FIXED)
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("mainSearch");
   if (!input) return;
@@ -109,7 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ged:'education.html',
         family:'family.html',
 
-        // ✅ FIXED
         mindset:'mindset.html',
         motivation:'mindset.html',
 
