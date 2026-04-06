@@ -8,14 +8,6 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1f3c88">
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y27Q04XYH1"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-Y27Q04XYH1');
-</script>
-
 <style>
 body {
   margin: 0;
@@ -30,48 +22,10 @@ body {
   padding: 30px 20px;
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 28px;
-}
-
-.header p {
-  margin-top: 8px;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
 .container {
   padding: 20px;
   max-width: 1000px;
   margin: auto;
-}
-
-#installBtn {
-  display: none;
-  padding: 12px 20px;
-  background: #1f3c88;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.search-container {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-#mainSearch {
-  width: 100%;
-  max-width: 500px;
-  padding: 14px;
-  border-radius: 30px;
-  border: none;
-  font-size: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  outline: none;
 }
 
 .grid {
@@ -89,25 +43,12 @@ body {
   color: #1f3c88;
   font-weight: bold;
   box-shadow: 0 5px 12px rgba(0,0,0,0.08);
-  transition: 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
 }
 
 .card span {
   display: block;
   font-size: 26px;
   margin-bottom: 10px;
-}
-
-.footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 13px;
-  color: #555;
 }
 </style>
 </head>
@@ -120,18 +61,6 @@ body {
 </div>
 
 <div class="container">
-
-<div style="text-align:center;">
-  <button id="installBtn">Install App</button>
-</div>
-
-<div class="search-container">
-  <input
-    type="text"
-    id="mainSearch"
-    placeholder="Search for jobs, housing, ID, court, GED..."
-  >
-</div>
 
 <div class="grid">
 
@@ -146,98 +75,59 @@ body {
 <a href="legal.html" class="card"><span>⚖</span>Legal Help</a>
 <a href="education.html" class="card"><span>🎓</span>Education & GED</a>
 
-<!-- ✅ FIXED DIGITAL LINK -->
 <a href="digital-literacy.html" class="card"><span>💻</span>Digital Literacy</a>
-
 <a href="family.html" class="card"><span>👨‍👩‍👧</span>Family</a>
-<a href="motivation-mindset.html" class="card"><span>🧠</span>Mindset</a>
+
+<!-- ✅ FIXED MINDSET -->
+<a href="mindset.html" class="card"><span>🧠</span>Mindset & Motivation</a>
+
 <a href="goals.html" class="card"><span>🎯</span>Goals Tracker</a>
 <a href="bot.html" class="card"><span>🗣</span>Voice Assistant</a>
 <a href="testimonials.html" class="card"><span>💬</span>Testimonials</a>
 
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSdHkn_0W2xaXeeErb5x9hnT3I7CQLUm9-NyAA2E4jd549Jq8w/viewform"
-   class="card"
-   target="_blank">
-  <span>📝</span>
-  Feedback Survey
-</a>
-
-<a href="#" class="card" onclick="shareApp(); return false;">
-  <span>📲</span>
-  Share App
-</a>
-
-</div>
 </div>
 
-<div class="footer">
-  Every day is a chance to rebuild. Progress over perfection.
 </div>
 
 <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
-}
+// SEARCH FIXED
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("mainSearch");
+  if (!input) return;
 
-document.getElementById('mainSearch').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    const query = e.target.value.toLowerCase();
+  input.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      const q = input.value.toLowerCase();
 
-    const routes = {
-      job: 'employment.html',
-      employment: 'employment.html',
-      resume: 'resume.html',
-      house: 'housing.html',
-      housing: 'housing.html',
-      rent: 'housing.html',
-      id: 'id-help.html',
-      license: 'id-help.html',
-      money: 'money.html',
-      budget: 'money.html',
-      court: 'legal.html',
-      legal: 'legal.html',
-      ged: 'education.html',
-      education: 'education.html',
-      family: 'family.html',
-      mental: 'motivation-mindset.html',
-      mindset: 'motivation-mindset.html',
-      goal: 'goals.html',
+      const routes = {
+        job:'employment.html',
+        resume:'resume.html',
+        housing:'housing.html',
+        id:'id-help.html',
+        money:'money.html',
+        court:'legal.html',
+        ged:'education.html',
+        family:'family.html',
 
-      // ✅ FIXED DIGITAL SEARCH
-      digital: 'digital-literacy.html',
+        // ✅ FIXED
+        mindset:'mindset.html',
+        motivation:'mindset.html',
 
-      testimonial: 'testimonials.html',
-      testimonials: 'testimonials.html',
-      first: 'start-here.html',
-      stability: 'stability.html',
-      resource: 'resources.html'
-    };
+        goal:'goals.html',
+        digital:'digital-literacy.html'
+      };
 
-    for (const key in routes) {
-      if (query.includes(key)) {
-        window.location.href = routes[key];
-        return;
+      for (let key in routes) {
+        if (q.includes(key)) {
+          location.href = routes[key];
+          return;
+        }
       }
+
+      alert("No match found");
     }
-
-    alert('No matching service found.');
-  }
+  });
 });
-
-function shareApp() {
-  const url = window.location.href;
-
-  if (navigator.share) {
-    navigator.share({
-      title: 'A New Me',
-      text: 'Rebuilding. Restoring. Moving Forward.',
-      url: url
-    });
-  } else {
-    navigator.clipboard.writeText(url);
-    alert('Link copied!');
-  }
-}
 </script>
 
 </body>
