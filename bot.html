@@ -6,22 +6,46 @@
 <title>Voice Assistant | A New Me</title>
 
 <style>
+:root {
+  --brand: #1f3c88;
+  --bg: #eef2f7;
+  --text: #1f2937;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #eef2f7;
+    background: var(--bg);
     text-align: center;
+    color: var(--text);
 }
-.header {
-    background: #1f3c88;
-    color: white;
-    padding: 20px;
+
+/* HEADER MATCHED */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--brand);
+  color: white;
+  padding: 15px;
 }
+
+.back-btn {
+  background: white;
+  color: var(--brand);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
 .container {
     padding: 30px;
 }
+
 button {
-    background: #1f3c88;
+    background: var(--brand);
     color: white;
     border: none;
     padding: 14px 22px;
@@ -30,10 +54,12 @@ button {
     cursor: pointer;
     margin-top: 15px;
 }
+
 .status {
     margin-top: 20px;
     font-weight: bold;
 }
+
 .transcript {
     margin-top: 20px;
     color: #333;
@@ -43,6 +69,7 @@ button {
     margin-left: auto;
     margin-right: auto;
 }
+
 .notice {
     background: #fff3cd;
     color: #856404;
@@ -56,14 +83,13 @@ button {
 
 <body>
 
-<div class="header">
-    <h2>🗣 Reentry Assistant</h2>
-</div>
+<!-- MATCHED HEADER -->
+<header class="app-header">
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+  <h2>🗣 Reentry Assistant</h2>
+</header>
 
 <div class="container">
-
-<!-- BACK BUTTON (MATCHES YOUR APP) -->
-<button onclick="goBack()">⬅ Back</button>
 
 <div id="deviceNotice" class="notice"></div>
 
@@ -210,9 +236,13 @@ function routeUser(message) {
     speak("Try saying job, housing, ID, money, education, or family.");
 }
 
-/* BACK FUNCTION (MATCHES YOUR APP FLOW) */
+/* SAME BACK FUNCTION AS YOUR OTHER PAGES */
 function goBack() {
-    window.location.href = "index.html";
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
 }
 
 </script>
