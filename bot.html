@@ -62,7 +62,7 @@ button {
 
 <div class="container">
 
-<!-- BACK BUTTON ADDED -->
+<!-- BACK BUTTON (MATCHES YOUR APP) -->
 <button onclick="goBack()">⬅ Back</button>
 
 <div id="deviceNotice" class="notice"></div>
@@ -210,9 +210,9 @@ function routeUser(message) {
     speak("Try saying job, housing, ID, money, education, or family.");
 }
 
-/* BACK FUNCTION ADDED */
+/* BACK FUNCTION (MATCHES YOUR APP FLOW) */
 function goBack() {
-    window.history.back();
+    window.location.href = "index.html";
 }
 
 </script>
