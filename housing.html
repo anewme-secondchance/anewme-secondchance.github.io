@@ -140,9 +140,32 @@ function saveHousingPlan() {
   };
 
   localStorage.setItem('housingPlan', JSON.stringify(plan));
-  document.getElementById('savedMessage').innerText = `Housing plan saved at ${new Date().toLocaleTimeString()}.`;
+
+  localStorage.setItem(
+    'housingPlanCompleted',
+    plan.location && plan.budget ? 'Yes' : 'No'
+  );
+
+  document.getElementById('savedMessage').innerText =
+    `Housing plan saved at ${new Date().toLocaleTimeString()}.`;
 }
 
+function updateHousingDashboard() {
+  const raw = localStorage.getItem('housingPlan');
+
+  if (!raw) {
+    localStorage.setItem('housingPlanCompleted', 'No');
+    return;
+  }
+
+  const plan = JSON.parse(raw);
+
+  localStorage.setItem(
+    'housingPlanCompleted',
+    plan.location && plan.budget ? 'Yes' : 'No'
+  );
+}
+  
 function loadHousingPlan() {
   const raw = localStorage.getItem('housingPlan');
   if (!raw) {
