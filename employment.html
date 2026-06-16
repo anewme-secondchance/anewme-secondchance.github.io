@@ -248,27 +248,13 @@ function renderApplications() {
   const applications = getApplications();
 
   applications.forEach((app, index) => {
-    const now = Date.now();
-    const sevenDays = 7 * 24 * 60 * 60 * 1000;
-    const showReminder = (now - app.timestamp) > sevenDays && app.status === 'Applied';
-
-    const card = document.createElement('div');
-    card.className = 'tracker-item';
-    card.innerHTML = `
-      <strong>${escapeHtml(app.company)}</strong><br>
-      Position: ${escapeHtml(app.position)}<br>
-      Date Applied: ${escapeHtml(app.date || 'N/A')}<br>
-      Status: ${escapeHtml(app.status)}<br>
-      ${showReminder ? '<p style="color:red;"><strong>⚠ Time to Follow Up!</strong></p>' : ''}
-      <button type="button" onclick="updateStatus(${index}, 'Followed Up')">Mark Followed Up</button>
-      <button type="button" onclick="deleteApplication(${index})">Delete</button>
-    `;
-
+    // all your existing code
     list.appendChild(card);
   });
+
+  updateEmploymentDashboard();
 }
-  
-updateEmploymentDashboard();
+
 function updateStatus(index, newStatus) {
   const applications = getApplications();
   if (!applications[index]) return;
