@@ -22,6 +22,21 @@ body {
   padding: 30px 20px;
 }
 
+.get-started-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 12px 24px;
+  background: white;
+  color: #1f3c88;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.get-started-btn:hover {
+  background: #f0f0f0;
+}
+
 .container {
   padding: 20px;
   max-width: 1000px;
@@ -65,6 +80,11 @@ body {
 <div class="header">
   <h1>A New Me</h1>
   <p>Rebuilding. Restoring. Moving Forward.</p>
+
+  <!-- NEW GET STARTED BUTTON -->
+  <a href="start-here.html" class="get-started-btn">
+    Get Started
+  </a>
 </div>
 
 <div class="container">
@@ -85,14 +105,19 @@ body {
 <a href="digital-literacy.html" class="card"><span>💻</span>Digital Literacy</a>
 <a href="family.html" class="card"><span>👨‍👩‍👧</span>Family</a>
 
-<!-- ✅ FIXED -->
 <a href="mindset.html" class="card"><span>🧠</span>Mindset & Motivation</a>
 
 <a href="goals.html" class="card"><span>🎯</span>Goals Tracker</a>
+
+<!-- NEW DASHBOARD CARD -->
+<a href="dashboard.html" class="card">
+  <span>📊</span>
+  Progress Dashboard
+</a>
+
 <a href="bot.html" class="card"><span>🗣</span>Voice Assistant</a>
 <a href="testimonials.html" class="card"><span>💬</span>Testimonials</a>
 
-<!-- ✅ SURVEY BACK -->
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdHkn_0W2xaXeeErb5x9hnT3I7CQLUm9-NyAA2E4jd549Jq8w/viewform"
    class="card"
    target="_blank">
@@ -100,7 +125,6 @@ body {
   Feedback Survey
 </a>
 
-<!-- ✅ SHARE BACK -->
 <a href="#" class="card" onclick="shareApp(); return false;">
   <span>📲</span>
   Share App
@@ -115,12 +139,10 @@ body {
 </div>
 
 <script>
-// SERVICE WORKER
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
 
-// SHARE FUNCTION
 function shareApp() {
   const url = window.location.href;
 
@@ -136,7 +158,6 @@ function shareApp() {
   }
 }
 
-// SEARCH (FIXED)
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("mainSearch");
   if (!input) return;
@@ -154,10 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
         court:'legal.html',
         ged:'education.html',
         family:'family.html',
-
         mindset:'mindset.html',
         motivation:'mindset.html',
-
         goal:'goals.html',
         digital:'digital-literacy.html'
       };
