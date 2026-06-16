@@ -97,16 +97,24 @@ function goBack() {
   window.location.href = 'index.html';
 }
 
-let testimonials = JSON.parse(localStorage.getItem('testimonials')) || [];
-
-function esc(v) {
-  return v
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
-}
+let testimonials = JSON.parse(localStorage.getItem('testimonials')) || [
+  {
+    name: "Marcus T.",
+    text: "After returning home, I used A New Me to build my resume and find employment. Within two months I had a steady job and my own apartment."
+  },
+  {
+    name: "Danielle R.",
+    text: "The housing and ID resources helped me get back on my feet. Having everything in one place made the process much easier."
+  },
+  {
+    name: "James W.",
+    text: "The First 7 Days checklist helped me stay focused and organized. I was able to complete important tasks without feeling overwhelmed."
+  },
+  {
+    name: "Sarah K.",
+    text: "I used the education section to plan my GED and college goals. It gave me confidence that I could continue my education."
+  }
+];
 
 function renderTestimonials() {
   testimonialListEl.innerHTML = '';
