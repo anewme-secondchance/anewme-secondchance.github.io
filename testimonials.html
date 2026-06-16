@@ -89,14 +89,6 @@ const nameInputEl = document.getElementById('nameInput');
 const testimonialInputEl = document.getElementById('testimonialInput');
 const submitMsgEl = document.getElementById('submitMsg');
 
-function goBack() {
-  if (window.history.length > 1) {
-    window.history.back();
-    return;
-  }
-  window.location.href = 'index.html';
-}
-
 let testimonials = JSON.parse(localStorage.getItem('testimonials')) || [
   {
     name: "Marcus T.",
@@ -115,6 +107,23 @@ let testimonials = JSON.parse(localStorage.getItem('testimonials')) || [
     text: "I used the education section to plan my GED and college goals. It gave me confidence that I could continue my education."
   }
 ];
+
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
+}
+
+function esc(v) {
+  return v
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
 
 function renderTestimonials() {
   testimonialListEl.innerHTML = '';
