@@ -298,7 +298,28 @@ function escapeHtml(value) {
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
 }
+function updateEmploymentDashboard() {
+  const applications = getApplications();
 
+  const total = applications.length;
+
+  const interviews = applications.filter(
+    app => app.status === 'Interview Scheduled'
+  ).length;
+
+  const followedUp = applications.filter(
+    app => app.status === 'Followed Up'
+  ).length;
+
+  const hired = applications.filter(
+    app => app.status === 'Hired'
+  ).length;
+
+  localStorage.setItem('employmentTotal', total);
+  localStorage.setItem('employmentInterviews', interviews);
+  localStorage.setItem('employmentFollowUps', followedUp);
+  localStorage.setItem('employmentHired', hired);
+}
 window.onload = function() {
   document.getElementById('practice1').value = localStorage.getItem('practice1') || '';
   document.getElementById('practice2').value = localStorage.getItem('practice2') || '';
