@@ -198,11 +198,18 @@ function updateProgress() {
   const completed = goals.filter((g) => g.completed).length;
   const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
 
+  // Dashboard Command Center Sync
+  localStorage.setItem('goalsCompleted', completed);
+  localStorage.setItem('goalsTotal', total);
+  localStorage.setItem('goalStreak', streak);
+  localStorage.setItem('goalsPercent', percent);
+
   document.getElementById('progressBar').style.width = percent + '%';
   document.getElementById('progressText').innerText =
     percent + '% of personal goals completed';
   document.getElementById('streakText').innerText =
     '🔥 Completion Streak: ' + streak;
+}
 }
 
 function renderGoals() {
