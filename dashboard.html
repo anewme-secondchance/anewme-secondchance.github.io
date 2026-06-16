@@ -47,73 +47,116 @@ body{
   cursor:pointer;
 }
 </style>
+
 </head>
+
 <body>
 
 <div class="header">
-<button onclick="history.back()" class="back-btn">
-← Back
-</button>
+  <button onclick="history.back()" class="back-btn">
+    ← Back
+  </button>
 
-<h2>Progress Dashboard</h2>
+  <h2>Progress Dashboard</h2>
 </div>
 
 <div class="container">
 
-<div class="card">
-<h3>Employment</h3>
+  <div class="card">
+    <h3>Overall Progress</h3>
 
-<p>Total Applications:
-<span class="big" id="employmentTotal">0</span></p>
+    <p>
+      <span class="big" id="overallProgress">0%</span>
+    </p>
 
-<p>Interviews:
-<span class="big" id="employmentInterviews">0</span></p>
+    <p>
+      Keep moving forward. Progress over perfection.
+    </p>
+  </div>
 
-<p>Follow Ups:
-<span class="big" id="employmentFollowUps">0</span></p>
+  <div class="card">
+    <h3>Employment</h3>
 
-<p>Hired:
-<span class="big" id="employmentHired">0</span></p>
-</div>
+    <p>
+      Total Applications:
+      <span class="big" id="employmentTotal">0</span>
+    </p>
 
-<div class="card">
-<h3>Housing</h3>
+    <p>
+      Interviews:
+      <span class="big" id="employmentInterviews">0</span>
+    </p>
 
-<p>
-Housing Plan Completed:
-<span class="big" id="housingStatus">No</span>
-</p>
-</div>
+    <p>
+      Follow Ups:
+      <span class="big" id="employmentFollowUps">0</span>
+    </p>
 
-<div class="card">
-<h3>Education</h3>
+    <p>
+      Hired:
+      <span class="big" id="employmentHired">0</span>
+    </p>
+  </div>
 
-<p>
-Education Plan Completed:
-<span class="big" id="educationStatus">No</span>
-</p>
-</div>
+  <div class="card">
+    <h3>Housing</h3>
+
+    <p>
+      Housing Plan Completed:
+      <span class="big" id="housingStatus">No</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Education</h3>
+
+    <p>
+      Education Plan Completed:
+      <span class="big" id="educationStatus">No</span>
+    </p>
+  </div>
 
 </div>
 
 <script>
+
 document.getElementById('employmentTotal').innerText =
-localStorage.getItem('employmentTotal') || 0;
+  localStorage.getItem('employmentTotal') || 0;
 
 document.getElementById('employmentInterviews').innerText =
-localStorage.getItem('employmentInterviews') || 0;
+  localStorage.getItem('employmentInterviews') || 0;
 
 document.getElementById('employmentFollowUps').innerText =
-localStorage.getItem('employmentFollowUps') || 0;
+  localStorage.getItem('employmentFollowUps') || 0;
 
 document.getElementById('employmentHired').innerText =
-localStorage.getItem('employmentHired') || 0;
+  localStorage.getItem('employmentHired') || 0;
 
 document.getElementById('housingStatus').innerText =
-localStorage.getItem('housingPlanCompleted') || 'No';
+  localStorage.getItem('housingPlanCompleted') || 'No';
 
 document.getElementById('educationStatus').innerText =
-localStorage.getItem('educationPlanCompleted') || 'No';
+  localStorage.getItem('educationPlanCompleted') || 'No';
+
+let completed = 0;
+
+if ((localStorage.getItem('housingPlanCompleted') || 'No') === 'Yes') {
+  completed++;
+}
+
+if ((localStorage.getItem('educationPlanCompleted') || 'No') === 'Yes') {
+  completed++;
+}
+
+if (Number(localStorage.getItem('employmentTotal') || 0) > 0) {
+  completed++;
+}
+
+const progress = Math.round((completed / 3) * 100);
+
+document.getElementById('overallProgress').innerText =
+  progress + '%';
+
 </script>
 
 </body>
