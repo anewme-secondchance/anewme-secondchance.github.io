@@ -89,7 +89,7 @@ const nameInputEl = document.getElementById('nameInput');
 const testimonialInputEl = document.getElementById('testimonialInput');
 const submitMsgEl = document.getElementById('submitMsg');
 
-let testimonials = JSON.parse(localStorage.getItem('testimonials')) || [
+let testimonials = [
   {
     name: "Marcus T.",
     text: "After returning home, I used A New Me to build my resume and find employment. Within two months I had a steady job and my own apartment."
@@ -108,6 +108,10 @@ let testimonials = JSON.parse(localStorage.getItem('testimonials')) || [
   }
 ];
 
+const savedTestimonials =
+  JSON.parse(localStorage.getItem('testimonials')) || [];
+
+testimonials = [...testimonials, ...savedTestimonials];
 function goBack() {
   if (window.history.length > 1) {
     window.history.back();
