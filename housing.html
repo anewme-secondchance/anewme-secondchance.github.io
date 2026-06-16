@@ -176,10 +176,12 @@ function loadHousingPlan() {
   document.getElementById('planLocation').value = saved.location || '';
   document.getElementById('planBudget').value = saved.budget || '';
   document.getElementById('planBackup').value = saved.backup || '';
-  document.getElementById('savedMessage').innerText = 'Loaded your saved housing plan from this device.';
+  document.getElementById('savedMessage').innerText =
+    'Loaded your saved housing plan from this device.';
 }
 
 loadHousingPlan();
+updateHousingDashboard();
 </script>
 
 </body>
