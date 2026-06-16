@@ -309,10 +309,11 @@ function clearEducation() {
   document.getElementById('step3').value = '';
 
   localStorage.removeItem('educationPlan');
-  document.getElementById('savedMessage').innerText = 'Education plan cleared.';
-}
+localStorage.setItem('educationPlanCompleted', 'No');
+document.getElementById('savedMessage').innerText = 'Education plan cleared.';
 
 loadEducation();
+updateEducationDashboard();
 </script>
 
 </body>
