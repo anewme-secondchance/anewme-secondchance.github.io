@@ -267,7 +267,8 @@ function renderApplications() {
     list.appendChild(card);
   });
 }
-
+  
+updateEmploymentDashboard();
 function updateStatus(index, newStatus) {
   const applications = getApplications();
   if (!applications[index]) return;
