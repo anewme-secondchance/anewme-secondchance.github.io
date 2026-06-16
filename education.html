@@ -256,9 +256,32 @@ function saveEducation() {
   };
 
   localStorage.setItem('educationPlan', JSON.stringify(plan));
-  document.getElementById('savedMessage').innerText = `Education plan saved at ${new Date().toLocaleTimeString()}.`;
+
+  localStorage.setItem(
+    'educationPlanCompleted',
+    plan.goal && plan.step1 ? 'Yes' : 'No'
+  );
+
+  document.getElementById('savedMessage').innerText =
+    `Education plan saved at ${new Date().toLocaleTimeString()}.`;
 }
 
+  function updateEducationDashboard() {
+  const raw = localStorage.getItem('educationPlan');
+
+  if (!raw) {
+    localStorage.setItem('educationPlanCompleted', 'No');
+    return;
+  }
+
+  const plan = JSON.parse(raw);
+
+  localStorage.setItem(
+    'educationPlanCompleted',
+    plan.goal && plan.step1 ? 'Yes' : 'No'
+  );
+}
+  
 function loadEducation() {
   const raw = localStorage.getItem('educationPlan');
   if (!raw) {
